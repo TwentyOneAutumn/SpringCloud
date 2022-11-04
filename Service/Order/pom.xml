@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.demo.Service</groupId>
+        <artifactId>Service</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <!-- Maven模型版本 -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 定义当前项目版本坐标 -->
+    <groupId>com.demo.Order</groupId>
+    <artifactId>OrderDemo</artifactId>
+    <version>1.0</version>
+    <name>OrderDemo</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.demo.Common</groupId>
+            <artifactId>Common</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- Feign-API模块依赖 -->
+        <dependency>
+            <groupId>com.demo.Feign</groupId>
+            <artifactId>Feign</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+</project>

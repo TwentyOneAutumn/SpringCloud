@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+spring:
+  datasource: # 数据库相关信息
+    driver-class-name: ${jdbc.driver}
+    url: ${jdbc.url}
+    username: ${jdbc.user}
+    password: ${jdbc.pass}
+  application:
+    name: OrderDemo # 服务名称
+  profiles:
+    active: dev # 环境名称
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.2.51:8848 # nacos服务地址
+#        cluster-name: OrderCluster # 集群名称
+#        namespace: f5a2d910-8ed0-4f34-9423-406fab4b5762 # 配置命名空间
+#        ephemeral: false # 是否为临时实例
+#      config:
+#        file-extension: yaml # 文件后缀名
+OrderDemo:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule # 优先本地集群并做随机负载均衡
+
+mybatis-plus:
+  type-aliases-package: com.demo.pojo # 类别名包扫描
+  configuration:
+    call-setters-on-nulls: true   # 当查询到的字段为空是,是否调用set方法对属性进行Null值的初始化
+    local-cache-scope: session  # 默认为session级别缓存,STATEMENT:关闭一级缓存
+    cache-enabled: true   #是否开启二级缓存,默认为true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 打印SQL
+  global-config:  # 全局配置
+    banner: false   # 是否控制台输出 MybatisPlus的LOGO
+
+logging:
+  level:
+    cn.itcast: debug
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss
