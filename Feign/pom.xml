@@ -16,6 +16,13 @@
     <name>Feign</name>
 
     <dependencies>
+        <!-- Common依赖 -->
+        <dependency>
+            <groupId>com.demo.Common</groupId>
+            <artifactId>Common</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!-- Feign依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -26,6 +33,14 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-loadbalancer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 

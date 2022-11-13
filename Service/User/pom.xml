@@ -14,16 +14,29 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- 定义当前项目版本坐标 -->
-    <groupId>com.demo.UserDemo</groupId>
-    <artifactId>UserDemo</artifactId>
+    <groupId>com.demo.User</groupId>
+    <artifactId>User</artifactId>
     <version>1.0</version>
-    <name>UserDemo</name>
+    <name>User</name>
 
     <dependencies>
+        <!-- Common模块 -->
         <dependency>
             <groupId>com.demo.Common</groupId>
             <artifactId>Common</artifactId>
             <version>1.0</version>
+        </dependency>
+
+        <!-- SpringBootSecurity -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- JWT API 依赖 -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
         </dependency>
     </dependencies>
 

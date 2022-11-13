@@ -1,17 +1,21 @@
-package pojo;
+package com.demo.user.DoMain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.demo.Common.DoMain.BaseEntitys;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_user")
-public class User {
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntitys {
 
     /**
      * 用户账号

@@ -25,14 +25,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
-            <version>3.1.1</version>
         </dependency>
 
         <!-- loadbalancer负载均衡依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-loadbalancer</artifactId>
-            <version>3.1.1</version>
         </dependency>
 
         <!-- RedisRateLimiter所需依赖 -->

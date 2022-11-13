@@ -21,7 +21,6 @@
     <!-- 聚合模块 -->
     <modules>
         <module>User</module>
-        <module>Order</module>
     </modules>
 
 </project>

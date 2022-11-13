@@ -3,7 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-
     <!-- Maven模型版本 -->
     <modelVersion>4.0.0</modelVersion>
 
@@ -50,6 +49,9 @@
         <Loadbalancer.version>3.1.1</Loadbalancer.version>
         <Gateway.version>3.1.1</Gateway.version>
         <MybatisPlus.version>3.4.2</MybatisPlus.version>
+        <Validation.version>2.0.2</Validation.version>
+        <ApacheCommons.version>1.15</ApacheCommons.version>
+        <JWT.version>0.11.2</JWT.version>
     </properties>
 
     <dependencyManagement>
@@ -81,6 +83,7 @@
                 <scope>import</scope>
             </dependency>
 
+
             <!-- Web依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -88,11 +91,26 @@
                 <version>${SpringBoot.version}</version>
             </dependency>
 
+            <!-- SpringBootRedis依赖 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${SpringBoot.version}</version>
+            </dependency>
+
+
             <!-- SpringBoot集成MyBatisPlus -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${MybatisPlus.version}</version>
+            </dependency>
+
+            <!-- SpringBootSecurity -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${SpringBoot.version}</version>
             </dependency>
 
             <!-- Nacos注册发现依赖 -->
@@ -180,7 +198,70 @@
                 <artifactId>fastjson</artifactId>
                 <version>${FastJson.version}</version>
             </dependency>
+
+            <!-- Java Validation -->
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${Validation.version}</version>
+            </dependency>
+
+            <!-- Apache Commons -->
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${ApacheCommons.version}</version>
+            </dependency>
+
+            <!-- JWT API 依赖 -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${JWT.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <!-- springBoot父依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>${SpringBoot.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+
+        <!-- springCloud父依赖 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>${SpringCloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+
+        <!-- SpringCloudAlibaba父依赖 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+            <version>${AlibabaCloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+
+        <!-- Web依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Nacos注册发现依赖 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
