@@ -1,23 +1,31 @@
 server:
-  port: 8082
-
+  port: 8801
+  servlet:
+    context-path: /user
 spring:
   datasource:
     driver-class-name: ${jdbc.driver}
     url: ${jdbc.url}
-    username: ${jdbc.user}
-    password: ${jdbc.pass}
+    username: ${jdbc.username}
+    password: ${jdbc.password}
   application:
-    name: UserDemo # 服务名称
+    name: User # 服务名称
   profiles:
     active: dev # 环境名称
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.2.51:8848 # nacos服务地址
+        server-addr: 192.168.111.111:8848 # Nacos服务地址
+        namespace: 25da6d30-663a-49ca-abde-4f1a805a305b    # 命名空间ID
+  redis:
+    database: 0   # 数据库
+    host: 192.168.111.111  # IP
+    port: 6379  # 端口
+    password: redis   # 密码
 
 mybatis-plus:
-  type-aliases-package: com.demo.pojo # 类别名包扫描
+  mapper-locations: classpath*:/Mapper/*Mapper.xml
+  type-aliases-package: com.demo.DoMain # 类别名包扫描
   configuration:
     call-setters-on-nulls: true   # 当查询到的字段为空是,是否调用set方法对属性进行Null值的初始化
     local-cache-scope: session  # 默认为session级别缓存,STATEMENT:关闭一级缓存
@@ -28,6 +36,19 @@ mybatis-plus:
 
 logging:
   level:
-    cn.itcast: debug
-  pattern:
-    dateformat: MM-dd HH:mm:ss:SSS
+    cn.itcast: info
+    org.springframework: info
+
+seata:
+  tx-service-group: my_test_tx_group # 一定用这个默认的
+  enabled: true
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: 192.168.111.111:8848
+      group : SEATA_GROUP
+      namespace: 25da6d30-663a-49ca-abde-4f1a805a305b
+      username: nacos
+      password: nacos
+

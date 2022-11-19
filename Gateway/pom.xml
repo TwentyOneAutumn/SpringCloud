@@ -20,7 +20,6 @@
     <name>Gateway</name>
 
     <dependencies>
-
         <!-- Gateway网关依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -52,18 +51,27 @@
             <version>2.2.10.RELEASE</version>
         </dependency>
 
-
-        <!-- 屏蔽SpringBootWeb依赖 -->
+        <!-- Common模块 -->
         <dependency>
-            <groupId>com.demo.SpringCloudDemo</groupId>
-            <artifactId>SpringCloudDemo</artifactId>
+            <groupId>com.demo.Common</groupId>
+            <artifactId>Common</artifactId>
             <version>1.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-web</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-boot-starter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.alibaba.cloud</groupId>
+                    <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
+
+
     </dependencies>
 </project>

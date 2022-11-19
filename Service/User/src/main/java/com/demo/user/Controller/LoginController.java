@@ -2,8 +2,10 @@ package com.demo.user.Controller;
 
 import com.demo.Common.DoMain.AjaxResult;
 import com.demo.user.DoMain.Dto.LoginUserDto;
+import com.demo.user.Service.LoginService;
 import com.demo.user.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +17,10 @@ import javax.validation.Valid;
 public class LoginController {
 
     @Autowired
-    UserService userService;
+    LoginService loginService;
+
+    @Autowired
+    RedisTemplate<String, Object> redisClient;
 
     /**
      * 用户登录认证
@@ -25,6 +30,6 @@ public class LoginController {
      */
     @GetMapping("/auth")
     AjaxResult login(@Valid LoginUserDto dto, HttpServletRequest http) {
-        return userService.login(dto, http);
+        return loginService.login(dto, http);
     }
 }

@@ -32,7 +32,7 @@ public class User extends BaseEntitys {
     /**
      * 密码
      */
-    private String passWord;
+    private String password;
 
     /**
      * 邮箱

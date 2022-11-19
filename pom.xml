@@ -52,6 +52,8 @@
         <Validation.version>2.0.2</Validation.version>
         <ApacheCommons.version>1.15</ApacheCommons.version>
         <JWT.version>0.11.2</JWT.version>
+        <Slf4j.version>1.7.30</Slf4j.version>
+        <Log4j2.version>2.19.0</Log4j2.version>
     </properties>
 
     <dependencyManagement>
@@ -98,6 +100,12 @@
                 <version>${SpringBoot.version}</version>
             </dependency>
 
+            <!-- Seata依赖 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+                <version>${AlibabaCloud.version}</version>
+            </dependency>
 
             <!-- SpringBoot集成MyBatisPlus -->
             <dependency>
@@ -175,10 +183,9 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${Lombok.version}</version>
-                <optional>true</optional>
             </dependency>
 
-            <!-- hutool工具包依赖 -->
+            <!-- Hutool工具包依赖 -->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
@@ -220,6 +227,32 @@
                 <version>${JWT.version}</version>
             </dependency>
 
+            <!-- slf4j依赖-->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${Slf4j.version}</version>
+            </dependency>
+
+            <!-- log4j2和slf4j桥接依赖-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${Log4j2.version}</version>
+            </dependency>
+
+            <!-- log4j2依赖-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${Log4j2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${Log4j2.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -249,12 +282,6 @@
             <version>${AlibabaCloud.version}</version>
             <type>pom</type>
             <scope>import</scope>
-        </dependency>
-
-        <!-- Web依赖 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <!-- Nacos注册发现依赖 -->

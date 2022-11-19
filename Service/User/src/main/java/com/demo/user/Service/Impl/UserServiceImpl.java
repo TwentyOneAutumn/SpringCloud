@@ -3,8 +3,6 @@ package com.demo.user.Service.Impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.demo.Common.DoMain.AjaxResult;
-import com.demo.Common.Utils.GetIP;
-import com.demo.Common.Utils.JwtUtil;
 import com.demo.user.DoMain.Dto.*;
 import com.demo.user.DoMain.Vo.AdminUserListVo;
 import com.demo.user.Mapper.UserMapper;
@@ -13,18 +11,14 @@ import com.demo.user.Service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Autowired
-    RedisTemplate<String,Object> redisClient;
 
     /**
      * 根据用户ID查询用户信息
@@ -124,31 +118,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         boolean update = updateById(user);
         // 返回AjaxResult
         return update ? AjaxResult.success() : AjaxResult.error();
-    }
-
-    @Override
-    public AjaxResult login(LoginUserDto dto, HttpServletRequest http) {
-        String userId = dto.getUserId();
-        String passWord = dto.getPassWord();
-        // 进行用户认证
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                userId,
-                passWord
-        );
-        // 认证失败,抛出异常
-        if (BeanUtil.isEmpty(authenticationToken)) {
-            throw  new RuntimeException("用户登录认证失败");
-        }
-        // 获取用户信息
-        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authenticationToken.getPrincipal();
-        // 获取请求IP
-        String ip = GetIP.get(http);
-        // 认证通过,将用户信息存储到Redis
-        redisClient.opsForValue().set(ip + userId,user);
-        // 设置Token
-        HashMap<String, String> map = new HashMap<>();
-        map.put("token", JwtUtil.getToken(userId + passWord, userId, passWord));
-        // 返回Token
-        return AjaxResult.success(map);
     }
 }

@@ -2,10 +2,16 @@ package com.demo.user.Config;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.codec.Base64;
+import cn.hutool.log.Log;
+import com.demo.user.Service.Impl.UserServiceImpl;
 import com.demo.user.Service.UserService;
+import jdk.nashorn.internal.ir.CallNode;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,14 +20,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@Component
+@Slf4j
+public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userServiceImpl;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -48,38 +58,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
              */
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                // 循环解密
-                for (int i = 0; i < 10; i++) {
-                    encodedPassword = Base64.decodeStr(encodedPassword);
+                // 将输入密码加密
+                String encodeToRawPassword = encode(rawPassword);
+                // 将密码进行比较
+                boolean equals = encodedPassword.equals(encodeToRawPassword.toString());
+                if(equals){
+                    log.info("密码校验成功");
                 }
-                return encodedPassword.equals(rawPassword.toString());
+                else {
+                    log.error("密码校验失败");
+                }
+                return equals;
             }
         };
     }
 
-    /**
-     * 覆盖默认UserDetailsService
-     * @return UserDetailsService
-     */
+    @Bean
     @Override
-    protected UserDetailsService userDetailsService() {
-        return username -> {
-            // 从数据库查询用户信息
-            com.demo.user.DoMain.User user = userService.SecurityQueryById(username);
-            // 如果为空,代表用户名或密码错误,返回null
-            if(BeanUtil.isEmpty(user)){
-                return null;
-            }
-            // 封装用户权限
-            ArrayList<SimpleGrantedAuthority> list = new ArrayList<>();
-            list.add(new SimpleGrantedAuthority(user.getRole()));
-            // 将用户信息封装为UserDetails对象并返回
-            return new User(user.getUserName(), user.getPassWord(), list);
-        };
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     /**
-     *
+     * 配置请求
      * @param http Http对象
      * @throws Exception 抛出异常
      */
@@ -93,8 +94,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 配置登录接口可以匿名访问
-                .antMatchers().anonymous()
+                .antMatchers("/login/auth").anonymous()
                 // 其他接口都需要经过认证授权才能访问
                 .anyRequest().authenticated();
+    }
+
+    /**
+     * 覆盖默认UserDetailsService
+     * @return UserDetailsService
+     */
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return username -> {
+            // 从数据库查询用户信息
+            com.demo.user.DoMain.User user = userServiceImpl.SecurityQueryById(username);
+            // 如果为空,代表用户名或密码错误,返回null
+            if(BeanUtil.isEmpty(user)){
+                return null;
+            }
+            // 封装用户权限
+            ArrayList<SimpleGrantedAuthority> list = new ArrayList<>();
+            list.add(new SimpleGrantedAuthority(user.getRole()));
+            // 将用户信息封装为UserDetails对象并返回
+            return new User(user.getUserName(), user.getPassword(), list);
+        };
     }
 }
