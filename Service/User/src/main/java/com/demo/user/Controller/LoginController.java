@@ -4,6 +4,7 @@ import com.demo.Common.DoMain.AjaxResult;
 import com.demo.user.DoMain.Dto.LoginUserDto;
 import com.demo.user.Service.LoginService;
 import com.demo.user.Service.UserService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;

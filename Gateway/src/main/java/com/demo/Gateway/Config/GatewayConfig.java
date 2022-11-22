@@ -3,22 +3,31 @@ package com.demo.Gateway.Config;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
 import com.demo.Common.Utils.IPUtil;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.reactive.result.view.ViewResolver;
 import org.springframework.web.util.pattern.PathPatternParser;
 import reactor.core.publisher.Mono;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -80,6 +89,8 @@ public class GatewayConfig {
             if(!token.equals(requestToken)){
                 return AuthFailed(response,"Token无效");
             }
+            Mono<Void> filter = chain.filter(exchange);
+            HttpStatus statusCode = response.getStatusCode();
             return chain.filter(exchange);
         };
     }
@@ -116,5 +127,20 @@ public class GatewayConfig {
         //指定编码，否则在浏览器中会中文乱码
         response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
         return response.writeWith(Mono.just(buffer));
+    }
+
+    /**
+     * 配置全局异常处理器
+     * @return ErrorWebExceptionHandler
+     */
+    @Primary
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public ErrorWebExceptionHandler errorWebExceptionHandler(ObjectProvider<List<ViewResolver>> viewResolversProvider, ServerCodecConfigurer serverCodecConfigurer){
+        GlobalGatewayExceptionHandler globalGatewayExceptionHandler =new GlobalGatewayExceptionHandler();
+        globalGatewayExceptionHandler.setViewResolvers(viewResolversProvider.getIfAvailable(Collections::emptyList));
+        globalGatewayExceptionHandler.setMessageWriters(serverCodecConfigurer.getWriters());
+        globalGatewayExceptionHandler.setMessageReaders(serverCodecConfigurer.getReaders());
+        return globalGatewayExceptionHandler;
     }
 }

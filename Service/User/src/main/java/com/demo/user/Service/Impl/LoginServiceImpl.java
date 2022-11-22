@@ -3,12 +3,12 @@ package com.demo.user.Service.Impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.demo.Common.DoMain.AjaxResult;
-import com.demo.Common.Utils.IPUtil;
 import com.demo.Common.Utils.JwtUtil;
 import com.demo.user.DoMain.Dto.LoginUserDto;
 import com.demo.user.DoMain.User;
 import com.demo.user.Mapper.UserMapper;
 import com.demo.user.Service.LoginService;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,9 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -34,7 +32,7 @@ public class LoginServiceImpl  extends ServiceImpl<UserMapper, User> implements 
     AuthenticationManager authenticationManager;
 
     @Override
-    public AjaxResult login(LoginUserDto dto, HttpServletRequest http) {
+    public AjaxResult login(LoginUserDto dto, HttpServletRequest http){
         String userId = dto.getUserId();
         String passWord = dto.getPassWord();
         // 进行用户认证
