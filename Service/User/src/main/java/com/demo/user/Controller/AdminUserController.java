@@ -7,6 +7,7 @@ import com.demo.user.DoMain.Dto.AdminUserEditDto;
 import com.demo.user.DoMain.Dto.AdminUserListDto;
 import com.demo.user.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 

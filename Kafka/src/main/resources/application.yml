@@ -1,0 +1,19 @@
+server:
+  port: 8802
+  servlet:
+    context-path: /kafka
+spring:
+  datasource:
+    driver-class-name: ${jdbc.driver}
+    url: ${jdbc.url}
+    username: ${jdbc.username}
+    password: ${jdbc.password}
+  application:
+    name: Kafka # 服务名称
+  profiles:
+    active: dev # 环境名称
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.111.111:8848 # Nacos服务地址
+        namespace: 25da6d30-663a-49ca-abde-4f1a805a305b    # 命名空间ID
