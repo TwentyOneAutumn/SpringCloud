@@ -1,6 +1,7 @@
 package com.demo.user.Controller;
 
 import com.demo.Common.DoMain.AjaxResult;
+import com.demo.user.DoMain.Dto.LoginGetUserDto;
 import com.demo.user.DoMain.Dto.LoginUserDto;
 import com.demo.user.Service.LoginService;
 import com.demo.user.Service.UserService;
@@ -32,5 +33,14 @@ public class LoginController {
     @GetMapping("/auth")
     AjaxResult login(@Valid LoginUserDto dto, HttpServletRequest http) {
         return loginService.login(dto, http);
+    }
+
+    /**
+     * 获取用户信息
+     * @return AjaxResult
+     */
+    @GetMapping("/getUser")
+    AjaxResult getUser(@Valid LoginGetUserDto dto){
+        return loginService.getUser(dto);
     }
 }

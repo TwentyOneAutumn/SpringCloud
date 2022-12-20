@@ -31,6 +31,7 @@
         <module>Service</module>
         <module>Common</module>
         <module>Kafka</module>
+        <module>School-API</module>
     </modules>
 
     <properties>

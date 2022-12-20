@@ -1,8 +1,6 @@
 package com.demo.user.DoMain;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.demo.Common.DoMain.BaseEntitys;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,13 +13,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @TableName("sys_user")
 @EqualsAndHashCode(callSuper = true)
+@KeySequence("KeyGenerator")
 public class User extends BaseEntitys {
 
     /**
      * 用户账号
      * 主键ID
      */
-    @TableId
+    @TableId(type = IdType.INPUT)
     private String userId;
 
     /**

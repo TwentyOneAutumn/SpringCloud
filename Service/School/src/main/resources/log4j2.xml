@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="debug" monitorInterval="30">
+    <!-- 先定义所有的appender(附加器)-->
+    <appenders>
+        <!-- 输出控制台的配置 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!-- 控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!-- 输出日志的格式 -->
+            <PatternLayout pattern="[ %p ] %l : [  %m  ]%n "/>
+        </Console>
+
+        <!-- 警告及以上日志Log文件配置 -->
+        <!-- fileName:文件的路径,。/表示当前项目跟目录 -->
+        <!-- filePattern:滚动后文件的路径 -->
+        <RollingFile name="RollingFile" fileName="./Service/School/src/main/resources/log/error.log"
+                     filePattern="./Service/School/src/main/resources/log/School-%d{yyyy-MM-dd HH}.log">
+            <!-- 设置日志级别,级别以下的日志将不会被输出 -->
+            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <!-- 设置日志格式 -->
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <!-- 根据时间进行滚动,单位小时 -->
+                <TimeBasedTriggeringPolicy interval="24"/>
+                <!-- 根据文件大小进行滚动 -->
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <!-- 默认同一文件夹下最多7个文件 -->
+            <DefaultRolloverStrategy max="7"/>
+        </RollingFile>
+    </appenders>
+
+    <!-- 然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
+    <loggers>
+        <!-- 过滤掉spring和mybatis的一些无用的DEBUG信息-->
+        <logger name="org.springframework" level="INFO"></logger>
+        <logger name="org.mybatis" level="INFO"></logger>
+        <!-- 建立一个默认的root的logger -->
+        <root level="trace">
+            <appender-ref ref="RollingFile"/>
+            <appender-ref ref="Console"/>
+        </root>
+    </loggers>
+</configuration>

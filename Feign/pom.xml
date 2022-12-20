@@ -14,13 +14,25 @@
     <artifactId>Feign</artifactId>
     <version>1.0</version>
     <name>Feign</name>
+    <packaging>pom</packaging>
+
+    <!-- 聚合模块 -->
+    <modules>
+        <module>Professional-API</module>
+        <module>School-API</module>
+    </modules>
 
     <dependencies>
-        <!-- Common依赖 -->
+        <!-- Lombok依赖 -->
         <dependency>
-            <groupId>com.demo.Common</groupId>
-            <artifactId>Common</artifactId>
-            <version>1.0</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!-- Feign依赖 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
         <!-- loadbalancer负载均衡依赖 -->

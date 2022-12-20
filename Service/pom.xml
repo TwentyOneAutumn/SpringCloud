@@ -21,6 +21,8 @@
     <!-- 聚合模块 -->
     <modules>
         <module>User</module>
+        <module>School</module>
+        <module>Professional</module>
     </modules>
 
 </project>

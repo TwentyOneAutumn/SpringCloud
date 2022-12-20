@@ -4,12 +4,15 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.demo.Common.DoMain.AjaxResult;
 import com.demo.Common.Utils.JwtUtil;
+import com.demo.user.DoMain.Dto.LoginGetUserDto;
 import com.demo.user.DoMain.Dto.LoginUserDto;
 import com.demo.user.DoMain.User;
+import com.demo.user.DoMain.Vo.LoginGetUserVo;
 import com.demo.user.Mapper.UserMapper;
 import com.demo.user.Service.LoginService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,6 +34,12 @@ public class LoginServiceImpl  extends ServiceImpl<UserMapper, User> implements 
     @Autowired
     AuthenticationManager authenticationManager;
 
+    /**
+     * 用户登录认证
+     *
+     * @param dto 数据对象
+     * @return AjaxResult
+     */
     @Override
     public AjaxResult login(LoginUserDto dto, HttpServletRequest http){
         String userId = dto.getUserId();
@@ -61,10 +70,27 @@ public class LoginServiceImpl  extends ServiceImpl<UserMapper, User> implements 
             log.info("{ID:" + userId + ",IP:" + ip + ",Token:" + token + "}");
         }
         // 设置map集合
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("token", JwtUtil.getToken(userId + passWord, userId, passWord));
-        map.put("userId",userId);
+        User userInfo = getById(dto.getUserId());
+        LoginGetUserVo vo = BeanUtil.copyProperties(userInfo, LoginGetUserVo.class);
+        map.put("user",vo);
         // 返回AjaxResult
         return AjaxResult.success(map);
+    }
+
+    /**
+     * 获取用户信息
+     * @return AjaxResult
+     */
+    @Override
+    public AjaxResult getUser(LoginGetUserDto dto) {
+        User user = getById(dto.getUserId());
+        // 判空
+        if(BeanUtil.isEmpty(user)){
+            return AjaxResult.error("该用户不存在");
+        }
+        LoginGetUserVo vo = BeanUtil.copyProperties(user, LoginGetUserVo.class);
+        return AjaxResult.success(vo);
     }
 }
