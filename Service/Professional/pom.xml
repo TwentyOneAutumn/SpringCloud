@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 继承父工程 -->
+    <parent>
+        <groupId>com.demo.Service</groupId>
+        <artifactId>Service</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <groupId>com.demo.Professional</groupId>
+    <artifactId>Professional</artifactId>
+    <version>1.0</version>
+    <name>Professional</name>
+    <description>Professional</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <!-- Common模块 -->
+        <dependency>
+            <groupId>com.demo.Common</groupId>
+            <artifactId>Common</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- Slf4j依赖-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <!-- Log4j2和slf4j桥接依赖-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+        </dependency>
+
+        <!-- Log4j2依赖-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+
+        <!-- Log4j2-Core-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+
+        <!-- Professional API-->
+        <dependency>
+            <groupId>com.demo.Professional-API</groupId>
+            <artifactId>Professional-API</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- School API-->
+        <dependency>
+            <groupId>com.demo.School-API</groupId>
+            <artifactId>School-API</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+</project>

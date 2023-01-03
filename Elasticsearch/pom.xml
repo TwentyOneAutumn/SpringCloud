@@ -14,7 +14,7 @@
 
     <!-- 定义当前项目版本坐标 -->
     <groupId>com.demo.Elasticsearch</groupId>
-    <artifactId>ElasticsearchDemo</artifactId>
+    <artifactId>Elasticsearch</artifactId>
     <version>1.0</version>
     <name>Elasticsearch</name>
 
