@@ -27,7 +27,7 @@
         <module>Gateway</module>
         <module>RabbitMq</module>
         <module>Elasticsearch</module>
-        <module>Test</module>
+        <module>TestApp</module>
         <module>Service</module>
         <module>Common</module>
         <module>Kafka</module>
