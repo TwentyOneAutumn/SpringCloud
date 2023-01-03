@@ -15,6 +15,11 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
+    /**
+     * 配置Redis客户端
+     * @param factory
+     * @return
+     */
     @Bean(name = "redisClient")
     public RedisTemplate<String, Object> template(RedisConnectionFactory factory) {
         // 创建RedisTemplate<String, Object>对象
