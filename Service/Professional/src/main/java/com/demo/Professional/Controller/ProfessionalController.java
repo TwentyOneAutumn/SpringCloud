@@ -1,12 +1,10 @@
 package com.demo.Professional.Controller;
 
-import com.demo.Common.DoMain.AjaxResult;
+import com.demo.Core.DoMain.AjaxResult;
 import com.demo.Professional.DoMain.Dto.ProfessionalByAddressDto;
 import com.demo.Professional.Service.Impl.ProfessionalServiceImpl;
 import com.demo.Professional.DoMain.Dto.ProfessionalByScoreDto;
-import com.demo.Professional.DoMain.Vo.ProfessionalByScoreVo;
 import com.demo.professional.api.DoMain.Vo.ProfessionalListBySchoolVo;
-import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

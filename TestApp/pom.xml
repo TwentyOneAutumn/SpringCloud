@@ -28,14 +28,8 @@
         <!-- Common模块 -->
         <dependency>
             <groupId>com.demo.Common</groupId>
-            <artifactId>Common</artifactId>
+            <artifactId>CommonCore</artifactId>
             <version>1.0</version>
-        </dependency>
-
-        <!-- JWT API 依赖 -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
         </dependency>
 
         <dependency>
@@ -48,11 +42,6 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

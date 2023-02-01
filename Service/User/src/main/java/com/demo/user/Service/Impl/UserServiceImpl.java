@@ -2,15 +2,13 @@ package com.demo.user.Service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.demo.Common.DoMain.AjaxResult;
+import com.demo.Core.DoMain.AjaxResult;
 import com.demo.user.DoMain.Dto.*;
 import com.demo.user.DoMain.Vo.AdminUserListVo;
 import com.demo.user.Mapper.UserMapper;
 import com.demo.user.DoMain.User;
 import com.demo.user.Service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

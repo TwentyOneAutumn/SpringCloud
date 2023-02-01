@@ -15,7 +15,6 @@
     <version>1.0</version>
     <name>School-API</name>
     <description>School-API</description>
-    <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

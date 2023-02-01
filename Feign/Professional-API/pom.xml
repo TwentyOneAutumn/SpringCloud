@@ -14,13 +14,8 @@
     <version>1.0</version>
     <name>Professional-API</name>
     <description>Professional-API</description>
-    <packaging>pom</packaging>
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
-
-    <dependencies>
-
-    </dependencies>
 </project>

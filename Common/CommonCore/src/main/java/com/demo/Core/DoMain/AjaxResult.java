@@ -1,4 +1,4 @@
-package com.demo.Common.DoMain;
+package com.demo.Core.DoMain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

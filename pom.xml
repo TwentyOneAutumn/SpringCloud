@@ -121,6 +121,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
                 <version>${SpringBoot.version}</version>
+                <exclusions>
+                    <!-- 移除自带的logback -->
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- Nacos注册发现依赖 -->

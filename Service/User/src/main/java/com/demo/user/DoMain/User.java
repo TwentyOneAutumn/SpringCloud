@@ -1,7 +1,7 @@
 package com.demo.user.DoMain;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.demo.Common.DoMain.BaseEntitys;
+import com.demo.Core.DoMain.BaseEntitys;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

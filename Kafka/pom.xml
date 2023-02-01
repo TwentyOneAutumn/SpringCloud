@@ -30,7 +30,7 @@
         <!-- Common模块 -->
         <dependency>
             <groupId>com.demo.Common</groupId>
-            <artifactId>Common</artifactId>
+            <artifactId>CommonCore</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

@@ -1,6 +1,6 @@
 package com.demo.Gateway.Config;
 
-import com.demo.Common.DoMain.AjaxResult;
+import com.demo.Core.DoMain.AjaxResult;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;

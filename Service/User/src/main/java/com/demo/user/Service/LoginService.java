@@ -1,7 +1,7 @@
 package com.demo.user.Service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.demo.Common.DoMain.AjaxResult;
+import com.demo.Core.DoMain.AjaxResult;
 import com.demo.user.DoMain.Dto.LoginGetUserDto;
 import com.demo.user.DoMain.Dto.LoginUserDto;
 import com.demo.user.DoMain.User;

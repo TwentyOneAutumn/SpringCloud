@@ -1,6 +1,6 @@
 package com.demo.user.Controller;
 
-import com.demo.Common.DoMain.AjaxResult;
+import com.demo.Core.DoMain.AjaxResult;
 import com.demo.user.DoMain.Dto.AdminUserAddDto;
 import com.demo.user.DoMain.Dto.AdminUserDeleteDto;
 import com.demo.user.DoMain.Dto.AdminUserEditDto;

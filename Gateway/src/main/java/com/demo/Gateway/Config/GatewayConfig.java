@@ -2,7 +2,7 @@ package com.demo.Gateway.Config;
 
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
-import com.demo.Common.Utils.IPUtil;
+import com.demo.Core.Utils.IPUtil;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;

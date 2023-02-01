@@ -1,8 +1,6 @@
 package com.demo.kafka.Controller;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.json.XML;
-import com.demo.Common.DoMain.AjaxResult;
+import com.demo.Core.DoMain.AjaxResult;
 import com.demo.kafka.DoMain.KafkaMsg;
 import com.demo.kafka.DoMain.KafkaSendDto;
 import com.demo.kafka.DoMain.KafkaTopic;
@@ -11,18 +9,12 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/test")

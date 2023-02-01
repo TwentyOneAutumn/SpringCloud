@@ -1,6 +1,6 @@
 package com.demo.School.Controller;
 
-import com.demo.Common.DoMain.AjaxResult;
+import com.demo.Core.DoMain.AjaxResult;
 import com.demo.School.DoMain.Dto.SchoolDetailDto;
 import com.demo.School.DoMain.Dto.SchoolListDto;
 import com.demo.School.Service.Impl.SchoolServiceImpl;

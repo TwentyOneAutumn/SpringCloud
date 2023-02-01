@@ -1,10 +1,7 @@
-package com.demo.user.Config;
+package com.demo.Security.Config;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.codec.Base64;
-import com.demo.user.Service.Impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,21 +9,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import java.util.ArrayList;
 
 @Configuration
 @EnableWebSecurity
 @Component
 @Slf4j
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    UserServiceImpl userServiceImpl;
+//    @Autowired
+//    UserServiceImpl userServiceImpl;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -40,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             public String encode(CharSequence rawPassword) {
                 // 循环加密
                 for (int i = 0; i < 10; i++) {
-                     rawPassword = Base64.encode(rawPassword);
+                    rawPassword = Base64.encode(rawPassword);
                 }
                 return rawPassword.toString();
             }
@@ -94,24 +87,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .anyRequest().authenticated();
     }
 
-    /**
-     * 覆盖默认UserDetailsService
-     * @return UserDetailsService
-     */
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return username -> {
-            // 从数据库查询用户信息
-            com.demo.user.DoMain.User user = userServiceImpl.SecurityQueryById(username);
-            // 如果为空,代表用户名或密码错误,返回null
-            if(BeanUtil.isEmpty(user)){
-                return null;
-            }
-            // 封装用户权限
-            ArrayList<SimpleGrantedAuthority> list = new ArrayList<>();
-            list.add(new SimpleGrantedAuthority(user.getRole()));
-            // 将用户信息封装为UserDetails对象并返回
-            return new User(user.getUserName(), user.getPassword(), list);
-        };
-    }
+//    /**
+//     * 覆盖默认UserDetailsService
+//     * @return UserDetailsService
+//     */
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return username -> {
+//            // 从数据库查询用户信息
+//            com.demo.user.DoMain.User user = userServiceImpl.SecurityQueryById(username);
+//            // 如果为空,代表用户名或密码错误,返回null
+//            if(BeanUtil.isEmpty(user)){
+//                return null;
+//            }
+//            // 封装用户权限
+//            ArrayList<SimpleGrantedAuthority> list = new ArrayList<>();
+//            list.add(new SimpleGrantedAuthority(user.getRole()));
+//            // 将用户信息封装为UserDetails对象并返回
+//            return new User(user.getUserName(), user.getPassword(), list);
+//        };
+//    }
 }

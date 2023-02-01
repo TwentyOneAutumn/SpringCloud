@@ -3,7 +3,7 @@ package com.demo.Professional.Service.Impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.demo.Common.DoMain.AjaxResult;
+import com.demo.Core.DoMain.AjaxResult;
 import com.demo.Professional.DoMain.Dto.ProfessionalByAddressDto;
 import com.demo.Professional.DoMain.Professional;
 import com.demo.Professional.DoMain.Vo.ProfessionalByAddressVo;
@@ -14,7 +14,6 @@ import com.demo.Professional.DoMain.Vo.ProfessionalByScoreVo;
 import com.demo.professional.api.DoMain.Vo.ProfessionalListBySchoolVo;
 import com.school.api.DoMain.SchoolDataVo;
 import com.school.api.RemoteSchoolService;
-import jdk.nashorn.internal.ir.CallNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

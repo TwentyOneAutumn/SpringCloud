@@ -30,16 +30,10 @@
             <artifactId>elasticsearch-java</artifactId>
         </dependency>
 
-        <!-- Feign-API模块依赖 -->
-        <dependency>
-            <groupId>com.demo.Feign</groupId>
-            <artifactId>Feign</artifactId>
-            <version>1.0</version>
-        </dependency>
-
+        <!-- Common模块 -->
         <dependency>
             <groupId>com.demo.Common</groupId>
-            <artifactId>Common</artifactId>
+            <artifactId>CommonCore</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>
