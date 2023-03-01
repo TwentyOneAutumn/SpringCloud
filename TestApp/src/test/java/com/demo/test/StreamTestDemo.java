@@ -1,11 +1,14 @@
 package com.demo.test;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.io.LineHandler;
+import com.demo.Core.Utils.StreamUtils;
 import com.demo.test.pojo.Order;
 import com.demo.test.pojo.OrderDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -34,29 +37,20 @@ public class StreamTestDemo {
 
     @Test
     public void filter(){
-        List<Order> filterByOrderTypeList = this.list.stream().filter( order -> order.getOrderType() == 2).collect(Collectors.toList());
-        filterByOrderTypeList.forEach(System.out::println);
+        List<Order> collection = StreamUtils.filterToList(this.list, order -> order.getOrderType() == 2);
+        collection.forEach(System.out::println);
     }
 
     @Test
     public void sorted(){
-        List<Order> sortedByOrderTypeList = this.list.stream()
-                .sorted((Comparator.comparing(Order::getIsOrder)
-                        .thenComparing(Order::getUserId)))
-                .collect(Collectors.toList());
-        sortedByOrderTypeList.forEach(System.out::println);
-    }
-
-    @Test
-    public void peek(){
-        List<Order> peekSetOrderList = this.list.stream().peek(order -> order.setUserId("张三")).collect(Collectors.toList());
-        peekSetOrderList.forEach(System.out::println);
+        List<Order> collection = StreamUtils.sortedToList(this.list,Comparator.comparing(Order::getIsOrder));
+        collection.forEach(System.out::println);
     }
 
     @Test
     public void map(){
-        List<OrderDto> mapOrderByDtoList = this.list.stream().map(order -> BeanUtil.copyProperties(order, OrderDto.class)).collect(Collectors.toList());
-        mapOrderByDtoList.forEach(System.out::println);
+        Collection<OrderDto> collection = StreamUtils.mapToList(this.list,order -> BeanUtil.copyProperties(order, OrderDto.class));
+        collection.forEach(System.out::println);
     }
 
     @Test
