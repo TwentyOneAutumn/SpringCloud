@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 /**
  * 基于Stream流封装的工具类
  */
-public class StreamUtils{
+public class StreamUtils<T> {
 
     /**
      * 过滤集合
