@@ -23,6 +23,7 @@
         <module>User</module>
         <module>School</module>
         <module>Professional</module>
+        <module>Generator</module>
     </modules>
     <dependencies>
         <!-- Common模块 -->
