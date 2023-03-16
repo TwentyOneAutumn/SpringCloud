@@ -1,0 +1,42 @@
+package ${package}.${moduleName}.domain.dto;
+
+import lombok.Data;
+import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+/**
+ * ${className}Dto
+ */
+@Data
+public class ${className}ListDto implements Serializable {
+#foreach ($column in $columns)
+#if( $column.attrname != 'isDeleted' && $column.attrname != 'createTime' && $column.attrname != 'updateTime')
+#if( ($column.attrType == 'LocalDateTime' || $column.attrType == 'LocalDate'))
+    /**
+     * $column.comments
+     */
+    @NotNull(message = "$column.attrname参数不能为空")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Date $column.attrname;
+#else
+#if($column.attrType == 'String')
+    /**
+     * $column.comments
+     */
+    @NotBlank(message = "$column.attrname参数不能为空")
+    private $column.attrType $column.attrname;
+#elseif($column.attrType == 'Boolean')
+    /**
+     * $column.comments
+     */
+    @NotNull(message = "$column.attrname参数不能为空")
+    private $column.attrType $column.attrname;
+#end
+#end
+#end
+#end
+}

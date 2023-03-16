@@ -1,0 +1,24 @@
+package ${package}.${moduleName}.domain.vo;
+
+import lombok.*;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.Date;
+import java.io.Serializable;
+
+/**
+ * ${className}Vo
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${className}DetailVo implements Serializable {
+#foreach ($column in $columns)
+#if( $column.attrname != 'isDeleted' && $column.attrname != 'createTime' && $column.attrname != 'updateTime')
+    /**
+     * $column.comments
+     */
+    private $column.attrType $column.attrname;
+#end
+#end
+}
