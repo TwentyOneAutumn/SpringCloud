@@ -1,6 +1,8 @@
 package com.demo.Core.Utils;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.demo.Core.Interface.NotNull;
+
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -9,7 +11,7 @@ import java.util.stream.Stream;
 /**
  * 基于Stream流封装的工具类
  */
-public class StreamUtils<T> {
+public class StreamUtils<T>{
 
     /**
      * 过滤集合
@@ -344,8 +346,8 @@ public class StreamUtils<T> {
      * @return 当前流中随机一个元素
      * @throws RuntimeException 该方法在取不到元素或取到元素为Null的情况下抛出RuntimeException:随机获取当前集合中一个元素异常
      */
-    public static <T extends Collection<E>,E> Class<E> findAny(Stream<E> stream)throws RuntimeException{
-        return (Class<E>)stream.findAny().orElseThrow(() -> new RuntimeException("随机获取当前集合中一个元素异常")).getClass();
+    public static <T extends Collection<E>,E> E findAny(Stream<E> stream)throws RuntimeException{
+        return stream.findAny().orElseThrow(() -> new RuntimeException("随机获取当前集合中一个元素异常"));
     }
     
     /**
@@ -356,6 +358,7 @@ public class StreamUtils<T> {
      * @param <E> 集合元素泛型
      * @return 过滤后元素数量
      */
+    @NotNull
     public  static <T extends Collection<E>,E> long filterCount(T collection, Predicate<E> predicate){
         return collection.stream().filter(predicate).count();
     }
