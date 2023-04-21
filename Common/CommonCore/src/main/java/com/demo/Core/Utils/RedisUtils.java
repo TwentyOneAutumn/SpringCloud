@@ -1,9 +1,13 @@
 package com.demo.Core.Utils;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.demo.Core.Enums.RedisTableName;
+import com.demo.Core.Lock.RedisCacheLock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
@@ -16,30 +20,67 @@ public class RedisUtils {
     @Autowired
     RedisTemplate<String, Object> redisClient;
 
+    @Autowired
+    RedisCacheLock redisCacheLock;
+
+    /**
+     * 清空Redis缓存
+     */
+    public void clear(){
+        // 清除Redis中所有缓存
+        Set<String> keySet = redisClient.keys("*");
+        if(CollUtil.isNotEmpty(keySet)){
+            redisClient.delete(keySet);
+        }
+    }
+
     /**
      * 刷新表缓存
      * @param tableName 表名称
      */
-    public void refreshCache(String tableName){
+    public void refreshTableCache(String tableName){
+        // 判断锁是否被持有
+        if(redisCacheLock.isLocked(tableName)){
+            // 如果锁被持有，就加入锁等待队列
+
+        }else {
+            try {
+                // 如果锁未被持有，获取锁，并上锁
+            }catch (Exception e){
+                throw new RuntimeException("刷新缓存异常");
+            }finally {
+                // 解锁当前线程所持有的锁
+            }
+        }
+
         // 判断缓存是否存在
-        if(redisClient.hasKey(tableName)){
+        if(Boolean.TRUE.equals(redisClient.hasKey(tableName))){
             // 清空表缓存
             redisClient.delete(tableName);
         }
-        // 获取最新表数据
+        // TODO 获取最新表数据
         List<Object> list = null;
         // 获取ID名称
         String idName = getIdName(StreamUtils.findAny(list));
         // 封装表数据为Map
         Map<String,Object> map = new HashMap<>();
-        list.forEach(pojo -> {
-            map.put(getIdValue(pojo,idName),pojo);
-        });
+        list.forEach(pojo -> map.put(getIdValue(pojo,idName),pojo));
         try {
             // 添加Hash
             redisClient.opsForHash().putAll(tableName,map);
         }catch (Exception e){
             throw new RuntimeException("刷新缓存异常");
+        }
+    }
+
+    /**
+     * 刷新所有缓存
+     */
+    public void refreshAllCache(){
+        clear();
+        // 初始化缓存
+        for (String tableName : RedisTableName.TABLE_NAME_ARR) {
+            refreshTableCache(tableName);
         }
     }
 
@@ -54,8 +95,9 @@ public class RedisUtils {
         // 获取缓存
         try {
             // 判断Key是否存在
-            if(redisClient.hasKey(tableName)){
+            if(Boolean.TRUE.equals(redisClient.hasKey(tableName))){
                 list = (List<T>) redisClient.opsForHash().values(tableName);
+                HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisClient.opsForHash();
             }else {
                 throw new RuntimeException();
             }

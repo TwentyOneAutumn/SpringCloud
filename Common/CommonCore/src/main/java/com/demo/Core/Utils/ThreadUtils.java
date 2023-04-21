@@ -8,6 +8,11 @@ import java.util.concurrent.*;
 public class ThreadUtils {
 
     /**
+     * 线程局部变量
+     */
+    private static final ThreadLocal<Object> threadLocal = new ThreadLocal<>();
+
+    /**
      * 执行多线程任务,在线程池中所有线程执行完毕,线程池关闭后,结束当前方法
      * @param threadList 已经重写run()方法的Thread类实例集合
      */
@@ -55,5 +60,29 @@ public class ThreadUtils {
 
         }
         return futureList;
+    }
+
+    /**
+     * 存储的数据到线程变量中
+     * @param obj 数据
+     * @param <T> 泛型
+     */
+    public static <T>  void setThreadLocal(T obj){
+        threadLocal.set(obj);
+    }
+
+    /**
+     * 从线程变量中获取数据
+     * @param <T> 泛型
+     * @return 数据
+     */
+    public static <T> T getThreadLocal(){
+        T obj = null;
+        try {
+            obj =  (T)threadLocal.get();
+        }catch (Exception e){
+            throw new RuntimeException("从线程变量中获取数据时类型转换异常");
+        }
+        return obj;
     }
 }

@@ -1,7 +1,8 @@
 package com.demo.Core.Utils;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.lang.ClassScanner;
+import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -10,12 +11,11 @@ import com.demo.Core.Interface.ClassMapping;
 import com.demo.Core.Interface.MethodMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
@@ -35,17 +35,68 @@ public class ClassUtils {
      */
     public static List<Class<?>> scanClasses(String packageName) throws Exception {
         List<Class<?>> classes = new ArrayList<>();
-        String path = ClassScanner.class.getResource("").getPath() + packageName.replace('.', '/');
-        File directory = new File(path);
-        if (directory.exists()) {
-            File[] files = directory.listFiles();
-            for (File file : files) {
-                if (file.isFile() && file.getName().endsWith(".class")) {
-                    String className = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        String path = packageName.replace('.', '/');
+        Enumeration<URL> resources = classLoader.getResources(path);
+        while (resources.hasMoreElements()) {
+            URL resource = resources.nextElement();
+            if (resource.getProtocol().equals("jar")) {
+                classes.addAll(scanJarInJar(packageName, resource));
+            } else {
+                classes.addAll(scanClassesInDirectory(packageName, new java.io.File(resource.getFile())));
+            }
+        }
+        return classes;
+    }
+
+    /**
+     * 扫描子包下所有类
+     * @param packageName 包名
+     * @param directory 文件夹对象
+     * @return 包下所有类Class对象集合
+     * @throws ClassNotFoundException 类不存在异常
+     */
+    public static List<Class<?>> scanClassesInDirectory(String packageName, java.io.File directory) throws ClassNotFoundException {
+        if (!directory.exists()) {
+            return Collections.emptyList();
+        }
+        List<Class<?>> classes = new ArrayList<>();
+        java.io.File[] files = directory.listFiles();
+        if(ArrayUtil.isNotEmpty(files)){
+            for (java.io.File file : files) {
+                if (file.isDirectory()) {
+                    classes.addAll(scanClassesInDirectory(packageName + "." + file.getName(), file));
+                } else if (file.getName().endsWith(".class")) {
+                    String className = packageName + "." + file.getName().substring(0, file.getName().length() - 6);
                     Class<?> clazz = Class.forName(className);
-                    if (!Modifier.isAbstract(clazz.getModifiers())) {
-                        classes.add(clazz);
-                    }
+                    classes.add(clazz);
+                }
+            }
+        }
+        return classes;
+    }
+
+    /**
+     * 扫描Jar包下所有类
+     * @param packageName 包名
+     * @param jarUrl jar包路径
+     * @return jar包下所有类Class对象集合
+     * @throws Exception 异常
+     */
+    public static List<Class<?>> scanJarInJar(String packageName, URL jarUrl) throws Exception {
+        String[] jarInfo = jarUrl.getPath().split("!");
+        java.util.jar.JarFile jar = new java.util.jar.JarFile(jarInfo[0].substring(jarInfo[0].indexOf('/')));
+        List<Class<?>> classes = new ArrayList<>();
+
+        Enumeration<java.util.jar.JarEntry> entries = jar.entries();
+
+        while (entries.hasMoreElements()) {
+            java.util.jar.JarEntry entry = entries.nextElement();
+            if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
+                String className = entry.getName().replace('/', '.').substring(0, entry.getName().length() - 6);
+                if (className.startsWith(packageName)) {
+                    Class<?> clazz = Class.forName(className);
+                    classes.add(clazz);
                 }
             }
         }
@@ -59,6 +110,7 @@ public class ClassUtils {
      * @return Map Key:目标类Class对象  Value:目标方法对象
      */
     public static MapEntry<Class<?>, Method> toMethod(String serviceName, String url) throws Exception {
+        // 扫描并获取包下所有类
         List<Class<?>> classList = scanClasses("packageName");
         AtomicReference<MapEntry<Class<?>, Method>> atomicReference = new AtomicReference<>();
         classList.forEach(clazz -> {
@@ -69,6 +121,7 @@ public class ClassUtils {
                 // 读取类下所有方法对象
                 Method[] methods = clazz.getMethods();
                 Arrays.stream(methods).forEach(method -> {
+                    // 获取方法路径映射
                     MethodMapping methodMapping = method.getAnnotation(MethodMapping.class);
                     if(BeanUtil.isNotEmpty(methodMapping) && methodMapping.value().equals(url)){
                         atomicReference.set(new MapEntry<>(clazz, method));
@@ -78,7 +131,7 @@ public class ClassUtils {
         });
         MapEntry<Class<?>, Method> entry = atomicReference.get();
         // 判空
-        if(BeanUtil.isNotEmpty(entry)){
+        if(BeanUtil.isNotEmpty(entry) && BeanUtil.isNotEmpty(entry.getKey()) && BeanUtil.isNotEmpty(entry.getValue())){
             return entry;
         }else {
             throw new RuntimeException("读取Feign映射异常");
@@ -100,6 +153,7 @@ public class ClassUtils {
         List<Object> argList = new ArrayList<>();
         // 获取返回值类型
         Class<?> returnTypeClass = method.getReturnType();
+
         // 声明返回值对象
         Object returnData = null;
         // 判断请求方式
@@ -125,6 +179,7 @@ public class ClassUtils {
                 }else if(parameterCount != 0){
                     throw new RuntimeException("请求参数异常");
                 }
+                break;
             }
         }
         try {
@@ -154,7 +209,7 @@ public class ClassUtils {
                 sb.append(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("读取RequestBody异常");
         }
         return sb.toString();
     }
@@ -168,14 +223,14 @@ public class ClassUtils {
     public static List<Object> getParameter(HttpServletRequest request, Method method){
         List<Object> argList = new ArrayList<>();
         // 判断参数列表是否为空
-        int count = method.getParameterCount();
-        if(count == 0){
+        if(method.getParameterCount() == 0){
             return argList;
         }
         // 获取参数的类型
         Class<?>[] parameterTypes = method.getParameterTypes();
         // 判断参数数量与类型数量是否一致
         if(parameterTypes.length != request.getParameterMap().size()){
+            // 处理方法参数
             argList.addAll(handlerParameter(parameterTypes,request));
         }else {
             // 获取参数列表
@@ -185,7 +240,7 @@ public class ClassUtils {
             while (enu.hasMoreElements()){
                 parameterMap.put(request.getParameter(enu.nextElement()),parameterTypes[i++]);
             }
-            // 循环参数列表并转换类型
+            // 处理方法参数
             argList.addAll(handlerParameterMapping(parameterMap));
         }
         return argList;
@@ -351,6 +406,7 @@ public class ClassUtils {
      * @return 参数List
      */
     public static List<Object> handlerParameterMapping(Map<String,MapEntry<String,Class<?>>> parameterMap,Class<?> parameterType){
+        // 创建JSON对象
         JSONObject json = new JSONObject();
         // 循环参数列表并转换类型
         parameterMap.forEach((name,entry) -> {
@@ -434,9 +490,6 @@ public class ClassUtils {
             }
         });
         // 将JSON对象转换为参数类型
-        Object o = json.toBean(parameterType);
-        List<Object> argList = new ArrayList<>();
-        argList.add(o);
-        return argList;
+        return ListUtil.list(false,json.toBean(parameterType));
     }
 }

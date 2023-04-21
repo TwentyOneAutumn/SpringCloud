@@ -6,14 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 方法路径映射注解
+ * Redis缓存注解
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MethodMapping {
-
-    /**
-     * 路径映射
-     */
+public @interface RedisCache {
     String value();
 }

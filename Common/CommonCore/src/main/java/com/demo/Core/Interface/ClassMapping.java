@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * 服务名映射注解
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ClassMapping {
 

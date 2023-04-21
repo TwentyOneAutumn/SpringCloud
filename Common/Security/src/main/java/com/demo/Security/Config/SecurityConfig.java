@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.stereotype.Component;
 
 @Configuration
@@ -85,6 +86,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login/auth").anonymous()
                 // 其他接口都需要经过认证授权才能访问
                 .anyRequest().authenticated();
+        AuthorizationServerEndpointsConfigurer endpoints = new AuthorizationServerEndpointsConfigurer();
+        // 允许使用 GET 请求进行认证
+        endpoints.allowedTokenEndpointRequestMethods()
     }
 
 //    /**
