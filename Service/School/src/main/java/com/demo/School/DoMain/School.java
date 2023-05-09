@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.demo.Core.DoMain.BaseEntitys;
+import com.demo.Core.DoMain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @TableName("sys_school")
 @EqualsAndHashCode(callSuper = true)
 @KeySequence("KeyGenerator")
-public class School extends BaseEntitys{
+public class School extends BaseEntity {
     @TableId(type = IdType.INPUT)
     private String schoolId;
     private String schoolCode;

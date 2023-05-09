@@ -1,7 +1,7 @@
 package com.demo.user.DoMain;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.demo.Core.DoMain.BaseEntitys;
+import com.demo.Core.DoMain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @TableName("sys_user")
 @EqualsAndHashCode(callSuper = true)
 @KeySequence("KeyGenerator")
-public class User extends BaseEntitys {
+public class User extends BaseEntity {
 
     /**
      * 用户账号

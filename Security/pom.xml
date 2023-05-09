@@ -2,14 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <parent>
-        <artifactId>Common</artifactId>
-        <groupId>com.demo.Common</groupId>
+        <groupId>com.demo.SpringCloudDemo</groupId>
+        <artifactId>SpringCloudDemo</artifactId>
         <version>1.0</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.demo.Security</groupId>
+    <groupId>com.Security</groupId>
     <artifactId>Security</artifactId>
 
     <properties>
@@ -32,8 +34,8 @@
         </dependency>
         <!-- Common模块 -->
         <dependency>
-            <groupId>com.demo.Common</groupId>
-            <artifactId>CommonCore</artifactId>
+            <groupId>com.Common</groupId>
+            <artifactId>Common</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

@@ -2,10 +2,9 @@ server:
   port: 8012
 spring:
   datasource:
-    # 192.168.0.210
-    url: jdbc:mysql://188.2.76.116:3306/sipds_operation?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.73.128/OMS?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
     username: root
-    password: P@ssw0rd
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     name: sipds-code-generator
@@ -13,11 +12,11 @@ mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
 #  typeAliasesPackage: com.central.generator.model
-atmb:
-  swagger:
-    enabled: true
-    title: API generator
-    description: 代码生成器
-    version: 1.0
-    base-package: com.atmb.generator
+#atmb:
+#  swagger:
+#    enabled: true
+#    title: API generator
+#    description: 代码生成器
+#    version: 1.0
+#    base-package: com.atmb.generator
 

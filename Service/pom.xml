@@ -24,12 +24,13 @@
         <module>School</module>
         <module>Professional</module>
         <module>Generator</module>
+        <module>Basic</module>
     </modules>
     <dependencies>
         <!-- Common模块 -->
         <dependency>
-            <groupId>com.demo.Common</groupId>
-            <artifactId>CommonCore</artifactId>
+            <groupId>com.Common</groupId>
+            <artifactId>Common</artifactId>
             <version>1.0</version>
         </dependency>
 

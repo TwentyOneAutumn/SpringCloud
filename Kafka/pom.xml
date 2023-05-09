@@ -29,8 +29,8 @@
 
         <!-- Common模块 -->
         <dependency>
-            <groupId>com.demo.Common</groupId>
-            <artifactId>CommonCore</artifactId>
+            <groupId>com.Common</groupId>
+            <artifactId>Common</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>
