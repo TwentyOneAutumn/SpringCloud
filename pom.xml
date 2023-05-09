@@ -48,7 +48,7 @@
         <OpenFeign.version>3.1.1</OpenFeign.version>
         <Loadbalancer.version>3.1.1</Loadbalancer.version>
         <Gateway.version>3.1.1</Gateway.version>
-        <MybatisPlus.version>3.4.2</MybatisPlus.version>
+        <MybatisPlus.version>3.5.2</MybatisPlus.version>
         <Validation.version>2.0.2</Validation.version>
         <ApacheCommons.version>1.15</ApacheCommons.version>
         <JWT.version>0.11.2</JWT.version>
