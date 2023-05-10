@@ -2,8 +2,8 @@ package com.service.basic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.core.doMain.*;
-import com.service.basic.doMain.Dto.*;
-import com.service.basic.doMain.Vo.*;
+import com.service.basic.doMain.dto.*;
+import com.service.basic.doMain.vo.*;
 
 /**
  * 用户Service

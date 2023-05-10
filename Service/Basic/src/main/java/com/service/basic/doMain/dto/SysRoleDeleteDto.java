@@ -1,4 +1,4 @@
-package com.service.basic.doMain.Dto;
+package com.service.basic.doMain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,12 +8,12 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 import java.io.Serializable;
 
 /**
- * 角色新增Dto
+ * 角色删除Dto
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysRoleAddDto implements Serializable {
+public class SysRoleDeleteDto implements Serializable {
 
 
     /**
@@ -21,11 +21,4 @@ public class SysRoleAddDto implements Serializable {
      */
     @NotBlank(message = "roleId参数不能为空")
     private String roleId;
-
-
-    /**
-     * 角色名称
-     */
-    @NotBlank(message = "roleName参数不能为空")
-    private String roleName;
 }

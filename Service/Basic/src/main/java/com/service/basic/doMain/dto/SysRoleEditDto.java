@@ -1,4 +1,4 @@
-package com.service.basic.doMain.Dto;
+package com.service.basic.doMain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

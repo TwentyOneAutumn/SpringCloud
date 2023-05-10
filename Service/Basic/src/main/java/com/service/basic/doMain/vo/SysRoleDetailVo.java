@@ -1,4 +1,4 @@
-package com.service.basic.doMain.Vo;
+package com.service.basic.doMain.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * 角色列表Vo
+ * 角色详情Vo
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysRoleListVo implements Serializable {
+public class SysRoleDetailVo implements Serializable {
 
 
     /**

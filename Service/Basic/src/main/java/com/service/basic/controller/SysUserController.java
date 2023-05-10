@@ -1,9 +1,9 @@
 package com.service.basic.controller;
 
 import com.core.doMain.*;
-import com.service.basic.doMain.Dto.*;
-import com.service.basic.doMain.Vo.SysUserDetailVo;
-import com.service.basic.doMain.Vo.SysUserListVo;
+import com.service.basic.doMain.dto.*;
+import com.service.basic.doMain.vo.SysUserDetailVo;
+import com.service.basic.doMain.vo.SysUserListVo;
 import com.service.basic.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

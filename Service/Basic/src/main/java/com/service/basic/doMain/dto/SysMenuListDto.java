@@ -1,4 +1,4 @@
-package com.service.basic.doMain.Dto;
+package com.service.basic.doMain.dto;
 
 import com.core.doMain.PageEntity;
 import lombok.Data;

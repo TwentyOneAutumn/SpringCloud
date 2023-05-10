@@ -1,14 +1,13 @@
-package com.service.basic.doMain.Dto;
+package com.service.basic.doMain.dto;
 
 import lombok.Data;
-
 import javax.validation.constraints.NotBlank;
 
 /**
- * 菜单详情Dto
+ * 菜单删除Dto
  */
 @Data
-public class SysMenuDetailDto {
+public class SysMenuDeleteDto {
 
 
     /**
