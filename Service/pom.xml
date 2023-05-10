@@ -20,10 +20,6 @@
 
     <!-- 聚合模块 -->
     <modules>
-        <module>User</module>
-        <module>School</module>
-        <module>Professional</module>
-        <module>Generator</module>
         <module>Basic</module>
     </modules>
     <dependencies>

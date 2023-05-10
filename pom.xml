@@ -30,6 +30,7 @@
         <module>Common</module>
         <module>Security</module>
         <module>Kafka</module>
+        <module>Generator</module>
     </modules>
 
     <properties>
