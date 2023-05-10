@@ -3,7 +3,7 @@ package com.demo.Professional.Service.Impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.demo.Core.DoMain.AjaxResult;
+import com.Core.DoMain.AjaxResult;
 import com.demo.Professional.DoMain.Dto.ProfessionalByAddressDto;
 import com.demo.Professional.DoMain.Professional;
 import com.demo.Professional.DoMain.Vo.ProfessionalByAddressVo;

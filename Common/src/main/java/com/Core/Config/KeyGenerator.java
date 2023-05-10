@@ -1,4 +1,4 @@
-package com.demo.Core.Config;
+package com.Core.Config;
 
 import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
 import org.springframework.stereotype.Component;

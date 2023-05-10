@@ -1,8 +1,7 @@
 package com.demo.test;
 
-import com.demo.Core.Utils.StreamUtils;
+import com.Core.Utils.StreamUtils;
 import com.demo.test.pojo.Order;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

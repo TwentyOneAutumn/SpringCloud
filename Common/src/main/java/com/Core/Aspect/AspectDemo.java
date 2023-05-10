@@ -1,4 +1,4 @@
-package com.demo.Core.Aspect;
+package com.Core.Aspect;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;

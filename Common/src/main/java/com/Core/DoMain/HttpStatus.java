@@ -1,4 +1,4 @@
-package com.demo.Core.DoMain;
+package com.Core.DoMain;
 
 public class HttpStatus {
     public static final int SUCCESS = 200;

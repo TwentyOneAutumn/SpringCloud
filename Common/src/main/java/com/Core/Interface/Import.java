@@ -1,4 +1,4 @@
-package com.demo.Core.Interface;
+package com.Core.Interface;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

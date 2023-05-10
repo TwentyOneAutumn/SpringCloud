@@ -1,4 +1,4 @@
-package com.demo.Core.Utils;
+package com.Core.Utils;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.demo.Core.Interface.NotNull;

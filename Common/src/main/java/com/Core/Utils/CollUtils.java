@@ -1,4 +1,4 @@
-package com.demo.Core.Utils;
+package com.Core.Utils;
 
 import java.util.Collection;
 

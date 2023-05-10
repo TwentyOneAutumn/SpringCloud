@@ -1,4 +1,4 @@
-package com.demo.Core.Utils;
+package com.Core.Utils;
 
 
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.demo.Core.Config;
+package com.Core.Config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

@@ -1,4 +1,4 @@
-package com.demo.Core.Handle;
+package com.Core.Handle;
 
 /**
  * 重写Thread类未捕获异常处理器

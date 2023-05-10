@@ -1,6 +1,6 @@
 package com.demo.kafka.Controller;
 
-import com.demo.Core.DoMain.AjaxResult;
+import com.Core.DoMain.AjaxResult;
 import com.demo.kafka.DoMain.KafkaMsg;
 import com.demo.kafka.DoMain.KafkaSendDto;
 import com.demo.kafka.DoMain.KafkaTopic;
