@@ -1,6 +1,7 @@
 package com.service.basic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.basic.api.doMain.UserInfo;
 import com.core.doMain.*;
 import com.service.basic.doMain.dto.*;
 import com.service.basic.doMain.vo.*;
@@ -49,4 +50,12 @@ public interface ISysUserService extends IService<SysUser> {
      * @return AjaxResult
      */
     AjaxResult toDelete(SysUserDeleteDto dto);
+
+
+    /**
+     * 获取用户详细信息及权限信息
+     * @param user 数据对象
+     * @return Row
+     */
+    Row<UserInfo> getUserInfo(SysUser user);
 }

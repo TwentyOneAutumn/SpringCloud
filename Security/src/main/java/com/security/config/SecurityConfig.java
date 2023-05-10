@@ -9,14 +9,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
-@Component
-@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    @Autowired
@@ -86,18 +86,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login/auth").anonymous()
                 // 其他接口都需要经过认证授权才能访问
                 .anyRequest().authenticated();
-        AuthorizationServerEndpointsConfigurer endpoints = new AuthorizationServerEndpointsConfigurer();
     }
 
-//    /**
-//     * 覆盖默认UserDetailsService
-//     * @return UserDetailsService
-//     */
-//    @Bean
-//    public UserDetailsService userDetailsService() {
+    /**
+     * 覆盖默认UserDetailsService
+     * @return UserDetailsService
+     */
+    @Bean
+    public UserDetailsService userDetailsService() {
 //        return username -> {
 //            // 从数据库查询用户信息
-//            com.demo.user.DoMain.User user = userServiceImpl.SecurityQueryById(username);
+//
 //            // 如果为空,代表用户名或密码错误,返回null
 //            if(BeanUtil.isEmpty(user)){
 //                return null;
@@ -108,5 +107,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //            // 将用户信息封装为UserDetails对象并返回
 //            return new User(user.getUserName(), user.getPassword(), list);
 //        };
-//    }
+        return null;
+    }
 }

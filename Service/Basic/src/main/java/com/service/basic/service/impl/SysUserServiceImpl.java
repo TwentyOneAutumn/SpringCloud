@@ -1,16 +1,19 @@
 package com.service.basic.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.basic.api.doMain.UserInfo;
 import com.core.doMain.*;
+import com.core.utils.StreamUtils;
 import com.service.basic.doMain.dto.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.service.basic.doMain.vo.SysUserDetailVo;
 import com.service.basic.doMain.vo.SysUserListVo;
 import com.service.basic.mapper.SysUserMapper;
-import com.service.basic.service.ISysUserService;
+import com.service.basic.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Autowired
     private SysUserMapper SysUserMapper;
+
+    @Autowired
+    private ISysRoleService sysRoleService;
+
+    @Autowired
+    private ISysMenuService sysMenuService;
+
+    @Autowired
+    private ISysUserRoleService sysUserRoleService;
+
+    @Autowired
+    private ISysRoleMenuService sysRoleMenuService;
 
 
     /**
@@ -96,5 +111,43 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         boolean remove = removeById(id);
         return remove ? AjaxResult.success() : AjaxResult.error();
+    }
+
+
+    /**
+     * 获取用户详细信息及权限信息
+     * @param user 数据对象
+     * @return Row
+     */
+    @Override
+    public Row<UserInfo> getUserInfo(SysUser user) {
+        UserInfo userInfo = new UserInfo();
+        // 获取用户信息
+        String userId = user.getUserId();
+        SysUser sysUser = getById(userId);
+        userInfo.setUser(sysUser);
+        // 获取该用户角色信息
+        List<SysUserRole> userRoleList = sysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
+                .eq(SysUserRole::getUserId, userId)
+        );
+        if(CollUtil.isNotEmpty(userRoleList)){
+            List<String> roleIdList = StreamUtils.mapToList(userRoleList, SysUserRole::getRoleId);
+            List<SysRole> roleList = sysRoleService.list(new LambdaQueryWrapper<SysRole>()
+                    .in(SysRole::getRoleId, roleIdList)
+            );
+            userInfo.setRoleList(roleList);
+            // 获取该用用户菜单权限信息
+            List<SysRoleMenu> roleMenuList = sysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
+                    .in(SysRoleMenu::getRoleId, roleIdList)
+            );
+            if(CollUtil.isNotEmpty(roleMenuList)){
+                List<String> menuIdList = StreamUtils.mapToList(roleMenuList, SysRoleMenu::getMenuId);
+                List<SysMenu> menuList = sysMenuService.list(new LambdaQueryWrapper<SysMenu>()
+                        .in(SysMenu::getMenuId, menuIdList)
+                );
+                userInfo.setMenuList(menuList);
+            }
+        }
+        return Build.buildRow(userInfo);
     }
 }

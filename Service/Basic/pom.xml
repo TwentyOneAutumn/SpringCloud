@@ -4,7 +4,7 @@
 
     <!-- 继承父工程 -->
     <parent>
-        <groupId>com.demo.Service</groupId>
+        <groupId>com.Service</groupId>
         <artifactId>Service</artifactId>
         <version>1.0</version>
     </parent>
@@ -18,7 +18,11 @@
     <description>Basic</description>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.Basic-API</groupId>
+            <artifactId>Basic-API</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 </project>

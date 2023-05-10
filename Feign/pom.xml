@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- 定义当前项目版本坐标 -->
-    <groupId>com.demo.Feign</groupId>
+    <groupId>com.Feign</groupId>
     <artifactId>Feign</artifactId>
     <version>1.0</version>
     <name>Feign</name>
@@ -18,15 +18,14 @@
 
     <!-- 聚合模块 -->
     <modules>
-        <module>Professional-API</module>
-        <module>School-API</module>
+        <module>basic-api</module>
     </modules>
 
     <dependencies>
-        <!-- Lombok依赖 -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.Common</groupId>
+            <artifactId>Common</artifactId>
+            <version>1.0</version>
         </dependency>
 
         <!-- Feign依赖 -->

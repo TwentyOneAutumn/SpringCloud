@@ -1,5 +1,6 @@
 package com.service.basic.controller;
 
+import com.basic.api.doMain.UserInfo;
 import com.core.doMain.*;
 import com.service.basic.doMain.dto.*;
 import com.service.basic.doMain.vo.SysUserDetailVo;
@@ -16,7 +17,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/user")
 public class SysUserController {
 
     @Autowired
@@ -75,5 +76,16 @@ public class SysUserController {
     @DeleteMapping("/delete")
     public AjaxResult toDelete(@Valid @RequestBody SysUserDeleteDto dto){
         return sysUserService.toDelete(dto);
+    }
+
+
+    /**
+     * 获取用户详细信息及权限信息
+     * @param user 数据对象
+     * @return Row
+     */
+    @PostMapping("/info")
+    Row<UserInfo> getUserInfo(@RequestBody SysUser user){
+        return sysUserService.getUserInfo(user);
     }
 }
