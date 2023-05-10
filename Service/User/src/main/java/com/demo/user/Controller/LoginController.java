@@ -1,6 +1,6 @@
 package com.demo.user.Controller;
 
-import com.demo.Core.DoMain.AjaxResult;
+import com.Core.DoMain.AjaxResult;
 import com.demo.user.DoMain.Dto.LoginGetUserDto;
 import com.demo.user.DoMain.Dto.LoginUserDto;
 import com.demo.user.Service.LoginService;

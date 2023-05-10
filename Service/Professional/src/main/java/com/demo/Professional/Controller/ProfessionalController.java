@@ -1,6 +1,6 @@
 package com.demo.Professional.Controller;
 
-import com.demo.Core.DoMain.AjaxResult;
+import com.Core.DoMain.AjaxResult;
 import com.demo.Professional.DoMain.Dto.ProfessionalByAddressDto;
 import com.demo.Professional.Service.Impl.ProfessionalServiceImpl;
 import com.demo.Professional.DoMain.Dto.ProfessionalByScoreDto;

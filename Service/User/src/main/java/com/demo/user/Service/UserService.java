@@ -1,6 +1,6 @@
 package com.demo.user.Service;
 
-import com.demo.Core.DoMain.AjaxResult;
+import com.Core.DoMain.AjaxResult;
 import com.demo.user.DoMain.Dto.*;
 import com.demo.user.DoMain.User;
 import com.baomidou.mybatisplus.extension.service.IService;

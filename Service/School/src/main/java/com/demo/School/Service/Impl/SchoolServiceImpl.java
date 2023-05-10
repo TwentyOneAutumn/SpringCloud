@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.demo.Core.DoMain.AjaxResult;
+import com.Core.DoMain.AjaxResult;
 import com.demo.School.DoMain.Dto.SchoolDetailDto;
 import com.demo.School.DoMain.Dto.SchoolListDto;
 import com.demo.School.DoMain.School;

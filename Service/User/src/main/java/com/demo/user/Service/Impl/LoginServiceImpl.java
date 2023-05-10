@@ -2,8 +2,8 @@ package com.demo.user.Service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.demo.Core.DoMain.AjaxResult;
-import com.demo.Core.Utils.JwtUtil;
+import com.Core.DoMain.AjaxResult;
+import com.Core.Utils.JwtUtil;
 import com.demo.user.DoMain.Dto.LoginGetUserDto;
 import com.demo.user.DoMain.Dto.LoginUserDto;
 import com.demo.user.DoMain.User;

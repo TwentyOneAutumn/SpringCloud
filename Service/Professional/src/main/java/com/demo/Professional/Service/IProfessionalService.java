@@ -1,6 +1,6 @@
 package com.demo.Professional.Service;
 
-import com.demo.Core.DoMain.AjaxResult;
+import com.Core.DoMain.AjaxResult;
 import com.demo.Professional.DoMain.Dto.ProfessionalByAddressDto;
 import com.demo.Professional.DoMain.Dto.ProfessionalByScoreDto;
 import com.demo.professional.api.DoMain.Vo.ProfessionalListBySchoolVo;

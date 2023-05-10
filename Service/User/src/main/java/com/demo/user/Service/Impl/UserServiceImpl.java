@@ -2,7 +2,7 @@ package com.demo.user.Service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.demo.Core.DoMain.AjaxResult;
+import com.Core.DoMain.AjaxResult;
 import com.demo.user.DoMain.Dto.*;
 import com.demo.user.DoMain.Vo.AdminUserListVo;
 import com.demo.user.Mapper.UserMapper;
