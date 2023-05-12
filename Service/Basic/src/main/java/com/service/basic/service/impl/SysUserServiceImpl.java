@@ -150,4 +150,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         return Build.buildRow(userInfo);
     }
+
+
+    /**
+     * 判断当前用户是否存在
+     * @param user 数据对象
+     * @return Boolean
+     */
+    @Override
+    public Row<Boolean> checkUser(SysUser user) {
+        long count = count(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getUserCode, user.getUserCode())
+        );
+        return Build.buildRow(count == 1);
+    }
 }

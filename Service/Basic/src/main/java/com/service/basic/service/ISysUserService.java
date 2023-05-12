@@ -58,4 +58,12 @@ public interface ISysUserService extends IService<SysUser> {
      * @return Row
      */
     Row<UserInfo> getUserInfo(SysUser user);
+
+
+    /**
+     * 判断当前用户是否存在
+     * @param user 数据对象
+     * @return Boolean
+     */
+    Row<Boolean> checkUser(SysUser user);
 }

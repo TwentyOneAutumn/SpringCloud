@@ -88,4 +88,15 @@ public class SysUserController {
     Row<UserInfo> getUserInfo(@RequestBody SysUser user){
         return sysUserService.getUserInfo(user);
     }
+
+
+    /**
+     * 判断当前用户是否存在
+     * @param user 数据对象
+     * @return Boolean
+     */
+    @PostMapping("/user/check")
+    Row<Boolean> checkUser(@RequestBody SysUser user){
+        return sysUserService.checkUser(user);
+    }
 }
