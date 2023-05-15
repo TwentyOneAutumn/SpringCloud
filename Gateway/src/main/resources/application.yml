@@ -3,33 +3,37 @@ server:
 spring:
   application:
     name: Gateway # 服务名称
-  redis:
-    host: 192.168.111.111 # redis地址
-    port: 6379  # 端口
-    database: 0   # 数据库
+#  redis:
+#    host: ${redis.host} # redis地址
+#    port: ${redis.port}  # 端口
+#    database: ${redis.database}   # 数据库
+#    host: 192.168.73.73
+#    port: 6379
+#    database: 0   # 数据库
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.111.111:8848 # Nacos服务地址
-        namespace: 25da6d30-663a-49ca-abde-4f1a805a305b
+        server-addr: 192.168.73.73:8848
+#        server-addr: ${nacos.server.addr} # Nacos服务地址
+#        namespace: ${nacos.namespace}
     gateway:
       httpclient:
         connect-timeout: 1000
         response-timeout: 5s
-      discovery:
-        locator:
-          lower-case-service-id: true # 开启服务名称小写转换
+#      discovery:
+#        locator:
+#          lower-case-service-id: true # 开启服务名称小写转换
       routes:
-        - id: User # 路由ID标识，必须唯一
-          uri: lb://User # 路由的目标地址，lb就是负载均衡
+        - id: Basic # 路由ID标识，必须唯一
+          uri: lb://Basic # 路由的目标地址，lb就是负载均衡
           predicates: # 路由断言，判断请求是否符合规则
-            - Path=/user/**
-          filters: # 过滤器配置
-            - name: RequestRateLimiter # 配置请求限流控制器,用令牌桶算法实现
-              args: # 参数列表,对应RedisRateLimiter.config中的属性
-                keyResolver: '#{@keyResolver}' # SpringEl表达式获取SpringBean,格式为'#{@BeanName}'
-                redis-rate-limiter.replenishRate: 1 # 每秒生产的令牌个数
-                redis-rate-limiter.burstCapacity: 5 # 令牌桶总容量
+            - Path=/basic/**
+#          filters: # 过滤器配置
+#            - name: RequestRateLimiter # 配置请求限流控制器,用令牌桶算法实现
+#              args: # 参数列表,对应RedisRateLimiter.config中的属性
+#                keyResolver: '#{@keyResolver}' # SpringEl表达式获取SpringBean,格式为'#{@BeanName}'
+#                redis-rate-limiter.replenishRate: 1 # 每秒生产的令牌个数
+#                redis-rate-limiter.burstCapacity: 5 # 令牌桶总容量
 
 #seata:
 #  tx-service-group: my_test_tx_group # 一定用这个默认的
@@ -43,3 +47,7 @@ spring:
 #      namespace: 25da6d30-663a-49ca-abde-4f1a805a305b
 #      username: nacos
 #      password: nacos
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG

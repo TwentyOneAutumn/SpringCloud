@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -28,6 +29,7 @@ import org.springframework.web.accept.ContentNegotiationStrategy;
 @Slf4j
 @Configuration
 @EnableWebSecurity
+@ComponentScan("com.security")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -39,36 +41,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityAuthenticationProvider authenticationProvider;
 
-    protected SecurityConfig() {
-        super();
-    }
-
-    protected SecurityConfig(boolean disableDefaults) {
-        super(disableDefaults);
-    }
+    @Autowired
+    private RoleAuthManager roleAuthManager;
 
     /**
-     *
-     * @param auth
-     * @throws Exception
+     * 配置身份验证的方式
+     * @param auth 用于构建和配置AuthenticationManager的构建器类
+     * @throws Exception 异常
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // 设置自定义UserDetailsService和密码编码器
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-        // 设置自定义
+        // 设置自定义身份验证逻辑
         auth.authenticationProvider(authenticationProvider);
     }
 
     /**
-     * 初始化AuthenticationManager并注册为Bean
-     * @return AuthenticationManager
+     * 获取配置的AuthenticationManager对象
+     * @return 返回一个完全填充了身份验证信息的Authentication对象
      * @throws Exception 异常
      */
-    @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return new RoleAuthManager();
+    public AuthenticationManager authenticationManager() throws Exception {
+        return roleAuthManager;
     }
 
     /**
@@ -77,14 +73,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected UserDetailsService userDetailsService() {
-        return new SecurityUserDetailsService();
+        return userDetailsService;
     }
 
+    /**
+     * 对WebSecurity对象进行一些初始化设置
+     * @param web WebSecurity对象
+     * @throws Exception 异常
+     */
     @Override
     public void init(WebSecurity web) throws Exception {
         super.init(web);
     }
 
+    /**
+     * 进行Web安全性相关的配置
+     * @param web WebSecurity对象
+     * @throws Exception 异常
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);

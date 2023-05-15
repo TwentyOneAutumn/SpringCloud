@@ -3,25 +3,27 @@ server:
   servlet:
     context-path: /basic
 spring:
+  application:
+    name: Basic # 服务名称
   datasource:
     driver-class-name: ${jdbc.driver}
     url: ${jdbc.url}
     username: ${jdbc.username}
     password: ${jdbc.password}
-  application:
-    name: School # 服务名称
+#    driver-class-name: ${mysql.driver}
+#    url: ${mysql.url}
+#    username: ${mysql.username}
+#    password: ${mysql.password}
   profiles:
     active: dev # 环境名称
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.111.111:8848 # Nacos服务地址
-        namespace: 25da6d30-663a-49ca-abde-4f1a805a305b    # 命名空间ID
+        server-addr: 192.168.73.73:8848 # Nacos服务地址
   redis:
-    database: 0   # 数据库
     host: 192.168.111.111  # IP
     port: 6379  # 端口
-    password: redis   # 密码
+    database: 0   # 数据库
 
 mybatis-plus:
   mapper-locations: classpath*:/Mapper/*Mapper.xml

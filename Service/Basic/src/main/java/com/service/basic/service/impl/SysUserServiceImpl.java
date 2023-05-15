@@ -2,6 +2,7 @@ package com.service.basic.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.api.doMain.UserInfo;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 用户ServiceImpl
@@ -78,8 +80,30 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public AjaxResult toAdd(SysUserAddDto dto) {
         SysUser pojo = BeanUtil.toBean(dto, SysUser.class);
+        // 设置UserCode
+        pojo.setUserCode(RandomUserCode());
+        // 初始化密码
+        pojo.setPassword("123456");
         boolean save = save(pojo);
         return save ? AjaxResult.success() : AjaxResult.error();
+    }
+
+
+    /**
+     * 随机生成UserCode
+     * @return UserCode
+     */
+    public String RandomUserCode(){
+        int randomInt = RandomUtil.randomInt(10000000, 99999999);
+        String userCode = Integer.toString(randomInt);
+        long count = count(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getUserCode, userCode)
+        );
+        if(count == 0){
+            return userCode;
+        }else {
+            return RandomUserCode();
+        }
     }
 
 
