@@ -1,8 +1,11 @@
 package com.security.config;
 
 import cn.hutool.core.codec.Base64;
+import com.security.doMain.SecurityAuthenticationProvider;
+import com.security.doMain.SecurityPasswordEncoder;
 import com.security.doMain.SecurityUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +30,14 @@ import org.springframework.web.accept.ContentNegotiationStrategy;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private SecurityPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private SecurityUserDetailsService userDetailsService;
+
+    @Autowired
+    private SecurityAuthenticationProvider authenticationProvider;
 
     protected SecurityConfig() {
         super();
@@ -36,18 +47,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         super(disableDefaults);
     }
 
+    /**
+     *
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+        // 设置自定义UserDetailsService和密码编码器
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        // 设置自定义
+        auth.authenticationProvider(authenticationProvider);
     }
 
     /**
-     * 重写AuthenticationManager
+     * 初始化AuthenticationManager并注册为Bean
      * @return AuthenticationManager
      * @throws Exception 异常
      */
+    @Bean
     @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return new RoleAuthManager();
     }
 
@@ -77,20 +97,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                // 关闭csrf
-//                .csrf().disable()
-//                // 不通过Session获取SecurityContext
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authorizeRequests()
-//                // 配置登录接口可以匿名访问
-//                .antMatchers("/login/auth").anonymous()
-//                // 其他接口都需要经过认证授权才能访问
-//                .anyRequest().authenticated();
-        http.authorizeRequests(expressionInterceptUrlRegistry -> {
-
-        });
+        http
+                // 关闭csrf
+                .csrf().disable()
+                // 不通过Session获取SecurityContext
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .formLogin()
+                .and()
+                .authorizeRequests()
+                // 配置映射
+                .antMatchers("/login/auth")
+                // 所有人都可以访问
+                .permitAll()
+                // 其他接口都需要经过认证授权才能访问
+                .anyRequest().authenticated();
     }
 
     @Override

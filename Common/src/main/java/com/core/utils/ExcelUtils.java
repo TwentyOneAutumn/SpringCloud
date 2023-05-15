@@ -83,7 +83,7 @@ public class ExcelUtils {
      */
     public static <T> List<T> importFile(InputStream bookStream, Class<T> clazz, String sheetName){
         ExcelReader reader;
-        reader = StrUtil.isNotEmpty(sheetName) ? ExcelUtil.getReader(bookStream) : ExcelUtil.getReader(bookStream,sheetName);
+        reader = StrUtil.isNotEmpty(sheetName) ? ExcelUtil.getReader(bookStream,sheetName) : ExcelUtil.getReader(bookStream);
         HashMap<String, String> map = new HashMap<>();
         Field[] fields = clazz.getDeclaredFields();
         Arrays.stream(fields).forEach(field -> {

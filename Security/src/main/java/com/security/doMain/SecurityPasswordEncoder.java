@@ -2,10 +2,12 @@ package com.security.doMain;
 
 import cn.hutool.core.codec.Base64;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 /**
  * 自定义密码加密
  */
+@Component
 public class SecurityPasswordEncoder implements PasswordEncoder {
 
 
