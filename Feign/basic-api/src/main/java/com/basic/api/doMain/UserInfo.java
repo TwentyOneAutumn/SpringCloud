@@ -4,7 +4,7 @@ import com.core.doMain.SysMenu;
 import com.core.doMain.SysRole;
 import com.core.doMain.SysUser;
 import lombok.Data;
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class UserInfo{
@@ -19,11 +19,11 @@ public class UserInfo{
     /**
      * 用户角色信息
      */
-    List<SysRole> roleList;
+    Set<SysRole> roleSet;
 
 
     /**
      * 用户访问菜单信息
      */
-    List<SysMenu> menuList;
+    Set<SysMenu> menuSet;
 }

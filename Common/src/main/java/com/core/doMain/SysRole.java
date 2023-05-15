@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 @KeySequence("KeyGenerator")
 public class SysRole extends BaseEntity {
 
+
     /**
      * 主键ID
      */
@@ -28,6 +29,12 @@ public class SysRole extends BaseEntity {
      * 角色名称
      */
     private String roleName;
+
+
+    /**
+     * 值
+     */
+    private String roleValue;
 
 
     /**

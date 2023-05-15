@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -135,7 +136,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             List<SysRole> roleList = sysRoleService.list(new LambdaQueryWrapper<SysRole>()
                     .in(SysRole::getRoleId, roleIdList)
             );
-            userInfo.setRoleList(roleList);
+            userInfo.setRoleSet(new HashSet<>(roleList));
             // 获取该用用户菜单权限信息
             List<SysRoleMenu> roleMenuList = sysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
                     .in(SysRoleMenu::getRoleId, roleIdList)
@@ -145,7 +146,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 List<SysMenu> menuList = sysMenuService.list(new LambdaQueryWrapper<SysMenu>()
                         .in(SysMenu::getMenuId, menuIdList)
                 );
-                userInfo.setMenuList(menuList);
+                userInfo.setMenuSet(new HashSet<>(menuList));
             }
         }
         return Build.buildRow(userInfo);

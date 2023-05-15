@@ -1,5 +1,7 @@
 package com.security.doMain;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.basic.api.RemoteUserService;
 import com.basic.api.doMain.UserInfo;
 import com.core.doMain.Row;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Component;
  * 重写Security用户信息类
  */
 @Component
-public class SecurityUser implements UserDetailsService {
+public class SecurityUserDetailsService implements UserDetailsService {
 
     @Autowired
     private RemoteUserService remoteUserService;
@@ -34,10 +36,15 @@ public class SecurityUser implements UserDetailsService {
         // 获取用户信息
         Row<UserInfo> userInfoRow = remoteUserService.getUserInfo(sysUser);
         if(Row.isError(userInfoRow)){
-            throw new UsernameNotFoundException("获取用户信息异常");
+            isError("获取用户信息异常");
         }
-        int code = userInfoRow.getCode();
-        return null;
+        UserInfo userInfo = userInfoRow.getRow();
+        // 判断用户信息是否合法
+        if(BeanUtil.isEmpty(userInfo) || BeanUtil.isEmpty(userInfo.getUser()) || CollUtil.isEmpty(userInfo.getRoleSet())){
+            isError("获取用户信息异常");
+        }
+        // 返回UserDetails对象
+        return SecurityUserDetails.build(userInfo);
     }
 
 
@@ -53,8 +60,12 @@ public class SecurityUser implements UserDetailsService {
         }
     }
 
+    /**
+     * 获取用户信息失败,抛出异常
+     * @param msg 错误信息
+     * @throws UsernameNotFoundException 获取用户信息失败异常
+     */
     private void isError(String msg) throws UsernameNotFoundException {
         throw new UsernameNotFoundException(msg);
     }
-
 }
