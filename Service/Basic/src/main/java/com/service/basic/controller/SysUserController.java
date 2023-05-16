@@ -95,8 +95,19 @@ public class SysUserController {
      * @param user 数据对象
      * @return Boolean
      */
-    @PostMapping("/user/check")
+    @PostMapping("/check")
     Row<Boolean> checkUser(@RequestBody SysUser user){
+        return sysUserService.checkUser(user);
+    }
+
+
+    /**
+     * 获取Token
+     * @param user 数据对象
+     * @return Boolean
+     */
+    @PostMapping("/token")
+    Row<Boolean> toToken(@RequestBody SysUser user){
         return sysUserService.checkUser(user);
     }
 }
