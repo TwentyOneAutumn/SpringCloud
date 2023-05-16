@@ -4,15 +4,17 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.core.doMain.*;
-import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.service.basic.mapper.SysRoleMapper;
-import com.service.basic.service.ISysRoleService;
+import com.service.basic.doMain.dto.*;
+import com.service.basic.doMain.vo.SysModuleDetailVo;
+import com.service.basic.doMain.vo.SysModuleListVo;
+import com.service.basic.mapper.SysModuleMapper;
+import com.service.basic.service.ISysModuleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
@@ -20,11 +22,11 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
+public class SysModuleServiceImpl extends ServiceImpl<SysModuleMapper, SysModule> implements ISysModuleService {
 
 
     @Autowired
-    private SysRoleMapper SysRoleMapper;
+    private SysModuleMapper SysModuleMapper;
 
 
     /**
@@ -33,26 +35,26 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @return TableInfo
      */
     @Override
-    public TableInfo<SysRoleListVo> toList(SysRoleListDto dto) {
+    public TableInfo<SysModuleListVo> toList(SysModuleListDto dto) {
         Page<Object> page = PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
-        List<SysRole> list = list(new LambdaQueryWrapper<SysRole>());
-        List<SysRoleListVo> voList = BeanUtil.copyToList(list, SysRoleListVo.class);
+        List<SysModule> list = list(new LambdaQueryWrapper<SysModule>());
+        List<SysModuleListVo> voList = BeanUtil.copyToList(list, SysModuleListVo.class);
         return Build.buildTable(page,voList);
     }
 
 
     /**
-     * 明细
+     * 详情
      * @param dto 数据对象
      * @return Row
      */
     @Override
-    public Row<SysRoleDetailVo> toDetail(SysRoleDetailDto dto) {
-        SysRole pojo = getById(dto.getRoleId());
+    public Row<SysModuleDetailVo> toDetail(SysModuleDetailDto dto) {
+        SysModule pojo = getById(dto.getModuleId());
         if(BeanUtil.isEmpty(pojo)){
             throw new RuntimeException("数据不存在");
         }
-        SysRoleDetailVo vo = BeanUtil.toBean(pojo, SysRoleDetailVo.class);
+        SysModuleDetailVo vo = BeanUtil.toBean(pojo, SysModuleDetailVo.class);
         return Build.buildRow(vo);
     }
 
@@ -63,8 +65,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @return AjaxResult
      */
     @Override
-    public AjaxResult toAdd(SysRoleAddDto dto) {
-        SysRole pojo = BeanUtil.toBean(dto, SysRole.class);
+    public AjaxResult toAdd(SysModuleAddDto dto) {
+        SysModule pojo = BeanUtil.toBean(dto, SysModule.class);
         boolean save = save(pojo);
         return save ? AjaxResult.success() : AjaxResult.error();
     }
@@ -76,11 +78,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @return AjaxResult
      */
     @Override
-    public AjaxResult toEdit(SysRoleEditDto dto) {
-        if(BeanUtil.isEmpty(getById(dto.getRoleId()))){
+    public AjaxResult toEdit(SysModuleEditDto dto) {
+        if(BeanUtil.isEmpty(getById(dto.getModuleId()))){
             throw new RuntimeException("数据不存在");
         }
-        SysRole pojo = BeanUtil.toBean(dto, SysRole.class);
+        SysModule pojo = BeanUtil.toBean(dto, SysModule.class);
         boolean update = updateById(pojo);
         return update ? AjaxResult.success() : AjaxResult.error();
     }
@@ -92,8 +94,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @return AjaxResult
      */
     @Override
-    public AjaxResult toDelete(SysRoleDeleteDto dto) {
-        String id = dto.getRoleId();
+    public AjaxResult toDelete(SysModuleDeleteDto dto) {
+        String id = dto.getModuleId();
         if(BeanUtil.isEmpty(getById(id))){
             throw new RuntimeException("数据不存在");
         }

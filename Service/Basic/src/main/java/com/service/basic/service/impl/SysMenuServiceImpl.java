@@ -43,6 +43,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
 
+    /**
+     * 明细
+     * @param dto 数据对象
+     * @return Row
+     */
     @Override
     public Row<SysMenuDetailVo> toDetail(SysMenuDetailDto dto) {
         SysMenu pojo = getById(dto.getMenuId());

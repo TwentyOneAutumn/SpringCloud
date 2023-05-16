@@ -300,6 +300,18 @@ public class StreamUtils<T>{
     }
 
     /**
+     * 判断集合中是否有元素满足条件
+     * @param collection 集合对象
+     * @param predicate 匹配器匹配器
+     * @param <T> 泛型,继承Collection
+     * @param <E> 集合元素泛型
+     * @return true:至少有一个满足条件 false:所有元素都不满足条件
+     */
+    public static <T extends Collection<E>,E> boolean match(T collection, Predicate<E> predicate){
+        return collection.stream().anyMatch(predicate);
+    }
+
+    /**
      * 获取当前集合中最大值元素
      * @param collection 集合对象
      * @param comparator 比较器

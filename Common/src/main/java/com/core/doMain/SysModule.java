@@ -7,36 +7,36 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * 菜单表实体类
+ * 模块表实体类
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_menu")
+@TableName("sys_module")
 @EqualsAndHashCode(callSuper = true)
 @KeySequence("KeyGenerator")
-public class SysMenu extends BaseEntity {
+public class SysModule extends BaseEntity{
 
     /**
      * 主键ID
      */
     @TableId(type = IdType.INPUT)
-    private String menuId;
-
-    /**
-     * 菜单名称
-     */
-    private String menuName;
-
-    /**
-     * 菜单Url
-     */
-    private String menuUrl;
-
-    /**
-     * 所属模块
-     */
     private String moduleId;
+
+    /**
+     * 父模块ID
+     */
+    private String parentId;
+
+    /**
+     * 模块名称
+     */
+    private String moduleName;
+
+    /**
+     * 模块Url
+     */
+    private String moduleUrl;
 
     /**
      * 是否删除

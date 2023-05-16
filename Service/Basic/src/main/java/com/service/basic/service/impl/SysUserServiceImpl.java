@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -46,6 +47,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private ISysRoleMenuService sysRoleMenuService;
 
+    @Autowired
+    private ISysModuleService sysModuleService;
+
 
     /**
      * 列表
@@ -61,6 +65,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
 
+    /**
+     * 明细
+     * @param dto 数据对象
+     * @return Row
+     */
     @Override
     public Row<SysUserDetailVo> toDetail(SysUserDetailDto dto) {
         SysUser pojo = getById(dto.getUserId());
@@ -170,7 +179,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 List<SysMenu> menuList = sysMenuService.list(new LambdaQueryWrapper<SysMenu>()
                         .in(SysMenu::getMenuId, menuIdList)
                 );
-                userInfo.setMenuSet(new HashSet<>(menuList));
+                if(CollUtil.isNotEmpty(menuList)){
+                    Set<String> moduleIdSet = StreamUtils.mapToSet(menuList, SysMenu::getModuleId);
+                    List<SysModule> moduleList = sysModuleService.list(new LambdaQueryWrapper<SysModule>()
+                            .in(SysModule::getModuleId, moduleIdSet)
+                    );
+                    userInfo.setModuleSet(new HashSet<>(moduleList));
+                }
             }
         }
         return Build.buildRow(userInfo);

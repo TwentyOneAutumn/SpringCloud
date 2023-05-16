@@ -1,14 +1,18 @@
 package com.service.basic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.core.doMain.*;
+import com.core.doMain.AjaxResult;
+import com.core.doMain.Row;
+import com.core.doMain.SysModule;
+import com.core.doMain.TableInfo;
 import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.*;
+import com.service.basic.doMain.vo.SysModuleDetailVo;
+import com.service.basic.doMain.vo.SysModuleListVo;
 
 /**
  * 菜单Service
  */
-public interface ISysMenuService extends IService<SysMenu> {
+public interface ISysModuleService extends IService<SysModule> {
 
 
     /**
@@ -16,7 +20,7 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param dto 数据对象
      * @return TableInfo
      */
-    TableInfo<SysMenuListVo> toList(SysMenuListDto dto);
+    TableInfo<SysModuleListVo> toList(SysModuleListDto dto);
 
 
     /**
@@ -24,7 +28,7 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param dto 数据对象
      * @return Row
      */
-    Row<SysMenuDetailVo> toDetail(SysMenuDetailDto dto);
+    Row<SysModuleDetailVo> toDetail(SysModuleDetailDto dto);
 
 
     /**
@@ -32,7 +36,7 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param dto 数据对象
      * @return AjaxResult
      */
-    AjaxResult toAdd(SysMenuAddDto dto);
+    AjaxResult toAdd(SysModuleAddDto dto);
 
 
     /**
@@ -40,7 +44,7 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param dto 数据对象
      * @return AjaxResult
      */
-    AjaxResult toEdit(SysMenuEditDto dto);
+    AjaxResult toEdit(SysModuleEditDto dto);
 
 
     /**
@@ -48,5 +52,5 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param dto 数据对象
      * @return AjaxResult
      */
-    AjaxResult toDelete(SysMenuDeleteDto dto);
+    AjaxResult toDelete(SysModuleDeleteDto dto);
 }

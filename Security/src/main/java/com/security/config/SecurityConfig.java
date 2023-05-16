@@ -1,9 +1,11 @@
 package com.security.config;
 
 import cn.hutool.core.codec.Base64;
+import com.security.doMain.AuthRoleFilter;
 import com.security.doMain.SecurityAuthenticationProvider;
 import com.security.doMain.SecurityPasswordEncoder;
 import com.security.doMain.SecurityUserDetailsService;
+import com.security.enums.PermitUrl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -23,6 +25,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.accept.ContentNegotiationStrategy;
 
@@ -43,6 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private RoleAuthManager roleAuthManager;
+
+    @Autowired
+    private AuthRoleFilter authRoleFilter;
 
     /**
      * 配置身份验证的方式
@@ -104,6 +110,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                // 添加自定义过滤器
+                .addFilterAfter(authRoleFilter, SwitchUserFilter.class)
                 // 关闭csrf
                 .csrf().disable()
                 // 不通过Session获取SecurityContext
@@ -113,7 +121,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 配置映射
-                .antMatchers("/login/auth")
+                .antMatchers(PermitUrl.UrlArr)
                 // 所有人都可以访问
                 .permitAll()
                 // 其他接口都需要经过认证授权才能访问

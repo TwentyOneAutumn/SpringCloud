@@ -1,6 +1,6 @@
 package com.basic.api.doMain;
 
-import com.core.doMain.SysMenu;
+import com.core.doMain.SysModule;
 import com.core.doMain.SysRole;
 import com.core.doMain.SysUser;
 import lombok.Data;
@@ -25,5 +25,5 @@ public class UserInfo{
     /**
      * 用户访问菜单信息
      */
-    Set<SysMenu> menuSet;
+    Set<SysModule> moduleSet;
 }

@@ -35,7 +35,7 @@ public class SysMenuController {
     /**
      * 明细
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Row
      */
     @GetMapping("/detail")
     public Row<SysMenuDetailVo> toDetail(@Valid SysMenuDetailDto dto){

@@ -38,7 +38,7 @@ public class SysUserController {
     /**
      * 明细
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Row
      */
     @GetMapping("/detail")
     public Row<SysUserDetailVo> toDetail(@Valid SysUserDetailDto dto){

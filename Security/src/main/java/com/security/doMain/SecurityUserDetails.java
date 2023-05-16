@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.basic.api.doMain.UserInfo;
 import com.core.doMain.SysMenu;
+import com.core.doMain.SysModule;
 import com.core.doMain.SysRole;
 import com.core.doMain.SysUser;
 import com.core.utils.StreamUtils;
@@ -35,13 +36,13 @@ public class SecurityUserDetails implements UserDetails {
     /**
      * 用户访问菜单信息
      */
-    Set<SysMenu> menuSet;
+    Set<SysModule> moduleSet;
 
 
     private SecurityUserDetails(UserInfo userInfo){
         this.user = userInfo.getUser();
         this.roleSet = userInfo.getRoleSet();
-        this.menuSet = userInfo.getMenuSet();
+        this.moduleSet = userInfo.getModuleSet();
     }
 
 
