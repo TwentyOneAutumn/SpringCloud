@@ -3,19 +3,15 @@ server:
 spring:
   application:
     name: Gateway # 服务名称
-#  redis:
-#    host: ${redis.host} # redis地址
-#    port: ${redis.port}  # 端口
-#    database: ${redis.database}   # 数据库
-#    host: 192.168.73.73
-#    port: 6379
-#    database: 0   # 数据库
+  redis:
+    host: ${redis.host} # redis地址
+    port: ${redis.port}  # 端口
+    database: ${redis.database}   # 数据库
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.73.73:8848
-#        server-addr: ${nacos.server.addr} # Nacos服务地址
-#        namespace: ${nacos.namespace}
+        server-addr: ${nacos.server.addr}
+        namespace: ${nacos.namespace}
     gateway:
       httpclient:
         connect-timeout: 1000

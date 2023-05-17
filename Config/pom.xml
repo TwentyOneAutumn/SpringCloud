@@ -16,4 +16,5 @@
     <version>1.0</version>
     <name>Config</name>
     <description>Config</description>
+    <packaging>jar</packaging>
 </project>

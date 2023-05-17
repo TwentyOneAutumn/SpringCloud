@@ -53,5 +53,12 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
         </dependency>
+
+        <!-- 配置模块-->
+        <dependency>
+            <groupId>com.config</groupId>
+            <artifactId>Config</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>
