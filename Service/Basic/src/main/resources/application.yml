@@ -4,22 +4,17 @@ server:
     context-path: /basic
 spring:
   application:
-    name: Basic # 服务名称
+    name: basic # 服务名称
   datasource:
     driver-class-name: ${mysql.driver}
     url: ${mysql.url}
     username: ${mysql.username}
     password: ${mysql.password}
-#  cloud:
-#    nacos:
-#      discovery:
-#        server-addr: ${nacos.server.addr}
-#        namespace: ${nacos.namespace}
-#        username: nacos
-#        password: nacos
-#      server-addr: ${nacos.server.addr}
-#      username: nacos
-#      password: nacos
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.server.addr}
+        namespace: ${nacos.namespace}
   redis:
     host: ${redis.host} # redis地址
     port: ${redis.port}  # 端口

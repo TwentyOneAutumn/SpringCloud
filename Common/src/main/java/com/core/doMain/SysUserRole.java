@@ -38,5 +38,5 @@ public class SysUserRole {
      * 是否删除
      */
     @TableLogic
-    private String isDelete;
+    private String isDeleted;
 }

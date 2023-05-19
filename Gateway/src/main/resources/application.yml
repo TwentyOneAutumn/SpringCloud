@@ -13,6 +13,16 @@ spring:
         server-addr: ${nacos.server.addr}
         namespace: ${nacos.namespace}
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders: "*"
       httpclient:
         connect-timeout: 1000
         response-timeout: 5s
@@ -20,8 +30,8 @@ spring:
 #        locator:
 #          lower-case-service-id: true # 开启服务名称小写转换
       routes:
-        - id: Basic # 路由ID标识，必须唯一
-          uri: lb://Basic # 路由的目标地址，lb就是负载均衡
+        - id: basic-service # 路由ID标识，必须唯一
+          uri: lb://basic # 路由的目标地址，lb就是负载均衡
           predicates: # 路由断言，判断请求是否符合规则
             - Path=/basic/**
 #          filters: # 过滤器配置
@@ -46,4 +56,4 @@ spring:
 
 logging:
   level:
-    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway: info
