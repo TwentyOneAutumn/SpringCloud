@@ -13,6 +13,10 @@ spring:
         server-addr: ${nacos.server.addr}
         namespace: ${nacos.namespace}
     gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
       globalcors:
         corsConfigurations:
           '[/**]':

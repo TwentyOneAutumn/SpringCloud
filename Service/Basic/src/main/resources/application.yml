@@ -15,6 +15,9 @@ spring:
       discovery:
         server-addr: ${nacos.server.addr}
         namespace: ${nacos.namespace}
+        username: nacos
+        password: nacos
+
   redis:
     host: ${redis.host} # redis地址
     port: ${redis.port}  # 端口
@@ -33,5 +36,5 @@ mybatis-plus:
 
 logging:
   level:
-    cn.itcast: debug
-    org.springframework: debug
+    cn.itcast: info
+    org.springframework: info
