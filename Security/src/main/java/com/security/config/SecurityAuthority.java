@@ -1,4 +1,4 @@
-package com.security.doMain;
+package com.security.config;
 
 import cn.hutool.core.util.StrUtil;
 import org.springframework.security.core.GrantedAuthority;

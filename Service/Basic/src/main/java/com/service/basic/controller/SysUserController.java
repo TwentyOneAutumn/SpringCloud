@@ -53,7 +53,8 @@ public class SysUserController {
      */
     @PostMapping("/add")
     public AjaxResult toAdd(@Valid @RequestBody SysUserAddDto dto){
-        return sysUserService.toAdd(dto);
+        throw new RuntimeException("Basic服务抛出异常");
+//        return sysUserService.toAdd(dto);
     }
 
 

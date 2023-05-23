@@ -23,6 +23,11 @@
             <artifactId>Basic-API</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.Security</groupId>
+            <artifactId>Security</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,4 +1,4 @@
-package com.security.doMain;
+package com.security.config;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;

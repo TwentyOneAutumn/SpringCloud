@@ -1,4 +1,4 @@
-package com.security.doMain;
+package com.security.config;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
@@ -16,21 +16,21 @@ import org.springframework.stereotype.Component;
  * 重写Security用户信息类
  */
 @Component
-public class SecurityUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private RemoteUserService remoteUserService;
 
     /**
      * 根据用户名找用户信息
-     * @param username 用户名
+     * @param userCode 用户名
      * @return UserDetails对象
      * @throws UsernameNotFoundException 如果找不到用户则抛出异常
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userCode) throws UsernameNotFoundException {
         SysUser sysUser = new SysUser();
-        sysUser.setUserCode(username);
+        sysUser.setUserCode(userCode);
         // 验证用户是否存在
         checkUser(sysUser);
         // 获取用户信息
@@ -44,7 +44,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
             isError("获取用户信息异常");
         }
         // 返回UserDetails对象
-        return SecurityUserDetails.build(userInfo);
+        return UserDetailsImpl.build(userInfo);
     }
 
 

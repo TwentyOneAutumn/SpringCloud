@@ -15,7 +15,6 @@ public class RedisClientDetailsService extends JdbcClientDetailsService {
     }
 
     @Override
-    @Cacheable()
     public ClientDetails loadClientByClientId(String clientId) throws InvalidClientException {
         return super.loadClientByClientId(clientId);
     }

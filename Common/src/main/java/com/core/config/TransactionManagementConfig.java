@@ -13,8 +13,6 @@ import javax.sql.DataSource;
 @Component
 public class TransactionManagementConfig {
 
-
-
     @Bean
     DataSourceTransactionManager oneDataSourceTransactionManager(@Qualifier("oneDataSource") DataSource dataSource){
         return new DataSourceTransactionManager(dataSource);

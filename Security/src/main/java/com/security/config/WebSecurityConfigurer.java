@@ -1,16 +1,9 @@
 package com.security.config;
 
-import cn.hutool.core.codec.Base64;
-import com.security.doMain.AuthRoleFilter;
-import com.security.doMain.SecurityAuthenticationProvider;
-import com.security.doMain.SecurityPasswordEncoder;
-import com.security.doMain.SecurityUserDetailsService;
 import com.security.enums.PermitUrl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -23,32 +16,23 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
-import org.springframework.stereotype.Component;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.accept.ContentNegotiationStrategy;
 
 @Slf4j
 @Configuration
 @EnableWebSecurity
-@ComponentScan("com.security")
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private SecurityPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private SecurityUserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private SecurityAuthenticationProvider authenticationProvider;
-
-    @Autowired
-    private RoleAuthManager roleAuthManager;
-
-    @Autowired
-    private AuthRoleFilter authRoleFilter;
 
     /**
      * 配置身份验证的方式
@@ -70,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public AuthenticationManager authenticationManager() throws Exception {
-        return roleAuthManager;
+        return super.authenticationManager();
     }
 
     /**
@@ -110,8 +94,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                // 添加自定义过滤器
-                .addFilterAfter(authRoleFilter, SwitchUserFilter.class)
                 // 关闭csrf
                 .csrf().disable()
                 // 不通过Session获取SecurityContext

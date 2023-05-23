@@ -1,9 +1,7 @@
-package com.security.doMain;
+package com.security.config;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.basic.api.doMain.UserInfo;
-import com.core.doMain.SysMenu;
 import com.core.doMain.SysModule;
 import com.core.doMain.SysRole;
 import com.core.doMain.SysUser;
@@ -19,7 +17,7 @@ import java.util.Set;
  */
 @Data
 @Component
-public class SecurityUserDetails implements UserDetails {
+public class UserDetailsImpl implements UserDetails {
 
     /**
      * 用户信息
@@ -39,7 +37,7 @@ public class SecurityUserDetails implements UserDetails {
     Set<SysModule> moduleSet;
 
 
-    private SecurityUserDetails(UserInfo userInfo){
+    private UserDetailsImpl(UserInfo userInfo){
         this.user = userInfo.getUser();
         this.roleSet = userInfo.getRoleSet();
         this.moduleSet = userInfo.getModuleSet();
@@ -51,8 +49,8 @@ public class SecurityUserDetails implements UserDetails {
      * @param userInfo 数据对象
      * @return SecurityUserDetails
      */
-    public static SecurityUserDetails build(UserInfo userInfo){
-        return new SecurityUserDetails(userInfo);
+    public static UserDetailsImpl build(UserInfo userInfo){
+        return new UserDetailsImpl(userInfo);
     }
 
 

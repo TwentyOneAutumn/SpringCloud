@@ -5,6 +5,7 @@ import com.core.doMain.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ import java.nio.charset.StandardCharsets;
  */
 @Slf4j
 @Component
-@Order(-2)
+//@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
     @Override

@@ -1,4 +1,4 @@
-package com.security.doMain;
+package com.security.config;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -21,8 +21,8 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
      */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
-        return null;
+        // 验证逻辑
+        return authentication;
     }
 
     /**
