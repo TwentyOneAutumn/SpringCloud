@@ -17,7 +17,9 @@ spring:
         namespace: ${nacos.namespace}
         username: nacos
         password: nacos
-
+    sentinel:
+      transport:
+        dashboard: ${sentinel.dashboard.url}
   redis:
     host: ${redis.host} # redis地址
     port: ${redis.port}  # 端口

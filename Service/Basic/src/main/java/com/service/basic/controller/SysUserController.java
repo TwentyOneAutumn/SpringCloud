@@ -1,5 +1,6 @@
 package com.service.basic.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.basic.api.doMain.UserInfo;
 import com.core.doMain.*;
 import com.service.basic.doMain.dto.*;
@@ -30,6 +31,7 @@ public class SysUserController {
      * @return TableInfo
      */
     @GetMapping("/list")
+    @SentinelResource
     public TableInfo<SysUserListVo> toList(@Valid SysUserListDto dto){
         return sysUserService.toList(dto);
     }

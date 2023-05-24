@@ -1,5 +1,6 @@
 package com.core.utils;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import java.util.List;
@@ -76,13 +77,16 @@ public class ThreadUtils {
      * @param <T> 泛型
      * @return 数据
      */
-    public static <T> T getThreadLocal(){
-        T obj = null;
+    public static <T> T getThreadLocal(Class<T> clazz){
         try {
-            obj =  (T)threadLocal.get();
+            Object obj = threadLocal.get();
+            if(BeanUtil.isNotEmpty(obj)){
+                return BeanUtil.toBean(obj,clazz);
+            }else {
+                return null;
+            }
         }catch (Exception e){
             throw new RuntimeException("从线程变量中获取数据时类型转换异常");
         }
-        return obj;
     }
 }
