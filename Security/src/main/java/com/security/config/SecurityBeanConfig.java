@@ -1,22 +1,34 @@
 package com.security.config;
 
 import cn.hutool.core.codec.Base64;
+import cn.hutool.core.collection.CollUtil;
+import com.core.utils.StrUtils;
+import com.core.utils.StreamUtils;
+import com.core.utils.ThreadUtils;
+import com.security.enums.RedisTokenKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.*;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * SecurityBean配置类
@@ -94,12 +106,45 @@ public class SecurityBeanConfig {
     public ClientDetailsService clientDetailsService(DataSource dataSource){
         JdbcClientDetailsService client = new JdbcClientDetailsService(dataSource);
         // 设置查询客户端详情Sql
-        client.setSelectClientDetailsSql("");
+        client.setSelectClientDetailsSql("select * from oauth_client_details where client_id = ?");
         // 设置查询所有客户端Sql
-        client.setFindClientDetailsSql("");
+        client.setFindClientDetailsSql("select * from oauth_client_details");
         // 设置PasswordEncoder
         client.setPasswordEncoder(passwordEncoder);
         return client;
+    }
+
+    /**
+     * 生成唯一的键（key）用于标识 OAuth2Authentication 对象在Redis中的位置
+     * @return AuthenticationKeyGenerator
+     */
+    public AuthenticationKeyGenerator authenticationKeyGenerator() {
+        return new DefaultAuthenticationKeyGenerator() {
+            @Override
+            public String extractKey(OAuth2Authentication authentication) {
+                Map<String, String> map = new LinkedHashMap<>();
+                OAuth2Request oAuth2Request = authentication.getOAuth2Request();
+                String userName = authentication.getName();
+                String ip = ThreadUtils.getThreadLocal(String.class);
+                String clientId = oAuth2Request.getClientId();
+                map.put(RedisTokenKey.USER_NAME,userName);
+                map.put(RedisTokenKey.CLIENT_ID,clientId);
+                map.put(RedisTokenKey.IP,ip);
+                String key = StrUtils.join(map,":","#");
+                return generateKey(key);
+            }
+
+            private String generateKey(String key) {
+                MessageDigest digest;
+                try {
+                    digest = MessageDigest.getInstance("MD5");
+                    byte[] bytes = digest.digest(key.getBytes(StandardCharsets.UTF_8));
+                    return String.format("%032x", new BigInteger(1, bytes));
+                } catch (NoSuchAlgorithmException nsae) {
+                    throw new IllegalStateException("MD5算法不可用. Fatal (should be in the JDK).", nsae);
+                }
+            }
+        };
     }
 
     /**
@@ -109,7 +154,7 @@ public class SecurityBeanConfig {
      */
     @Bean
     public TokenStore tokenStore(RedisConnectionFactory factory) {
-        return new RedisTokenStore(factory);
+        return new CustomRedisTokenStore(factory);
     }
 
     /**

@@ -4,6 +4,7 @@ import com.security.enums.PermitUrl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -52,6 +53,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
      * @return 返回一个完全填充了身份验证信息的Authentication对象
      * @throws Exception 异常
      */
+    @Bean
     @Override
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();

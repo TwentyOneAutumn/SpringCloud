@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.security.service.SecurityUserDetailsService
+  com.security.service.SecurityUserDetailsService,\
+  com.security.config.SecurityBeanConfig

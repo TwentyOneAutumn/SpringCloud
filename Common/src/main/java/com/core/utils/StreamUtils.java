@@ -533,4 +533,24 @@ public class StreamUtils<T>{
     public static <T extends Collection<E>,E> Set<E> mergeAsDistToSet(T... collections){
         return Arrays.stream(collections).flatMap(Collection::stream).collect(Collectors.toSet());
     }
+
+    /**
+     * 拼接集合元素
+     * @param collection 集合
+     * @param symbol 拼接字符
+     * @param <T> 泛型
+     * @param <E> 泛型
+     * @return 拼接后的字符串
+     */
+    public static <T extends Collection<E>,E> String join(T collection,String symbol){
+        StringBuilder builder = new StringBuilder();
+        Iterator<E> iterator = collection.stream().iterator();
+        while (iterator.hasNext()){
+            builder.append(iterator.next().toString());
+            if(!iterator.hasNext()){
+                builder.append(symbol);
+            }
+        }
+        return builder.toString();
+    }
 }
