@@ -11,12 +11,12 @@ spring:
     username: ${mysql.username}
     password: ${mysql.password}
   cloud:
-    nacos:
-      discovery:
-        server-addr: ${nacos.server.addr}
-        namespace: ${nacos.namespace}
-        username: nacos
-        password: nacos
+#    nacos:
+#      discovery:
+#        server-addr: ${nacos.server.addr}
+#        namespace: ${nacos.namespace}
+#        username: nacos
+#        password: nacos
     sentinel:
       transport:
         dashboard: ${sentinel.dashboard.url}

@@ -8,8 +8,10 @@ import com.core.utils.ThreadUtils;
 import com.security.enums.RedisTokenKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -33,6 +35,7 @@ import java.util.Set;
 /**
  * SecurityBean配置类
  */
+@ComponentScan(basePackages = {"com.security"})
 @Configuration
 public class SecurityBeanConfig {
 
@@ -47,6 +50,9 @@ public class SecurityBeanConfig {
 
     @Autowired
     private TokenEnhancer tokenEnhancer;
+
+    @Autowired
+    private WebSecurityConfigurer webSecurityConfigurer;
 
     /**
      *
@@ -194,4 +200,14 @@ public class SecurityBeanConfig {
         return tokenServices;
     }
 
+    /**
+     * 负责接收和处理用户提供的凭据信息，并将其转换为认证对象（Authentication）进行验证
+     * 它是验证过程的入口点，用于验证用户的身份和凭据是否有效，以确定用户是否被授权访问受保护的资源
+     * @return AuthenticationManager
+     * @throws Exception 异常
+     */
+    @Bean
+    public AuthenticationManager authenticationManager() throws Exception {
+        return webSecurityConfigurer.authenticationManagerBean();
+    }
 }

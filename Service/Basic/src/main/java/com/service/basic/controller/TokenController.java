@@ -1,33 +1,21 @@
 package com.service.basic.controller;
 
 import com.core.doMain.Build;
-import com.core.doMain.TableInfo;
 import com.core.utils.RequestUtils;
-import com.service.basic.doMain.dto.SysUserListDto;
 import com.service.basic.doMain.dto.TokenDto;
-import com.service.basic.doMain.vo.SysUserListVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -37,19 +25,21 @@ import java.util.Set;
 public class TokenController {
 
     @Autowired
-    private RedisConnectionFactory redisConnectionFactory;
-    @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
     @Autowired
     private ClientDetailsService clientDetailsService;
-    @Autowired
-    private TokenStore tokenStore;
+
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
 
-    public void writerToken(TokenDto dto,HttpServletRequest request, HttpServletResponse response){
+    /**
+     * 获得Token
+     * @param dto 数据对象
+     * @param response 响应对象
+     */
+    @PostMapping("/get")
+    public void writerToken(TokenDto dto, HttpServletResponse response){
         try {
             String userCode = dto.getUserCode();
             String password = dto.getPassword();

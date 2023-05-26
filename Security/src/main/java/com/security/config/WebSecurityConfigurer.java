@@ -33,7 +33,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    private SecurityAuthenticationProvider authenticationProvider;
+    private SecurityAuthenticationProvider securityAuthenticationProvider;
 
     /**
      * 配置身份验证的方式
@@ -45,7 +45,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         // 设置自定义UserDetailsService和密码编码器
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         // 设置自定义身份验证逻辑
-        auth.authenticationProvider(authenticationProvider);
+        auth.authenticationProvider(securityAuthenticationProvider);
     }
 
     /**
@@ -53,9 +53,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
      * @return 返回一个完全填充了身份验证信息的Authentication对象
      * @throws Exception 异常
      */
-    @Bean
     @Override
-    public AuthenticationManager authenticationManager() throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManager();
     }
 
