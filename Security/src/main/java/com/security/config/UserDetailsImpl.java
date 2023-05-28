@@ -16,7 +16,6 @@ import java.util.Set;
  * 重写UserDetails
  */
 @Data
-@Component
 public class UserDetailsImpl implements UserDetails {
 
     /**

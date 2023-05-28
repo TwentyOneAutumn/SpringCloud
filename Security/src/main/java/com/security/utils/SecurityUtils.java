@@ -24,6 +24,6 @@ public class SecurityUtils {
      */
     public static UserDetailsImpl getUser(){
         Object principal = getAuthentication().getPrincipal();
-        return BeanUtil.isNotEmpty(principal) ? (UserDetailsImpl)principal : null;
+        return BeanUtil.isNotEmpty(principal) && principal instanceof UserDetailsImpl ? (UserDetailsImpl)principal : null;
     }
 }

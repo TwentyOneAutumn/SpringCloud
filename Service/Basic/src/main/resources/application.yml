@@ -11,19 +11,9 @@ spring:
     username: ${mysql.username}
     password: ${mysql.password}
   cloud:
-#    nacos:
-#      discovery:
-#        server-addr: ${nacos.server.addr}
-#        namespace: ${nacos.namespace}
-#        username: nacos
-#        password: nacos
     sentinel:
       transport:
         dashboard: ${sentinel.dashboard.url}
-  redis:
-    host: ${redis.host} # redis地址
-    port: ${redis.port}  # 端口
-    database: ${redis.database}   # 数据库
 
 mybatis-plus:
   mapper-locations: classpath*:/Mapper/*Mapper.xml

@@ -29,7 +29,7 @@ public class GatewayConfig implements WebFluxConfigurer {
     RedisTemplate<String, Object> redisClient;
 
     @Bean
-//    @Order(Ordered.HIGHEST_PRECEDENCE)
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     public ErrorWebExceptionHandler errorWebExceptionHandler(GlobalExceptionHandler globalExceptionHandler) {
         System.out.println("ErrorWebExceptionHandler加载完毕");
         return globalExceptionHandler;

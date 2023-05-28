@@ -42,5 +42,5 @@ public class SysMenu extends BaseEntity {
      * 是否删除
      */
     @TableLogic
-    private String isDeleted;
+    private Boolean isDeleted;
 }

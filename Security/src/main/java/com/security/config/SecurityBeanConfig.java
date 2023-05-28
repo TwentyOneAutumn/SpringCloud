@@ -39,21 +39,6 @@ import java.util.Set;
 @Configuration
 public class SecurityBeanConfig {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private ClientDetailsService clientDetailsService;
-
-    @Autowired
-    private TokenStore tokenStore;
-
-    @Autowired
-    private TokenEnhancer tokenEnhancer;
-
-    @Autowired
-    private WebSecurityConfigurer webSecurityConfigurer;
-
     /**
      *
      * @param dataSource 数据源对象
@@ -109,14 +94,14 @@ public class SecurityBeanConfig {
      * @return JdbcClientDetailsService
      */
     @Bean
-    public ClientDetailsService clientDetailsService(DataSource dataSource){
+    public JdbcClientDetailsService jdbcClientDetailsService(DataSource dataSource){
         JdbcClientDetailsService client = new JdbcClientDetailsService(dataSource);
         // 设置查询客户端详情Sql
         client.setSelectClientDetailsSql("select * from oauth_client_details where client_id = ?");
         // 设置查询所有客户端Sql
         client.setFindClientDetailsSql("select * from oauth_client_details");
         // 设置PasswordEncoder
-        client.setPasswordEncoder(passwordEncoder);
+        client.setPasswordEncoder(passwordEncoder());
         return client;
     }
 
@@ -183,31 +168,20 @@ public class SecurityBeanConfig {
      * @return AuthorizationServerTokenServices
      */
     @Bean
-    public AuthorizationServerTokenServices authorizationServerTokenServices(){
+    public AuthorizationServerTokenServices authorizationServerTokenServices(DataSource dataSource,RedisConnectionFactory factory){
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         // 设置客户端服务
-        tokenServices.setClientDetailsService(clientDetailsService);
+        tokenServices.setClientDetailsService(jdbcClientDetailsService(dataSource));
         // 支持刷新令牌
         tokenServices.setSupportRefreshToken(true);
         // 设置令牌存储策略
-        tokenServices.setTokenStore(tokenStore);
+        tokenServices.setTokenStore(tokenStore(factory));
         // 设置访问令牌的过期时间
         tokenServices.setAccessTokenValiditySeconds(20);
         // 设置刷新令牌的过期时间
         tokenServices.setRefreshTokenValiditySeconds(20);
         // 令牌增强
-        tokenServices.setTokenEnhancer(tokenEnhancer);
+        tokenServices.setTokenEnhancer(tokenEnhancer());
         return tokenServices;
-    }
-
-    /**
-     * 负责接收和处理用户提供的凭据信息，并将其转换为认证对象（Authentication）进行验证
-     * 它是验证过程的入口点，用于验证用户的身份和凭据是否有效，以确定用户是否被授权访问受保护的资源
-     * @return AuthenticationManager
-     * @throws Exception 异常
-     */
-    @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
-        return webSecurityConfigurer.authenticationManagerBean();
     }
 }

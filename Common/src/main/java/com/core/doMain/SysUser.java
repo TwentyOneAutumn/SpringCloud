@@ -46,7 +46,7 @@ public class SysUser extends BaseEntity {
     /**
      * 性别
      */
-    private String gender;
+    private Boolean gender;
 
 
     /**
@@ -59,5 +59,5 @@ public class SysUser extends BaseEntity {
      * 是否删除
      */
     @TableLogic
-    private String isDeleted;
+    private Boolean isDeleted;
 }

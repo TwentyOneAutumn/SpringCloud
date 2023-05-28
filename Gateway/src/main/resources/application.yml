@@ -3,30 +3,12 @@ server:
 spring:
   application:
     name: Gateway # 服务名称
-  redis:
-    host: ${redis.host} # redis地址
-    port: ${redis.port}  # 端口
-    database: ${redis.database}   # 数据库
   cloud:
-    nacos:
-      discovery:
-        server-addr: ${nacos.server.addr}
-        namespace: ${nacos.namespace}
     gateway:
-      discovery:
-        locator:
-          lower-case-service-id: true
-          enabled: true
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-            allowedHeaders: "*"
+#      discovery:
+#        locator:
+#          lower-case-service-id: true
+#          enabled: true
       httpclient:
         connect-timeout: 1000
         response-timeout: 5s
@@ -60,4 +42,4 @@ spring:
 
 logging:
   level:
-    org.springframework.cloud.gateway: info
+    org.springframework.cloud.gateway: debug

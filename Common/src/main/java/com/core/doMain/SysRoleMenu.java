@@ -38,6 +38,6 @@ public class SysRoleMenu {
      * 是否删除
      */
     @TableLogic
-    private String isDeleted;
+    private Boolean isDeleted;
 
 }

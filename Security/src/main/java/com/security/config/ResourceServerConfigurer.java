@@ -19,23 +19,20 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
     private TokenStore tokenStore;
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.resourceId("")
                 .tokenStore(tokenStore)
 //                .tokenServices(authorizationServerTokenServices)
-                .stateless(true)
-                .authenticationEntryPoint(authenticationEntryPoint);
+                .stateless(true);
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/**")
-                .access(null)
+                .permitAll()
                 .and()
                 .csrf().disable()
                 .sessionManagement()

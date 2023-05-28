@@ -17,4 +17,12 @@
     <name>Config</name>
     <description>Config</description>
     <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- bootstrap依赖 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+    </dependencies>
 </project>

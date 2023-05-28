@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
  */
 @Slf4j
 @Component
-//@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
     @Override

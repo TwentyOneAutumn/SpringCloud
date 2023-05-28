@@ -12,6 +12,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public AjaxResult Exception(Exception ex){
+        ex.printStackTrace();
         return AjaxResult.error(ex.getMessage());
     }
 }
