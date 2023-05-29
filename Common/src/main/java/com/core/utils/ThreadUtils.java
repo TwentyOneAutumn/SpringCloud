@@ -3,7 +3,10 @@ package com.core.utils;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.thread.ThreadUtil;
+
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 
 public class ThreadUtils {
@@ -11,7 +14,7 @@ public class ThreadUtils {
     /**
      * 线程局部变量
      */
-    private static final ThreadLocal<Object> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<Map<String,Object>> threadLocal = new ThreadLocal<>();
 
     /**
      * 执行多线程任务,在线程池中所有线程执行完毕,线程池关闭后,结束当前方法
@@ -68,8 +71,9 @@ public class ThreadUtils {
      * @param obj 数据
      * @param <T> 泛型
      */
-    public static <T>  void setThreadLocal(T obj){
-        threadLocal.set(obj);
+    public static <T>  void set(String key, T obj){
+        init();
+        threadLocal.get().put(key,obj);
     }
 
     /**
@@ -77,16 +81,29 @@ public class ThreadUtils {
      * @param <T> 泛型
      * @return 数据
      */
-    public static <T> T getThreadLocal(Class<T> clazz){
+    public static <T> T get(String key, Class<T> clazz){
         try {
-            Object obj = threadLocal.get();
+            Map<String, Object> map = threadLocal.get();
+            Object obj = map.get(key);
             if(BeanUtil.isNotEmpty(obj)){
-                return BeanUtil.toBean(obj,clazz);
+                return TypeUtils.toTypeBean(obj, clazz);
             }else {
                 return null;
             }
         }catch (Exception e){
             throw new RuntimeException("从线程变量中获取数据时类型转换异常");
+        }
+    }
+
+    /**
+     * 初始化
+     */
+    private synchronized static void init(){
+        // 判断是否初始化
+        if(BeanUtil.isNotEmpty(threadLocal.get())){
+            // 初始化
+            Map<String, Object> map = new LinkedHashMap<>();
+            threadLocal.set(map);
         }
     }
 }

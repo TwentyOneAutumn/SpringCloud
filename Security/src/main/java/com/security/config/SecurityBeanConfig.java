@@ -116,7 +116,7 @@ public class SecurityBeanConfig {
                 Map<String, String> map = new LinkedHashMap<>();
                 OAuth2Request oAuth2Request = authentication.getOAuth2Request();
                 String userName = authentication.getName();
-                String ip = ThreadUtils.getThreadLocal(String.class);
+                String ip = ThreadUtils.get("ip",String.class);
                 String clientId = oAuth2Request.getClientId();
                 map.put(RedisTokenKey.USER_NAME,userName);
                 map.put(RedisTokenKey.CLIENT_ID,clientId);

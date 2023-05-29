@@ -43,7 +43,7 @@ public class FeignHandlerInterceptor implements HandlerInterceptor {
             boolean isError = false;
             try {
                 // 存储服务名称到线程变量中
-                ThreadUtils.setThreadLocal(serviceName);
+//                ThreadUtils.setThreadLocal(serviceName);
                 // 判断当前缓存锁是否被占用
 //                if(redisCacheLock.isLocked()){
                 if(true){
