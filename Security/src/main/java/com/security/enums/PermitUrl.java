@@ -2,6 +2,7 @@ package com.security.enums;
 
 public class PermitUrl {
     public static final String[] UrlArr = {
-            "/user/**"
+            "/user/add",
+            "/token/get",
     };
 }

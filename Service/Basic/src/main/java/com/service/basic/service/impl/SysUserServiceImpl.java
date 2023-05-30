@@ -17,6 +17,7 @@ import com.service.basic.mapper.SysUserMapper;
 import com.service.basic.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -49,6 +50,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Autowired
     private ISysModuleService sysModuleService;
+
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     /**
@@ -92,7 +97,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 设置UserCode
         pojo.setUserCode(RandomUserCode());
         // 初始化密码
-        pojo.setPassword("123456");
+        String encode = passwordEncoder.encode("123456");
+        pojo.setPassword(encode);
         boolean save = save(pojo);
         return save ? AjaxResult.success() : AjaxResult.error();
     }

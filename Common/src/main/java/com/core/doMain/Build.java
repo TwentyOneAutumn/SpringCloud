@@ -63,4 +63,14 @@ public class Build {
     public static <T> Row<T> buildRow(boolean flg,String msg){
         return flg ? new Row<T>(HttpStatus.SUCCESS,msg,null) : new Row<T>(HttpStatus.ERROR,msg,null);
     }
+
+    /**
+     * 构建AjaxResult
+     * @param flg 是否成功
+     * @param msg 错误信息
+     * @return AjaxResult
+     */
+    public static AjaxResult buildAjax(boolean flg,String msg){
+        return flg ? AjaxResult.success(msg) : AjaxResult.error(msg);
+    }
 }
