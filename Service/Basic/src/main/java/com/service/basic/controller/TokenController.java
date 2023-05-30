@@ -1,8 +1,11 @@
 package com.service.basic.controller;
 
 import com.core.doMain.Build;
+import com.core.utils.IPUtil;
 import com.core.utils.RequestUtils;
+import com.core.utils.ThreadUtils;
 import com.service.basic.doMain.dto.TokenDto;
+import com.service.basic.doMain.vo.TokenVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,9 +16,12 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -39,7 +45,9 @@ public class TokenController {
      * @param response 响应对象
      */
     @PostMapping("/get")
-    public void writerToken(TokenDto dto, HttpServletResponse response){
+    public void writerToken(@Valid @RequestBody TokenDto dto, HttpServletRequest request, HttpServletResponse response){
+        String ip = IPUtil.getIpAddr(request);
+        ThreadUtils.set("ip",ip);
         try {
             String userCode = dto.getUserCode();
             String password = dto.getPassword();
@@ -54,11 +62,14 @@ public class TokenController {
             OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authenticate);
             OAuth2AccessToken oAuth2AccessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
             oAuth2Authentication.setAuthenticated(true);
-            String accessToken = oAuth2AccessToken.getValue();
-            String refreshToken = oAuth2AccessToken.getRefreshToken().toString();
-            String tokenType = oAuth2AccessToken.getTokenType();
-            int expiresIn = oAuth2AccessToken.getExpiresIn();
-            RequestUtils.writer(response, Build.buildRow(oAuth2AccessToken));
+            TokenVo tokenVo = new TokenVo();
+            tokenVo.setAccessToken(oAuth2AccessToken.getValue());
+            tokenVo.setRefreshToken(oAuth2AccessToken.getRefreshToken().getValue());
+            tokenVo.setClientId(clientId);
+            tokenVo.setIp(ip);
+            tokenVo.setUserCode(userCode);
+            tokenVo.setTokenType(oAuth2AccessToken.getTokenType());
+            RequestUtils.writer(response, Build.buildRow(tokenVo));
         } catch (Exception e) {
             throw new RuntimeException("登录异常");
         }

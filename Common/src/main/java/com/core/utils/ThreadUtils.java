@@ -82,6 +82,7 @@ public class ThreadUtils {
      * @return 数据
      */
     public static <T> T get(String key, Class<T> clazz){
+        init();
         try {
             Map<String, Object> map = threadLocal.get();
             Object obj = map.get(key);
@@ -91,6 +92,7 @@ public class ThreadUtils {
                 return null;
             }
         }catch (Exception e){
+            e.printStackTrace();
             throw new RuntimeException("从线程变量中获取数据时类型转换异常");
         }
     }
@@ -100,7 +102,7 @@ public class ThreadUtils {
      */
     private synchronized static void init(){
         // 判断是否初始化
-        if(BeanUtil.isNotEmpty(threadLocal.get())){
+        if(BeanUtil.isEmpty(threadLocal.get())){
             // 初始化
             Map<String, Object> map = new LinkedHashMap<>();
             threadLocal.set(map);
