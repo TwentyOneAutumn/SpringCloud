@@ -63,7 +63,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 // 所有人都可以访问
                 .permitAll()
                 // 其他接口都需要经过认证授权才能访问
-                .anyRequest().authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
                 // 关闭csrf
                 .csrf().disable()
@@ -71,6 +72,12 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin();
+    }
+
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(PermitUrl.UrlArr);
     }
 
     /**

@@ -11,6 +11,7 @@ import com.core.utils.StreamUtils;
 import com.service.basic.doMain.dto.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.service.basic.doMain.vo.SysUserAddVo;
 import com.service.basic.doMain.vo.SysUserDetailVo;
 import com.service.basic.doMain.vo.SysUserListVo;
 import com.service.basic.mapper.SysUserMapper;
@@ -92,15 +93,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return AjaxResult
      */
     @Override
-    public AjaxResult toAdd(SysUserAddDto dto) {
+    public Row<SysUserAddVo> toAdd(SysUserAddDto dto) {
         SysUser pojo = BeanUtil.toBean(dto, SysUser.class);
         // 设置UserCode
         pojo.setUserCode(RandomUserCode());
         // 初始化密码
-        String encode = passwordEncoder.encode("123456");
+        String encode = passwordEncoder.encode(pojo.getPassword());
         pojo.setPassword(encode);
         boolean save = save(pojo);
-        return save ? AjaxResult.success() : AjaxResult.error();
+        return save ? Build.buildRow(BeanUtil.toBean(pojo, SysUserAddVo.class)) : Build.buildRow(false);
     }
 
 

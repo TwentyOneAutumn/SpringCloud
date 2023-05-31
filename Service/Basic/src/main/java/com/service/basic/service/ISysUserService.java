@@ -33,7 +33,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param dto 数据对象
      * @return AjaxResult
      */
-    AjaxResult toAdd(SysUserAddDto dto);
+    Row<SysUserAddVo> toAdd(SysUserAddDto dto);
 
     
     /**

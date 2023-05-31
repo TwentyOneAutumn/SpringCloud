@@ -20,9 +20,16 @@ public class SysUserAddDto {
 
 
     /**
+     * 密码
+     */
+    @NotBlank(message = "password参数不能为空")
+    private String password;
+
+
+    /**
      * 性别
      */
-    private String gender;
+    private Boolean gender;
 
 
     /**

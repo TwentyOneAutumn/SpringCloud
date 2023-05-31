@@ -4,6 +4,7 @@ import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.basic.api.doMain.UserInfo;
 import com.core.doMain.*;
 import com.service.basic.doMain.dto.*;
+import com.service.basic.doMain.vo.SysUserAddVo;
 import com.service.basic.doMain.vo.SysUserDetailVo;
 import com.service.basic.doMain.vo.SysUserListVo;
 import com.service.basic.service.ISysUserService;
@@ -55,7 +56,7 @@ public class SysUserController {
      * @return AjaxResult
      */
     @PostMapping("/add")
-    public AjaxResult toAdd(@Valid @RequestBody SysUserAddDto dto){
+    public Row<SysUserAddVo> toAdd(@Valid @RequestBody SysUserAddDto dto){
         return sysUserService.toAdd(dto);
     }
 
