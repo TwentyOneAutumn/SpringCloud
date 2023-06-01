@@ -25,13 +25,4 @@ import org.springframework.web.reactive.socket.server.WebSocketService;
 @Configuration
 public class GatewayConfig implements WebFluxConfigurer {
 
-    @Autowired
-    RedisTemplate<String, Object> redisClient;
-
-    @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public ErrorWebExceptionHandler errorWebExceptionHandler(GlobalExceptionHandler globalExceptionHandler) {
-        System.out.println("ErrorWebExceptionHandler加载完毕");
-        return globalExceptionHandler;
-    }
 }

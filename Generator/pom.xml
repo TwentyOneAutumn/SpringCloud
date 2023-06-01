@@ -17,36 +17,19 @@
     <name>Generator</name>
 
     <dependencies>
+        <!-- Common模块 -->
+        <dependency>
+            <groupId>com.Common</groupId>
+            <artifactId>Common</artifactId>
+            <version>1.0</version>
+        </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.apache.velocity</groupId>-->
-<!--            <artifactId>velocity</artifactId>-->
-<!--            <version>1.7</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>commons-io</groupId>-->
-<!--            <artifactId>commons-io</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.micrometer</groupId>-->
-<!--            <artifactId>micrometer-registry-prometheus</artifactId>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>commons-configuration</groupId>-->
-<!--            <artifactId>commons-configuration</artifactId>-->
-<!--            <version>1.8</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>cn.hutool</groupId>-->
-<!--            <artifactId>hutool-all</artifactId>-->
-<!--        </dependency>-->
+        <!-- 代码生成器依赖 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>3.5.3</version>
+        </dependency>
     </dependencies>
 
 </project>
