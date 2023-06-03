@@ -33,7 +33,6 @@ public class SysUserController {
      * @return TableInfo
      */
     @GetMapping("/list")
-    @SentinelResource
     public TableInfo<SysUserListVo> toList(@Valid SysUserListDto dto){
         return sysUserService.toList(dto);
     }

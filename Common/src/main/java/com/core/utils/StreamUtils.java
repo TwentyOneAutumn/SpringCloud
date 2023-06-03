@@ -1,6 +1,7 @@
 package com.core.utils;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.core.Interface.NotNullArgs;
 
 import java.util.*;
 import java.util.function.*;
@@ -10,6 +11,7 @@ import java.util.stream.Stream;
 /**
  * 基于Stream流封装的工具类
  */
+@NotNullArgs
 public class StreamUtils<T>{
 
     /**

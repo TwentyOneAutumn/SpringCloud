@@ -21,7 +21,7 @@ spring:
 #                redis-rate-limiter.burstCapacity: 5 # 令牌桶总容量
     sentinel:
       transport:
-        dashboard: 124.221.27.253:8858
+        dashboard: ${sentinel.dashboard.url}
 
 #seata:
 #  tx-service-group: my_test_tx_group # 一定用这个默认的
