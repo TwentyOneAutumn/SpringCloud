@@ -9,6 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.PropertySource;
 
 @Slf4j
+@EnableCircuitBreaker
 @SpringBootApplication
 @EnableFeignClients(basePackages = {"com.basic.api"})
 public class BasicApplication {

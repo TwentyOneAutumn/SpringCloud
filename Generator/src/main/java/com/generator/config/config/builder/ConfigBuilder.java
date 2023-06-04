@@ -17,7 +17,6 @@ package com.generator.config.config.builder;
 
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.builder.GeneratorBuilder;
-import com.baomidou.mybatisplus.generator.config.builder.PathInfoHandler;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.query.IDatabaseQuery;
 import org.jetbrains.annotations.NotNull;

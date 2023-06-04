@@ -73,4 +73,14 @@ public class Build {
     public static AjaxResult buildAjax(boolean flg,String msg){
         return flg ? AjaxResult.success(msg) : AjaxResult.error(msg);
     }
+
+    /**
+     * 构建AjaxResult
+     * @param code 状态码
+     * @param msg 错误信息
+     * @return AjaxResult
+     */
+    public static AjaxResult buildAjax(int code,String msg){
+        return AjaxResult.error(code,msg);
+    }
 }

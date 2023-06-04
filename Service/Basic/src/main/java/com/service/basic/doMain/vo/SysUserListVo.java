@@ -1,12 +1,17 @@
 package com.service.basic.doMain.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 @Data
-public class SysUserListVo {
+public class SysUserListVo implements Serializable {
 
+
+    /**
+     * 用户名
+     */
     private String userId;
 
 
@@ -23,12 +28,6 @@ public class SysUserListVo {
 
 
     /**
-     * 密码
-     */
-    private String password;
-
-
-    /**
      * 性别
      */
     private Boolean gender;
@@ -37,5 +36,6 @@ public class SysUserListVo {
     /**
      * 生日
      */
-    private Date birthday;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
+    private LocalDate birthday;
 }

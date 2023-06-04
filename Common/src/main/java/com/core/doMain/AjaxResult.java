@@ -39,4 +39,8 @@ public class AjaxResult implements Serializable {
     public static AjaxResult error(String msg) {
         return new AjaxResult(HttpStatus.ERROR, msg);
     }
+
+    public static AjaxResult error(int code, String msg) {
+        return new AjaxResult(code, msg);
+    }
 }

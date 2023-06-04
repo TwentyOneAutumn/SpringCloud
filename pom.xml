@@ -57,7 +57,8 @@
         <Slf4j.version>1.7.30</Slf4j.version>
         <Log4j2.version>2.19.0</Log4j2.version>
         <Kafka.version>3.2.0</Kafka.version>
-        <PageHelper.version>5.3.0</PageHelper.version>
+        <PageHelper.version>1.4.6</PageHelper.version>
+        <Sentinel.version>1.8.6</Sentinel.version>
     </properties>
 
     <dependencyManagement>
@@ -275,8 +276,40 @@
             <!-- PageHelper分页插件 -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper</artifactId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${PageHelper.version}</version>
+            </dependency>
+
+            <!-- SentinelWeb依赖 -->
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-core</artifactId>
+                <version>${Sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-transport-simple-http</artifactId>
+                <version>${Sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-web-servlet</artifactId>
+                <version>${Sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-spring-webmvc-adapter</artifactId>
+                <version>${Sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-spring-webflux-adapter</artifactId>
+                <version>${Sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
+                <version>${Sentinel.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

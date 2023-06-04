@@ -23,6 +23,7 @@
     </properties>
 
     <dependencies>
+
         <!-- Web依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -99,13 +100,19 @@
         <!-- PageHelper分页插件 -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
         </dependency>
 
         <!-- 校验 -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
+        <!-- Sentinel依赖 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
     </dependencies>
 

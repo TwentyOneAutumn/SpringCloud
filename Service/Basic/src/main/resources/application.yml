@@ -12,6 +12,7 @@ spring:
     password: ${mysql.password}
   cloud:
     sentinel:
+      eager: true
       transport:
         dashboard: ${sentinel.dashboard.url}
 

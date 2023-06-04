@@ -13,28 +13,10 @@ spring:
           uri: lb://basic
           predicates:
             - Path=/basic/**
-#          filters: # 过滤器配置
-#            - name: RequestRateLimiter # 配置请求限流控制器,用令牌桶算法实现
-#              args: # 参数列表,对应RedisRateLimiter.config中的属性
-#                keyResolver: '#{@keyResolver}' # SpringEl表达式获取SpringBean,格式为'#{@BeanName}'
-#                redis-rate-limiter.replenishRate: 1 # 每秒生产的令牌个数
-#                redis-rate-limiter.burstCapacity: 5 # 令牌桶总容量
     sentinel:
+      eager: true
       transport:
         dashboard: ${sentinel.dashboard.url}
-
-#seata:
-#  tx-service-group: my_test_tx_group # 一定用这个默认的
-#  enabled: true
-#  registry:
-#    type: nacos
-#    nacos:
-#      application: seata-server
-#      server-addr: 192.168.111.111:8848
-#      group : SEATA_GROUP
-#      namespace: 25da6d30-663a-49ca-abde-4f1a805a305b
-#      username: nacos
-#      password: nacos
 
 logging:
   level:
