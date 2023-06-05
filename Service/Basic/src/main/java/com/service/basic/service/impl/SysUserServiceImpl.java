@@ -6,6 +6,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.api.doMain.UserInfo;
+import com.core.Interface.NotNullArgs;
 import com.core.doMain.*;
 import com.core.utils.StreamUtils;
 import com.service.basic.doMain.dto.*;
@@ -54,6 +55,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @NotNullArgs
+    public void test1(List<String> list){
+    }
 
     /**
      * 列表

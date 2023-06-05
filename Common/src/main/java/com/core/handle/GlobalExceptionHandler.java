@@ -1,11 +1,11 @@
 package com.core.handle;
 
-import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.alibaba.csp.sentinel.slots.block.authority.AuthorityException;
-import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
-import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
-import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
-import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
+//import com.alibaba.csp.sentinel.slots.block.BlockException;
+//import com.alibaba.csp.sentinel.slots.block.authority.AuthorityException;
+//import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
+//import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
+//import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
+//import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
 import com.core.doMain.AjaxResult;
 import com.core.doMain.Build;
 import org.springframework.validation.BindException;
@@ -44,22 +44,22 @@ public class GlobalExceptionHandler {
      * @param ex 异常对象
      * @return AjaxResult
      */
-    @ExceptionHandler(BlockException.class)
-    public AjaxResult BlockException(BlockException ex){
-        String errorMsg = "系统异常";
-        int code = 429;
-        if(ex instanceof AuthorityException){
-            code = 401;
-            errorMsg = "权限不足,拒绝访问";
-        }else if (ex instanceof DegradeException){
-            errorMsg = "服务暂时不可用,请稍后重试!";
-        }else if (ex instanceof FlowException){
-            errorMsg = "短时间内请求次数过多,请稍后重试!";
-        }else if (ex instanceof ParamFlowException){
-            errorMsg = "热点参数限流,请稍后重试!";
-        }else if (ex instanceof SystemBlockException){
-            errorMsg = "系统异常";
-        }
-        return Build.buildAjax(code,errorMsg);
-    }
+//    @ExceptionHandler(BlockException.class)
+//    public AjaxResult BlockException(BlockException ex){
+//        String errorMsg = "系统异常";
+//        int code = 429;
+//        if(ex instanceof AuthorityException){
+//            code = 401;
+//            errorMsg = "权限不足,拒绝访问";
+//        }else if (ex instanceof DegradeException){
+//            errorMsg = "服务暂时不可用,请稍后重试!";
+//        }else if (ex instanceof FlowException){
+//            errorMsg = "短时间内请求次数过多,请稍后重试!";
+//        }else if (ex instanceof ParamFlowException){
+//            errorMsg = "热点参数限流,请稍后重试!";
+//        }else if (ex instanceof SystemBlockException){
+//            errorMsg = "系统异常";
+//        }
+//        return Build.buildAjax(code,errorMsg);
+//    }
 }

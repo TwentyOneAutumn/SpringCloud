@@ -156,6 +156,7 @@ public class StreamUtils<T>{
      * @param <A> 转换后集合元素泛型
      * @return 转换后的集合
      */
+    @NotNullArgs
     public static <T extends Collection<E>,E,A> List<A> mapToList(T collection, Function<E, A> mapper){
         return collection.stream().map(mapper).collect(Collectors.toList());
     }

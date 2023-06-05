@@ -6,11 +6,12 @@ import com.core.doMain.*;
 import com.service.basic.doMain.dto.*;
 import com.service.basic.doMain.vo.*;
 
+import java.util.List;
+
 /**
  * 用户Service
  */
 public interface ISysUserService extends IService<SysUser> {
-
 
     /**
      * 列表

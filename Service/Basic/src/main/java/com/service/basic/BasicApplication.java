@@ -6,11 +6,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
-@EnableCircuitBreaker
 @SpringBootApplication
+@EnableAspectJAutoProxy
+@EnableTransactionManagement
 @EnableFeignClients(basePackages = {"com.basic.api"})
 public class BasicApplication {
 

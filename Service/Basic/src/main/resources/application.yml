@@ -10,11 +10,11 @@ spring:
     url: ${mysql.url}
     username: ${mysql.username}
     password: ${mysql.password}
-  cloud:
-    sentinel:
-      eager: true
-      transport:
-        dashboard: ${sentinel.dashboard.url}
+#  cloud:
+#    sentinel:
+#      eager: true
+#      transport:
+#        dashboard: ${sentinel.dashboard.url}
 
 mybatis-plus:
   mapper-locations: classpath*:/Mapper/*Mapper.xml

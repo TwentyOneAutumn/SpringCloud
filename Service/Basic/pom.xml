@@ -18,7 +18,6 @@
     <description>Basic</description>
 
     <dependencies>
-
         <dependency>
             <groupId>com.Basic-API</groupId>
             <artifactId>Basic-API</artifactId>
@@ -30,12 +29,6 @@
             <groupId>com.Security</groupId>
             <artifactId>Security</artifactId>
             <version>1.0</version>
-        </dependency>
-
-        <!-- Sentinel依赖 -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
     </dependencies>
 

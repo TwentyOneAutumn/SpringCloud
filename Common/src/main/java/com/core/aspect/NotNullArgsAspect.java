@@ -3,6 +3,7 @@ package com.core.aspect;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
@@ -13,13 +14,16 @@ import java.lang.reflect.Parameter;
 @Component
 public class NotNullArgsAspect {
 
+    @Pointcut("@within(com.core.Interface.NotNullArgs) || @annotation(com.core.Interface.NotNullArgs) || execution(* *(.., @com.core.Interface.NotNullArgs (*), ..))")
+    public void notNullArgs(){}
+
     /**
      * 通过切面匹配目标方法并进行拦截
      * 对参数进行非空校验
      * @param joinPoint 连接点对象
      * @exception IllegalArgumentException 如果方法参数为空则抛出异常
      */
-    @Before("@within(com.core.Interface.NotNullArgs) || @annotation(com.core.Interface.NotNullArgs) || args(@com.core.Interface.NotNullArgs *)")
+    @Before("notNullArgs()")
     public void checkArgsNotNull(JoinPoint joinPoint) throws IllegalArgumentException{
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         // 获取方法对象
@@ -33,7 +37,7 @@ public class NotNullArgsAspect {
         // 循环判断参数是否为空
         for (int i = 0; i < args.length; i++) {
             if (args[i] == null) {
-                throw new IllegalArgumentException("方法:" + methodName + "," + parameters[i].getName() + "参数不能为空");
+                throw new IllegalArgumentException("方法:[" + methodName + "]的[" + parameters[i].getName() + "]参数不能为空");
             }
         }
     }
