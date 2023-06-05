@@ -2,7 +2,10 @@ package com.core.utils;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.core.Interface.NotNullArgs;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -11,7 +14,6 @@ import java.util.stream.Stream;
 /**
  * 基于Stream流封装的工具类
  */
-@NotNullArgs
 public class StreamUtils<T>{
 
     /**
@@ -22,7 +24,7 @@ public class StreamUtils<T>{
      * @param <E> 集合元素泛型
      * @return 过滤后的集合
      */
-    public static <T extends Collection<E>,E> List<E> filterToList(T collection, Predicate<E> predicate){
+    public static <T extends Collection<E>,E> List<E> filterToList(T collection, @NotNull(message = "123123123") Predicate<E> predicate){
         return collection.stream().filter(predicate).collect(Collectors.toList());
     }
 
@@ -156,7 +158,6 @@ public class StreamUtils<T>{
      * @param <A> 转换后集合元素泛型
      * @return 转换后的集合
      */
-    @NotNullArgs
     public static <T extends Collection<E>,E,A> List<A> mapToList(T collection, Function<E, A> mapper){
         return collection.stream().map(mapper).collect(Collectors.toList());
     }
