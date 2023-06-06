@@ -4,17 +4,15 @@ import com.core.config.NotNullArgsValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
+@Documented
 @Constraint(validatedBy = NotNullArgsValidator.class)
 public @interface NotNullArgs {
 
-    String message() default "Invalid value";
+    String message() default "测试NotNullArgs注解";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

@@ -369,7 +369,7 @@
 2. 启动MySQL
 
    ```shell
-   docker run -itd --name mysql -p 3306:3306 --restart=always -e MYSQL_ROOT_PASSWORD=root mysql:8.0.32
+   docker run -itd --name mysql -p 3306:3306 --restart=always -e MYSQL_ROOT_PASSWORD=2762581@com mysql:8.0.32
    ```
 
 
@@ -392,6 +392,10 @@
    ```shell
    docker run -d --name sentinel -p 8858:8858 --restart=always bladex/sentinel-dashboard:latest
    ```
+
+
+
+---
 
 
 

@@ -5,16 +5,12 @@ import com.core.Interface.NotNullArgs;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class NotNullArgsValidator implements ConstraintValidator<NotNullArgs, String> {
+public class NotNullArgsValidator implements ConstraintValidator<NotNullArgs, Object> {
 
 
     @Override
-    public void initialize(NotNullArgs constraintAnnotation) {
-        ConstraintValidator.super.initialize(constraintAnnotation);
-    }
-
-    @Override
-    public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(Object obj, ConstraintValidatorContext constraintValidatorContext) {
+        // 校验逻辑
         return false;
     }
 }
