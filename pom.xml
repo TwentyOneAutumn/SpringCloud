@@ -32,6 +32,8 @@
         <module>Kafka</module>
         <module>Generator</module>
         <module>Config</module>
+        <module>RabbitMqPublisher</module>
+        <module>DataBaseConfig</module>
     </modules>
 
     <properties>

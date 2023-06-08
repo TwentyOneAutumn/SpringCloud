@@ -23,6 +23,19 @@
         <module>Basic</module>
     </modules>
     <dependencies>
+        <!-- Web依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- 数据库依赖 -->
+        <dependency>
+            <groupId>com.database</groupId>
+            <artifactId>DataBaseConfig</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!-- Common模块 -->
         <dependency>
             <groupId>com.Common</groupId>
