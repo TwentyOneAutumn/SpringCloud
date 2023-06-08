@@ -1,0 +1,18 @@
+server:
+  port: 8803
+  servlet:
+    context-path: /rabbitMq/publisher
+spring:
+  application:
+    name: RabbitMqPublisher # 服务名称
+  rabbitmq:
+    host: ${ip} # IP
+    port: 5672 # 端口
+    virtual-host: / # 虚拟主机
+    username: root
+    password: 2762581@com
+
+logging:
+  level:
+    cn.itcast: info
+    org.springframework: info

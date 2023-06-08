@@ -6,7 +6,7 @@
 
 
 
-### Docker安装Nacos
+### Nacos
 
 1. 拉取Nacos镜像
 
@@ -48,7 +48,7 @@
 
 
 
-### Docker安装Seata
+### Seata
 
 1. 拉取Seata镜像 
 
@@ -170,7 +170,7 @@
 
 
 
-### Docker安装Kafka
+### Kafka
 
 1. Kafka依赖Zookeeper，需要先安装Zookeeper
 
@@ -192,7 +192,7 @@
 
 
 
-### Docker安装ES
+### ElasticSearch
 
 1. 拉取ES镜像
 
@@ -318,7 +318,7 @@
 
 
 
-### Docker部署Kibana
+### Kibana
 
 1. 拉取Kibana镜像
 
@@ -379,7 +379,7 @@
 
 
 
-### Docker部署Sentinel
+### Sentinel
 
 1. 拉取Sentinel镜像
 
@@ -394,6 +394,38 @@
    ```
 
 
+
+---
+
+
+
+### RabbitMQ
+
+1. 拉取RabbitMQ镜像
+
+   ```shell
+   docker pull rabbitmq:latest
+   ```
+
+2. 启动RabbitMQ
+
+   ```shell
+   docker run -e RABBITMQ_DEFAULT_USER=root -e RABBITMQ_DEFAULT_PASS=2762581@com -e RABBITMQ_MANAGEMENT=true --name rabbitmq --hostname rabbitmq  -p 15672:15672 -p 5672:5672 -d rabbitmq:latest
+   ```
+
+3. 安装依赖
+
+   ```sh
+   docker exec -it rabbitmq /bin/bash # 进入RabbitMQ容器
+   
+   rabbitmq-plugins enable rabbitmq_management # 下载enable语言依赖
+   
+   exit # 退出容器
+   
+   docker restart rabbitmq # 重启RabbitMQ容器
+   ```
+
+   
 
 ---
 

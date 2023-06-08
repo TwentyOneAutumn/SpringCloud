@@ -24,18 +24,6 @@
 
     <dependencies>
 
-        <!-- Web依赖 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!--  MySQL数据库依赖  -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
         <!-- Lombok依赖 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -78,22 +66,10 @@
             <artifactId>commons-codec</artifactId>
         </dependency>
 
-        <!-- SpringBootRedis依赖 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
         <!-- Feign依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-
-        <!-- SpringBoot集成MyBatisPlus -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
 
         <!-- Excel依赖 -->
@@ -101,12 +77,6 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>5.2.2</version>
-        </dependency>
-
-        <!-- PageHelper分页插件 -->
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
         </dependency>
 
         <!-- 校验 -->
