@@ -1,36 +1,5 @@
 # RabbitMQ
 
-##### 运行RabbitMQ
-
-```sh
-docker run \
- -e RABBITMQ_DEFAULT_USER=root \
- -e RABBITMQ_DEFAULT_PASS=root \
- --name rabbitmq \
- --hostname rabbitmq \
- -p 15672:15672 \
- -p 5672:5672 \
- -d \
- rabbitmq:latest
- 
- docker run -e RABBITMQ_DEFAULT_USER=root -e RABBITMQ_DEFAULT_PASS=root --name rabbitmq --hostname rabbitmq  -p 15672:15672 -p 5672:5672 -d rabbitmq:latest
-```
-
-
-
-如果失败则需要进行以下操作
-
-```sh
-docker ps # 查看RabbitMQ容器ID
- 
-docker exec -it RabbitMQ容器ID /bin/bash # 进入RabbitMQ容器
-
-rabbitmq-plugins enable rabbitmq_management # 下载enable语言依赖
-
-exit # t容器
-
-```
-
 
 
 ##### SpringAMQP介绍
