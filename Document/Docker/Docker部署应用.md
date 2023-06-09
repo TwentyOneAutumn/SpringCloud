@@ -420,11 +420,15 @@
    
    rabbitmq-plugins enable rabbitmq_management # 下载enable语言依赖
    
+   cd /etc/rabbitmq/conf.d
+   
+   echo management_agent.disable_metrics_collector = false > management_agent.disable_metrics_collector.conf
+   
    exit # 退出容器
    
    docker restart rabbitmq # 重启RabbitMQ容器
    ```
-
+   
    
 
 ---

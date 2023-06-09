@@ -2,19 +2,9 @@
 
 
 
-##### SpringAMQP介绍
+### RabbitMQ依赖配置
 
-AMQP:Advanced Message Queuing Protocol，是用于在应用程序或之间传递业务消息的开放标准，该协议与语言平台无关，更符合微服务中独立性的要求
-
-SpringAMQP是基于AMQP协议定义的一套API规范，提供了模板来发送和接受消息，包含两部分，其中spring-amqp是基础抽象，spring-rabbit是底层默认实现
-
-
-
-##### RabbitMQ应用部署
-
-1. 在Docker容器部署RabbitMQ
-
-2. 导入SpringAMQP依赖，其中包含RabbitMQ依赖
+1. 导入SpringAMQP依赖，其中包含RabbitMQ依赖
 
    ```xml
    <!-- SpringAMQP依赖 -->
@@ -24,7 +14,7 @@ SpringAMQP是基于AMQP协议定义的一套API规范，提供了模板来发送
    </dependency>
    ```
 
-3. 在Publisher中配置RabbitMQ
+2. 在Publisher中配置RabbitMQ
 
    ```yaml
    spring:
@@ -36,7 +26,7 @@ SpringAMQP是基于AMQP协议定义的一套API规范，提供了模板来发送
        password: root
    ```
 
-4. 注入RabbitTemplate对象，并调用其方法发送消息到指定Queue
+3. 注入RabbitTemplate对象，并调用其方法发送消息到指定Queue
 
    ```java
    @RestController
@@ -71,7 +61,7 @@ SpringAMQP是基于AMQP协议定义的一套API规范，提供了模板来发送
    }
    ```
 
-5. 在Publisher中引入依赖并配置RabbitMQ
+4. 在Publisher中引入依赖并配置RabbitMQ
 
    ```yaml
    spring:
@@ -86,7 +76,7 @@ SpringAMQP是基于AMQP协议定义的一套API规范，提供了模板来发送
            prefetch: 1 # 每次从消息队列拿到消息的数量
    ```
 
-6. Consumer绑定并监听指定队列，有消息发送到队列中时，会自动获取消息并进行处理
+5. Consumer绑定并监听指定队列，有消息发送到队列中时，会自动获取消息并进行处理
 
    ```java
    /**

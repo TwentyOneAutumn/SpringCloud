@@ -13,10 +13,36 @@
     <!-- 定义当前项目版本坐标 -->
     <groupId>com.demo.RabbitMq</groupId>
     <artifactId>RabbitMq</artifactId>
+    <packaging>pom</packaging>
     <version>1.0</version>
     <name>RabbitMq</name>
 
+    <modules>
+        <module>Publisher</module>
+        <module>Consumer</module>
+    </modules>
+
     <dependencies>
+        <!-- Common模块 -->
+        <dependency>
+            <groupId>com.Common</groupId>
+            <artifactId>Common</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.database</groupId>
+                    <artifactId>DataBaseConfig</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 配置模块-->
+        <dependency>
+            <groupId>com.config</groupId>
+            <artifactId>Config</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!-- SpringAMQP依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

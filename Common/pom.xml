@@ -24,6 +24,19 @@
 
     <dependencies>
 
+        <!-- Web依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- DataBase依赖 -->
+        <dependency>
+            <groupId>com.database</groupId>
+            <artifactId>DataBaseConfig</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!-- Lombok依赖 -->
         <dependency>
             <groupId>org.projectlombok</groupId>

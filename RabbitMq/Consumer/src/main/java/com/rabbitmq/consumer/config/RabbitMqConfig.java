@@ -1,4 +1,4 @@
-package com.rabbitmq.config;
+package com.rabbitmq.consumer.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
