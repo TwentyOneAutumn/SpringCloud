@@ -1,7 +1,9 @@
 package com.rabbitmq.publisher.controller;
 
 import com.core.doMain.AjaxResult;
-import com.rabbitmq.publisher.doMain.Weather;
+import com.rabbitmq.doMain.Weather;
+import com.rabbitmq.enums.ExchangeEnum;
+import com.rabbitmq.enums.RoutingKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ public class WeatherController {
 
     @GetMapping("/send")
     public AjaxResult sendWeather(Weather weather){
-        rabbitTemplate.convertAndSend("weatherExchange","weather",weather);
+        rabbitTemplate.convertAndSend(ExchangeEnum.WEATHER_TOPIC_EXCHANGE, RoutingKey.WEATHER_KEY,weather);
         return AjaxResult.success();
     }
 }

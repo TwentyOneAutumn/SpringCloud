@@ -1,4 +1,4 @@
-package com.rabbitmq.publisher.doMain;
+package com.rabbitmq.doMain;
 
 import lombok.Data;
 
