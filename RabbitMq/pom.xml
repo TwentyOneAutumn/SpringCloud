@@ -29,12 +29,6 @@
             <groupId>com.Common</groupId>
             <artifactId>Common</artifactId>
             <version>1.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.database</groupId>
-                    <artifactId>DataBaseConfig</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- 配置模块-->

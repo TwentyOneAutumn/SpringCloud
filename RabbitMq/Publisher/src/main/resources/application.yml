@@ -11,6 +11,8 @@ spring:
     virtual-host: / # 虚拟主机
     username: root
     password: 2762581@com
+    publisher-returns: true
+    publisher-confirm-type: correlated
 
 logging:
   level:

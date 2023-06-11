@@ -16,6 +16,6 @@ public class ${className}DeleteDto implements Serializable {
     /**
      * $column.comments
      */
-    @NotBlank(message = "${pk.attrname}参数不能为空")
+    @NotBlank(messageInfo = "${pk.attrname}参数不能为空")
     private String ${pk.attrname};
 }

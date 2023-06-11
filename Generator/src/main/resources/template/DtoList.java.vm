@@ -19,7 +19,7 @@ public class ${className}ListDto implements Serializable {
     /**
      * $column.comments
      */
-    @NotNull(message = "$column.attrname参数不能为空")
+    @NotNull(messageInfo = "$column.attrname参数不能为空")
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date $column.attrname;
 #else
@@ -27,13 +27,13 @@ public class ${className}ListDto implements Serializable {
     /**
      * $column.comments
      */
-    @NotBlank(message = "$column.attrname参数不能为空")
+    @NotBlank(messageInfo = "$column.attrname参数不能为空")
     private $column.attrType $column.attrname;
 #elseif($column.attrType == 'Boolean')
     /**
      * $column.comments
      */
-    @NotNull(message = "$column.attrname参数不能为空")
+    @NotNull(messageInfo = "$column.attrname参数不能为空")
     private $column.attrType $column.attrname;
 #end
 #end

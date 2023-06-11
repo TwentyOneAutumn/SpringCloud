@@ -453,7 +453,7 @@ Spring消息对象的处理是由MessageConverter来处理的，默认的实现�
        rabbitTemplate.setReturnsCallback(
            returned -> {
                // 消息对象
-               Message message = returned.getMessage();
+               Message messageInfo = returned.getMessage();
                // 交换机
                String exchange = returned.getExchange();
                // 路由Key
@@ -492,12 +492,12 @@ Spring消息对象的处理是由MessageConverter来处理的，默认的实现�
 
    ```java
    @RabbitListener(queues = {orderConstants.DELETEONE_QUEUE})
-   public void DirectExchangeListener1(Order order, Message message, Channel channel) throws IOException {
+   public void DirectExchangeListener1(Order order, Message messageInfo, Channel channel) throws IOException {
        try {
            // 执行业务逻辑
            orderClient.deleteOne(order);
            // 签收消息
-           channel.basicAck(message.getMessageProperties().getDeliveryTag(),true);
+           channel.basicAck(messageInfo.getMessageProperties().getDeliveryTag(),true);
        }
        catch (Exception e){
            /*
@@ -505,7 +505,7 @@ Spring消息对象的处理是由MessageConverter来处理的，默认的实现�
                 * boolean multiple: false表示仅拒绝当前消息，true表示拒绝当前消息之前所有未被当前消费者确认的消息
                 * boolean requeue:被拒收的消息是否重新发送
                 */
-           channel.basicNack(message.getMessageProperties().getDeliveryTag(),true,true);
+           channel.basicNack(messageInfo.getMessageProperties().getDeliveryTag(),true,true);
        }
    }	
    ```
@@ -599,7 +599,7 @@ public class RabbitMqConfig {
     public Queue orderDeleteOneQueue(){
         HashMap<String, Object> args = new HashMap<>();
         // 声明队列消息过期时间
-        args.put("x-message-ttl",(java.lang.Long)(10000L));
+        args.put("x-messageInfo-ttl",(java.lang.Long)(10000L));
         // 设置当前队列绑定的死信交换机
         args.put("x-dead-letter-exchange", orderConstants.DLQ_DIRECTEXCHANGE);
         // 设置当前队列绑定的死信交换机所对应的RoutingKey
