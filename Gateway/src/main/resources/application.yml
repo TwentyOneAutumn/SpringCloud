@@ -2,14 +2,14 @@ server:
   port: 8088
 spring:
   application:
-    name: Gateway # 服务名称
+    name: gateway # 服务名称
   cloud:
     gateway:
       httpclient:
         connect-timeout: 1000
         response-timeout: 5s
       routes:
-        - id: basic-service
+        - id: basic
           uri: lb://basic
           predicates:
             - Path=/basic/**
@@ -20,4 +20,4 @@ spring:
 
 logging:
   level:
-    org.springframework.cloud.gateway: debug
+    org.springframework.cloud.gateway: info
