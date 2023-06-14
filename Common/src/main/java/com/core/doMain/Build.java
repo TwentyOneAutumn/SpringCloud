@@ -83,4 +83,14 @@ public class Build {
     public static AjaxResult buildAjax(int code,String msg){
         return AjaxResult.error(code,msg);
     }
+
+    /**
+     * 构建Stream代理对象
+     * @param collection 集合，不能为空
+     * @param <T> 泛型
+     * @return Stream代理对象
+     */
+    public static <T> StreamProxy<T> stream(Collection<T> collection){
+        return new StreamProxy<>(collection);
+    }
 }
