@@ -5,6 +5,7 @@ import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.cloud.nacos.NacosServiceManager;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
+import com.alibaba.nacos.api.naming.listener.NamingEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -25,7 +26,7 @@ public class GatewayNacosServerStatusListener {
 
     @Autowired
     private GatewayProperties gatewayProperties;
-    //
+
     @Autowired
     private NacosDiscoveryProperties nacosDiscoveryProperties;
 
@@ -39,12 +40,13 @@ public class GatewayNacosServerStatusListener {
         routes.forEach(route -> {
             String serviceId = route.getId();
             try {
-                namingService.subscribe(serviceId, (event -> {
-                    Flux<ServiceInstance> instances = client.getInstances(serviceId);
-                    if (BeanUtil.isNotEmpty(instances)) {
-                        log.info("刷新[" + serviceId + "]服务实例成功");
-                    }
-                }));
+                namingService.subscribe(serviceId, event -> {
+//                    Flux<ServiceInstance> instances = client.getInstances(serviceId);
+//                    if (BeanUtil.isNotEmpty(instances)) {
+//                        log.info("刷新[" + serviceId + "]服务实例成功");
+//                    }
+                    System.out.println(serviceId);
+                });
             } catch (NacosException e) {
                 e.printStackTrace();
             }

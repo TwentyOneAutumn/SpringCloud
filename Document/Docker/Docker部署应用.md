@@ -59,7 +59,7 @@
 2. 创建目录
 
    ```shell
-   mkdir -p /home/seata/config/resources
+   mkdir -p /home/seata/config
    ```
 
 3. 在目录下创建文件application.yml并编辑
@@ -75,32 +75,32 @@
        username: seata
        password: seata
    seata:
-     config:
+     config: # 配置中心
        type: nacos
        nacos:
-         server-addr: 192.168.111.111:8848
-         group: SEATA_GROUP
-         namespace: 25da6d30-663a-49ca-abde-4f1a805a305b
+         server-addr: 124.221.27.253:8848
+         group: SEATA_GROUP # 分组
+         namespace: 38efd505-cc1a-4ffa-b1fb-d8aa0982e8b2 # 命名空间
          username: nacos
          password: nacos
          data-id: seataServer.properties  
-     registry:
+     registry: # 注册中心
        type: nacos
        nacos:
-         server-addr: 192.168.111.111:8848
-         group: SEATA_GROUP
-         namespace: 25da6d30-663a-49ca-abde-4f1a805a305b
+         server-addr: 124.221.27.253:8848
+         group: SEATA_GROUP # 分组
+         namespace: 38efd505-cc1a-4ffa-b1fb-d8aa0982e8b2 # 命名空间
          username: nacos
          password: nacos
-     store:
-       mode: db
+     store: # 存储方式
+       mode: db # 数据库存储
        db:
          datasource: druid
          dbType: mysql
          driverClassName: com.mysql.cj.jdbc.Driver
-         url: jdbc:mysql://192.168.111.111:3306/seata?useUnicode=true&characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
+         url: jdbc:mysql://124.221.27.253:3306/seata?useUnicode=true&characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
          user: root
-         password: Root@2022
+         password: 2762581@com
          minConn: 5
          maxConn: 100
          globalTable: global_table
@@ -109,9 +109,6 @@
          queryLimit: 100
          maxWait: 5000
      security:
-       secretKey: root
-       tokenValidityInMilliseconds: 604800
-   security:
        secretKey: SeataSecretKey0c382ef121d778043159209298fd40bf3850a017
        tokenValidityInMilliseconds: 1800000
        ignore:
@@ -141,9 +138,9 @@
 5. 启动容器
 
    ```shell
-   docker run --restart=always -d -p 8091:8091 -p 7091:7091 --name seata -e SEATA_IP=192.168.111.111 -v /home/seata/config/resources:/seata-server/resources  seataio/seata-server:1.6.0-SNAPSHOT
+   docker run --restart=always -p 8091:8091 -p 7091:7091 --name seata -v /home/seata/config:/seata-server/resources  seataio/seata-server:latest
    ```
-   
+
    
 
 ---
