@@ -1,4 +1,4 @@
-package com.kafka.doMain;
+package com.kafka.publisher.doMain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

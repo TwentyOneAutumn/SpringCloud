@@ -18,8 +18,8 @@
     <name>RabbitMq</name>
 
     <modules>
-        <module>Publisher</module>
-        <module>Consumer</module>
+        <module>RabbitMqPublisher</module>
+        <module>RabbitMqConsumer</module>
         <module>RabbitMqConfig</module>
     </modules>
 

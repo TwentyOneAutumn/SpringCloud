@@ -1,4 +1,4 @@
-package com.kafka.config;
+package com.kafka.consumer.config;
 
 import com.kafka.doMain.KafkaTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;

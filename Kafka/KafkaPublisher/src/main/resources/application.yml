@@ -1,0 +1,12 @@
+server:
+  port: 8805
+  servlet:
+    context-path: /rabbitMq/publisher
+spring:
+  application:
+    name: KafkaPublisher # 服务名称
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: 124.221.27.253:9092

@@ -1,4 +1,4 @@
-package com.kafka.doMain;
+package com.kafka.consumer.doMain;
 
 
 import java.util.Arrays;

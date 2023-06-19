@@ -1,0 +1,12 @@
+server:
+  port: 8806
+  servlet:
+    context-path: /kafka/consumer
+spring:
+  application:
+    name: KafkaConsumer # 服务名称
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: 124.221.27.253:9092

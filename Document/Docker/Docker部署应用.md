@@ -180,7 +180,7 @@
 3. 启动容器
 
    ```shell
-   docker run -d  --restart=always --log-driver json-file --log-opt max-size=100m --log-opt max-file=2 --name kafka -p 9092:9092 -e KAFKA_BROKER_ID=0 -e KAFKA_ZOOKEEPER_CONNECT=192.168.111.111:2181/kafka -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://192.168.111.111:9092 -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 -v /etc/localtime:/etc/localtime wurstmeister/kafka
+   docker run -d  --restart=always --log-driver json-file --log-opt max-size=100m --log-opt max-file=2 --name kafka -p 9092:9092 -e KAFKA_BROKER_ID=0 -e KAFKA_ZOOKEEPER_CONNECT=124.221.27.253:2181/kafka -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://124.221.27.253:9092 -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 -v /etc/localtime:/etc/localtime wurstmeister/kafka
    ```
    
    
