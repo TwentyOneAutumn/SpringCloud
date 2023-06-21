@@ -53,23 +53,46 @@
 1. 拉取Seata镜像 
 
    ```shell
-   docker pull seataio/seata-server:1.6.0-SNAPSHOT
+   docker pull seataio/seata-server:latest
    ```
 
-2. 创建目录
+2. 启动容器
 
    ```shell
-   mkdir -p /home/seata/config
+   docker run --rm --name seata-server -p 8091:8091 -p 7091:7091 seataio/seata-server:latest
    ```
 
-3. 在目录下创建文件application.yml并编辑
+3. Copy resources 目录
+
+   ```shell
+   docker cp seata:/seata-server/resources /home/seata/config
+   ```
+
+4. 切换到目录下编辑文件application.yml
+
+   ```shell
+   cd /home/seata/config
+   vim application.yml
+   ```
+
+   复制并粘贴以下内容
 
    ```yaml
-   server: 
+   server:
      port: 7091
    spring:
      application:
-       name: seata    
+       name: seata
+   logging:
+     config: classpath:logback-spring.xml
+     file:
+       path: ${user.home}/logs/seata
+     extend:
+       logstash-appender:
+         destination: 127.0.0.1:4560
+       kafka-appender:
+         bootstrap-servers: 124.221.27.253:9092
+         topic: seataLog
    console:
      user:
        username: seata
@@ -83,7 +106,7 @@
          namespace: 38efd505-cc1a-4ffa-b1fb-d8aa0982e8b2 # 命名空间
          username: nacos
          password: nacos
-         data-id: seataServer.properties  
+         data-id: SeataServer.properties
      registry: # 注册中心
        type: nacos
        nacos:
@@ -115,30 +138,218 @@
          urls: /,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.ico,/console-fe/public/**,/api/v1/auth/login
    ```
 
-4. 创建seata依赖表
+5. 创建对应Mysql数据库，并在数据库下创建seata依赖表
 
    ```sql
-   -- 创建seata数据库
-   -- 创建seata依赖表
-   CREATE TABLE IF NOT EXISTS `undo_log`
+   -- -------------------------------- The script used when storeMode is 'db' --------------------------------
+   -- the table to store GlobalSession data
+   CREATE TABLE IF NOT EXISTS `global_table`
    (
-       `branch_id`     BIGINT       NOT NULL COMMENT 'branch transaction id',
-       `xid`           VARCHAR(128) NOT NULL COMMENT 'global transaction id',
-       `context`       VARCHAR(128) NOT NULL COMMENT 'undo_log context,such as serialization',
-       `rollback_info` LONGBLOB     NOT NULL COMMENT 'rollback info',
-       `log_status`    INT(11)      NOT NULL COMMENT '0:normal status,1:defense status',
-       `log_created`   DATETIME(6)  NOT NULL COMMENT 'create datetime',
-       `log_modified`  DATETIME(6)  NOT NULL COMMENT 'modify datetime',
-       UNIQUE KEY `ux_undo_log` (`xid`, `branch_id`)
+       `xid`                       VARCHAR(128) NOT NULL,
+       `transaction_id`            BIGINT,
+       `status`                    TINYINT      NOT NULL,
+       `application_id`            VARCHAR(32),
+       `transaction_service_group` VARCHAR(32),
+       `transaction_name`          VARCHAR(128),
+       `timeout`                   INT,
+       `begin_time`                BIGINT,
+       `application_data`          VARCHAR(2000),
+       `gmt_create`                DATETIME,
+       `gmt_modified`              DATETIME,
+       PRIMARY KEY (`xid`),
+       KEY `idx_status_gmt_modified` (`status` , `gmt_modified`),
+       KEY `idx_transaction_id` (`transaction_id`)
    ) ENGINE = InnoDB
-     AUTO_INCREMENT = 1
-     DEFAULT CHARSET = utf8mb4 COMMENT ='AT transaction mode undo table';
+     DEFAULT CHARSET = utf8mb4;
+   
+   -- the table to store BranchSession data
+   CREATE TABLE IF NOT EXISTS `branch_table`
+   (
+       `branch_id`         BIGINT       NOT NULL,
+       `xid`               VARCHAR(128) NOT NULL,
+       `transaction_id`    BIGINT,
+       `resource_group_id` VARCHAR(32),
+       `resource_id`       VARCHAR(256),
+       `branch_type`       VARCHAR(8),
+       `status`            TINYINT,
+       `client_id`         VARCHAR(64),
+       `application_data`  VARCHAR(2000),
+       `gmt_create`        DATETIME(6),
+       `gmt_modified`      DATETIME(6),
+       PRIMARY KEY (`branch_id`),
+       KEY `idx_xid` (`xid`)
+   ) ENGINE = InnoDB
+     DEFAULT CHARSET = utf8mb4;
+   
+   -- the table to store lock data
+   CREATE TABLE IF NOT EXISTS `lock_table`
+   (
+       `row_key`        VARCHAR(128) NOT NULL,
+       `xid`            VARCHAR(128),
+       `transaction_id` BIGINT,
+       `branch_id`      BIGINT       NOT NULL,
+       `resource_id`    VARCHAR(256),
+       `table_name`     VARCHAR(32),
+       `pk`             VARCHAR(36),
+       `status`         TINYINT      NOT NULL DEFAULT '0' COMMENT '0:locked ,1:rollbacking',
+       `gmt_create`     DATETIME,
+       `gmt_modified`   DATETIME,
+       PRIMARY KEY (`row_key`),
+       KEY `idx_status` (`status`),
+       KEY `idx_branch_id` (`branch_id`),
+       KEY `idx_xid` (`xid`)
+   ) ENGINE = InnoDB
+     DEFAULT CHARSET = utf8mb4;
+   
+   CREATE TABLE IF NOT EXISTS `distributed_lock`
+   (
+       `lock_key`       CHAR(20) NOT NULL,
+       `lock_value`     VARCHAR(20) NOT NULL,
+       `expire`         BIGINT,
+       primary key (`lock_key`)
+   ) ENGINE = InnoDB
+     DEFAULT CHARSET = utf8mb4;
+   
+   INSERT INTO `distributed_lock` (lock_key, lock_value, expire) VALUES ('AsyncCommitting', ' ', 0);
+   INSERT INTO `distributed_lock` (lock_key, lock_value, expire) VALUES ('RetryCommitting', ' ', 0);
+   INSERT INTO `distributed_lock` (lock_key, lock_value, expire) VALUES ('RetryRollbacking', ' ', 0);
+   INSERT INTO `distributed_lock` (lock_key, lock_value, expire) VALUES ('TxTimeoutCheck', ' ', 0);
    ```
 
-5. 启动容器
+6. 在Nacos创建Seata配置
+
+   1. 创建命名空间：seata
+
+   2. 创建配置
+
+      DataID:SeataServer.properties 
+
+      Group:SEATA_GROUP
+
+   3. 复制粘贴以下内容
+
+      ```properties
+      #For details about configuration items, see https://seata.io/zh-cn/docs/user/configurations.html
+      #Transport configuration, for client and server
+      transport.type=TCP
+      transport.server=NIO
+      transport.heartbeat=true
+      transport.enableTmClientBatchSendRequest=false
+      transport.enableRmClientBatchSendRequest=true
+      transport.enableTcServerBatchSendResponse=false
+      transport.rpcRmRequestTimeout=30000
+      transport.rpcTmRequestTimeout=30000
+      transport.rpcTcRequestTimeout=30000
+      transport.threadFactory.bossThreadPrefix=NettyBoss
+      transport.threadFactory.workerThreadPrefix=NettyServerNIOWorker
+      transport.threadFactory.serverExecutorThreadPrefix=NettyServerBizHandler
+      transport.threadFactory.shareBossWorker=false
+      transport.threadFactory.clientSelectorThreadPrefix=NettyClientSelector
+      transport.threadFactory.clientSelectorThreadSize=1
+      transport.threadFactory.clientWorkerThreadPrefix=NettyClientWorkerThread
+      transport.threadFactory.bossThreadSize=1
+      transport.threadFactory.workerThreadSize=default
+      transport.shutdown.wait=3
+      transport.serialization=seata
+      transport.compressor=none
+      
+      #Transaction routing rules configuration, only for the client
+      # 此处的mygroup名字可以自定义，只修改这个值即可
+      service.vgroupMapping.mygroup=default
+      #If you use a registry, you can ignore it
+      service.default.grouplist=127.0.0.1:8091
+      service.enableDegrade=false
+      service.disableGlobalTransaction=false
+      
+      #Transaction rule configuration, only for the client
+      client.rm.asyncCommitBufferLimit=10000
+      client.rm.lock.retryInterval=10
+      client.rm.lock.retryTimes=30
+      client.rm.lock.retryPolicyBranchRollbackOnConflict=true
+      client.rm.reportRetryCount=5
+      client.rm.tableMetaCheckEnable=true
+      client.rm.tableMetaCheckerInterval=60000
+      client.rm.sqlParserType=druid
+      client.rm.reportSuccessEnable=false
+      client.rm.sagaBranchRegisterEnable=false
+      client.rm.sagaJsonParser=fastjson
+      client.rm.tccActionInterceptorOrder=-2147482648
+      client.tm.commitRetryCount=5
+      client.tm.rollbackRetryCount=5
+      client.tm.defaultGlobalTransactionTimeout=60000
+      client.tm.degradeCheck=false
+      client.tm.degradeCheckAllowTimes=10
+      client.tm.degradeCheckPeriod=2000
+      client.tm.interceptorOrder=-2147482648
+      client.undo.dataValidation=true
+      client.undo.logSerialization=jackson
+      client.undo.onlyCareUpdateColumns=true
+      server.undo.logSaveDays=7
+      server.undo.logDeletePeriod=86400000
+      client.undo.logTable=undo_log
+      client.undo.compress.enable=true
+      client.undo.compress.type=zip
+      client.undo.compress.threshold=64k
+      #For TCC transaction mode
+      tcc.fence.logTableName=tcc_fence_log
+      tcc.fence.cleanPeriod=1h
+      
+      #Log rule configuration, for client and server
+      log.exceptionRate=100
+      
+      #Transaction storage configuration, only for the server. The file, db, and redis configuration values are optional.
+      # 默认为file，一定要改为db，我们自己的服务启动会连接不到seata
+      store.mode=db
+      store.lock.mode=db
+      store.session.mode=db
+      #Used for password encryption
+      
+      #These configurations are required if the `store mode` is `db`. If `store.mode,store.lock.mode,store.session.mode` are not equal to `db`, you can remove the configuration block.
+      # 修改mysql的配置
+      store.db.datasource=druid
+      store.db.dbType=mysql
+      store.db.driverClassName=com.mysql.cj.jdbc.Driver
+      # 指定seata的数据库，下面会提
+      store.db.url=jdbc:mysql://124.221.27.253:3306/seata?useUnicode=true&characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
+      store.db.user=root
+      store.db.password=2762581@com
+      store.db.minConn=5
+      store.db.maxConn=30
+      store.db.globalTable=global_table
+      store.db.branchTable=branch_table
+      store.db.distributedLockTable=distributed_lock
+      store.db.queryLimit=100
+      store.db.lockTable=lock_table
+      store.db.maxWait=5000
+      
+      
+      #Transaction rule configuration, only for the server
+      server.recovery.committingRetryPeriod=1000
+      server.recovery.asynCommittingRetryPeriod=1000
+      server.recovery.rollbackingRetryPeriod=1000
+      server.recovery.timeoutRetryPeriod=1000
+      server.maxCommitRetryTimeout=-1
+      server.maxRollbackRetryTimeout=-1
+      server.rollbackRetryTimeoutUnlockEnable=false
+      server.distributedLockExpireTime=10000
+      server.xaerNotaRetryTimeout=60000
+      server.session.branchAsyncQueueSize=5000
+      server.session.enableBranchAsyncRemove=false
+      server.enableParallelRequestHandle=false
+      
+      #Metrics configuration, only for the server
+      metrics.enabled=false
+      metrics.registryType=compact
+      metrics.exporterList=prometheus
+      metrics.exporterPrometheusPort=9898
+      ```
+
+7. 重新启动容器
 
    ```shell
-   docker run --restart=always -p 8091:8091 -p 7091:7091 --name seata -v /home/seata/config:/seata-server/resources  seataio/seata-server:latest
+   docker stop seata
+   
+   docker run --restart=always -p 8091:8091 -p 7091:7091 --name seata -v /home/seata/config:/seata-server/resources seataio/seata-server:latest
    ```
 
    
@@ -447,5 +658,4 @@
    
 
 ---
-
 
