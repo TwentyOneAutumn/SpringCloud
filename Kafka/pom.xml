@@ -23,6 +23,7 @@
     <modules>
         <module>KafkaPublisher</module>
         <module>KafkaConsumer</module>
+        <module>KafkaConfig</module>
     </modules>
 
 
@@ -51,6 +52,12 @@
         <dependency>
             <groupId>com.config</groupId>
             <artifactId>Config</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.kafka.config</groupId>
+            <artifactId>KafkaConfig</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

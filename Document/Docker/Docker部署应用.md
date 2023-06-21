@@ -147,42 +147,60 @@
 
 
 
-### Docker安装Zookeeper
+### Kafka
 
-1. 拉取Zookeeper镜像 
+1. 拉取Kafka镜像 
 
    ```shell
-   docker pull wurstmeister/zookeeper:latest
+   docker pull bitnami/kafka:latest
    ```
 
 2. 启动容器
 
    ```shell
-   docker run -d --restart=always --log-driver json-file --log-opt max-size=100m --log-opt max-file=2  --name zookeeper -p 2181:2181 -v /etc/localtime:/etc/localtime wurstmeister/zookeeper
+   docker run  -d -p 9092:9092 \
+   -e ALLOW_PLAINTEXT_LISTENER=yes \
+   -e KAFKA_TLS_CLIENT_AUTH=none \
+   -e KAFKA_CFG_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://localhost:9093 \
+   -e KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://124.221.27.253:9092 \
+   --name kafka  \
+   --restart=always  \
+   bitnami/kafka:latest
    ```
-   
-   
+
+
+
 
 ---
 
 
 
-### Kafka
+### Kafdrop
 
-1. Kafka依赖Zookeeper，需要先安装Zookeeper
-
-2. 拉取Kafka镜像 
+1. 拉取Kafka可视化工具
 
    ```shell
-   docker pull wurstmeister/kafka:latest
+   docker pull obsidiandynamics/kafdrop:latest
    ```
 
-3. 启动容器
+2. 启动容器
 
    ```shell
-   docker run -d  --restart=always --log-driver json-file --log-opt max-size=100m --log-opt max-file=2 --name kafka -p 9092:9092 -e KAFKA_BROKER_ID=0 -e KAFKA_ZOOKEEPER_CONNECT=124.221.27.253:2181/kafka -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://124.221.27.253:9092 -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 -v /etc/localtime:/etc/localtime wurstmeister/kafka
+   docker run -d -p 9000:9000 \
+   -e KAFKA_BROKERCONNECT=124.221.27.253:9092 \
+   -e JVM_OPTS="-Xms128M -Xmx128M" \
+   -e SERVER_SERVLET_CONTEXTPATH="/" \
+   --name kafkaView  \
+   --restart=always  \
+   obsidiandynamics/kafdrop:latest
    ```
    
+3. 访问Web界面
+
+   ```shell
+   http://124.221.27.253:9000/
+   ```
+
    
 
 ---
@@ -429,6 +447,5 @@
    
 
 ---
-
 
 

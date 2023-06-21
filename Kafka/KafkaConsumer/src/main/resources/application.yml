@@ -3,10 +3,14 @@ server:
   servlet:
     context-path: /kafka/consumer
 spring:
+  kafka:
+    bootstrap-servers: 124.221.27.253:9092
   application:
     name: KafkaConsumer # 服务名称
   cloud:
     stream:
       kafka:
         binder:
-          brokers: 124.221.27.253:9092
+          auto-create-topics: true   # 自动创建topics
+          brokers: 124.221.27.253:9092 # kafka地址
+          health-timeout: 15 # 等待获取分区信息的时间，以秒为单位。如果这个计时器过期，健康报告就会关闭
