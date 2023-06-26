@@ -22,7 +22,7 @@
 
 ### **IOC实现流程（SpringBean的生命周期）**
 
-![Bean的生命周期图](.\img\Bean的生命周期图.png)
+![Bean的生命周期图](..\img\Bean的生命周期图.png)
 
 1. **初始化BeanFactory**(Bean工厂)用来实例化Bean，底层进行了判断，如果Bean工厂存在，则销毁该工厂，并重新初始化，初始化出来的Bean工厂为空，并没有设置任何信息
 2. **读取配置信息**：通过BeanDefintionReader读取例如XML配置文件，注解配置等，将Bean定义信息转化为BeanDefinition对象，然后将BeanDefinition对象加载进Bean工厂，有了Bean的定义信息后，对Bean工厂进行一系列设置
