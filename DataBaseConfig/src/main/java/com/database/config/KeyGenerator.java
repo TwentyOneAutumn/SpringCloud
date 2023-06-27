@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 /**
  * MybatisPlus表主键生成器
  */
-@Component
 public class KeyGenerator implements IKeyGenerator {
 
     /**

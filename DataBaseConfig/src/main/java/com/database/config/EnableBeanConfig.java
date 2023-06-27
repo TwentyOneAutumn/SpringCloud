@@ -13,8 +13,22 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
-public class RedisConfig {
+public class EnableBeanConfig {
 
+    /**
+     * MybatisPlus表主键生成器
+     * @return KeyGenerator
+     */
+    @Bean
+    public KeyGenerator keyGenerator() {
+        return new KeyGenerator();
+    }
+
+    /**
+     * RedisTemplate
+     * @param factory Redis连接工厂
+     * @return RedisTemplate
+     */
     @Bean
     public RedisTemplate<String, Object> redisClient(RedisConnectionFactory factory) {
         // 创建RedisTemplate<String, Object>对象
