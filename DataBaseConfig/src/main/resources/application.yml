@@ -1,0 +1,16 @@
+data-source-collection:
+  - dataSourceName: basic
+    mapper-scan-package: com.service.basic.mapper
+    resources-path: /mapper/*.xml
+    dataSource:
+      driverClassName: ${mysql.basic.driver}
+      jdbcUrl: ${mysql.basic.url}
+      username: ${mysql.basic.username}
+      password: ${mysql.basic.password}
+  - dataSourceName: test
+    mapper-scan-package: com.service.basic.mapper
+    dataSource:
+      driverClassName: ${mysql.test.driver}
+      jdbcUrl: ${mysql.test.url}
+      username: ${mysql.test.username}
+      password: ${mysql.test.password}

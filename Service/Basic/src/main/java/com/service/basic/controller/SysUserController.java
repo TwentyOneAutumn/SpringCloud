@@ -1,23 +1,16 @@
 package com.service.basic.controller;
 
-import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.basic.api.doMain.UserInfo;
 import com.core.doMain.*;
-import com.core.utils.StreamUtils;
 import com.service.basic.doMain.dto.*;
 import com.service.basic.doMain.vo.SysUserAddVo;
 import com.service.basic.doMain.vo.SysUserDetailVo;
 import com.service.basic.doMain.vo.SysUserListVo;
 import com.service.basic.service.ISysUserService;
-import com.service.basic.service.impl.SysUserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 用户Controller
@@ -29,7 +22,6 @@ public class SysUserController {
 
     @Autowired
     private ISysUserService sysUserService;
-
 
     /**
      * 列表

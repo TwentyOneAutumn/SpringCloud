@@ -6,10 +6,10 @@ spring:
   application:
     name: basic # 服务名称
   datasource:
-    driver-class-name: ${mysql.driver}
-    url: ${mysql.url}
-    username: ${mysql.username}
-    password: ${mysql.password}
+    driver-class-name: ${mysql.basic.driver}
+    url: ${mysql.basic.url}
+    username: ${mysql.basic.username}
+    password: ${mysql.basic.password}
 #  cloud:
 #    sentinel:
 #      eager: true
