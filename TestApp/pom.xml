@@ -43,16 +43,22 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!-- Aop依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.database</groupId>
+            <artifactId>DataBaseConfig</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.config</groupId>
+            <artifactId>Config</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>

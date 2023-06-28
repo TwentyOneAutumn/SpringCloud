@@ -34,6 +34,7 @@ public class Build {
         return new TableInfo<T>(0,HttpStatus.ERROR,msg,null);
     }
 
+
     /**
      * 构建Row
      * @param row 数据
@@ -43,6 +44,7 @@ public class Build {
     public static <T> Row<T> buildRow(T row){
         return new Row<T>(HttpStatus.SUCCESS, "操作成功", row);
     }
+
 
     /**
      * 构建Row
@@ -54,6 +56,7 @@ public class Build {
         return flg ? new Row<T>(HttpStatus.SUCCESS,"操作成功",null) : new Row<T>(HttpStatus.ERROR,"操作失败",null);
     }
 
+
     /**
      * 构建Row
      * @param flg 是否成功
@@ -64,6 +67,7 @@ public class Build {
         return flg ? new Row<T>(HttpStatus.SUCCESS,msg,null) : new Row<T>(HttpStatus.ERROR,msg,null);
     }
 
+
     /**
      * 构建AjaxResult
      * @param flg 是否成功
@@ -73,6 +77,7 @@ public class Build {
     public static AjaxResult buildAjax(boolean flg,String msg){
         return flg ? AjaxResult.success(msg) : AjaxResult.error(msg);
     }
+
 
     /**
      * 构建AjaxResult

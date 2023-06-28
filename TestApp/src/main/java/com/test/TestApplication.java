@@ -1,11 +1,10 @@
 package com.test;
 
+import com.database.Interface.EnableMultiDataSource;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
-
+@EnableMultiDataSource
 @SpringBootApplication
 public class TestApplication {
 

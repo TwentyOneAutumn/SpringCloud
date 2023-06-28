@@ -1,7 +1,8 @@
 package com.database.Interface;
 
-import com.database.config.DataSourceConfiguration;
+import com.database.config.MultiDataSourceConfig;
 import org.springframework.context.annotation.Import;
+
 import java.lang.annotation.*;
 
 /**
@@ -10,6 +11,7 @@ import java.lang.annotation.*;
 @Documented
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Import({DataSourceConfiguration.class})
-public @interface EnableMultiDataSourceConfig {
+@Import({MultiDataSourceConfig.class})
+public @interface EnableMultiDataSource {
+
 }

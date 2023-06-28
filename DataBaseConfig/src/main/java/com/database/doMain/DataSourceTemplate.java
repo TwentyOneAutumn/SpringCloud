@@ -1,10 +1,12 @@
 package com.database.doMain;
 
+import lombok.Data;
 import javax.sql.DataSource;
 
 /**
  * 数据源模版类
  */
+@Data
 public class DataSourceTemplate {
 
     /**
@@ -27,45 +29,16 @@ public class DataSourceTemplate {
      */
     private DataSource dataSource;
 
-    public DataSourceTemplate() {
-    }
-
-    public DataSourceTemplate(String dataSourceName, String mapperScanPackage, String resourcesPath, DataSource dataSource) {
+    private DataSourceTemplate(String dataSourceName, String mapperScanPackage, String resourcesPath, DataSource dataSource) {
         this.dataSourceName = dataSourceName;
         this.mapperScanPackage = mapperScanPackage;
         this.resourcesPath = resourcesPath;
         this.dataSource = dataSource;
     }
 
-    public String getDataSourceName() {
-        return dataSourceName;
+    public static DataSourceTemplate create(String dataSourceName, String mapperScanPackage, String resourcesPath, DataSource dataSource){
+        return new DataSourceTemplate(dataSourceName, mapperScanPackage, resourcesPath,dataSource);
     }
 
-    public void setDataSourceName(String dataSourceName) {
-        this.dataSourceName = dataSourceName;
-    }
 
-    public String getMapperScanPackage() {
-        return mapperScanPackage;
-    }
-
-    public void setMapperScanPackage(String mapperScanPackage) {
-        this.mapperScanPackage = mapperScanPackage;
-    }
-
-    public String getResourcesPath() {
-        return resourcesPath;
-    }
-
-    public void setResourcesPath(String resourcesPath) {
-        this.resourcesPath = resourcesPath;
-    }
-
-    public DataSource getDataSource() {
-        return dataSource;
-    }
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
 }
