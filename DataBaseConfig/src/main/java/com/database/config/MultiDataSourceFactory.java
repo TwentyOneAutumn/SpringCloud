@@ -2,19 +2,29 @@ package com.database.config;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.database.doMain.DataSourceTemplate;
 import com.database.doMain.MultiDataSourceTemplate;
+import org.apache.ibatis.mapping.Environment;
+import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
+import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.config.ConstructorArgumentValues;
+import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.boot.BootstrapRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -74,23 +84,52 @@ public class MultiDataSourceFactory {
 
                     // 注册SqlSessionFactory
                     String sqlSessionFactoryBeanName = dataSourceTemplate.getDataSourceName() + SqlSessionFactorySuffix;
-                    SqlSessionFactory sqlSessionFactory = registerSqlSessionFactoryBean(dataSourceTemplate, dataSource,sqlSessionFactoryBeanName);
+                    GenericBeanDefinition sqlSessionFactoryBeanDefinition = new GenericBeanDefinition();
+                    sqlSessionFactoryBeanDefinition.setBeanClass(DefaultSqlSessionFactory.class);
+                    sqlSessionFactoryBeanDefinition.setScope(BeanDefinition.SCOPE_SINGLETON);
+                    MutablePropertyValues sqlSessionFactoryPropertyValues = sqlSessionFactoryBeanDefinition.getPropertyValues();
+//                    GenericBeanDefinition configurationBeanDefinition = new GenericBeanDefinition();
+//                    configurationBeanDefinition.setBeanClass(Configuration.class);
+//                    MutablePropertyValues configurationPropertyValues = configurationBeanDefinition.getPropertyValues();
+                    Environment environment = new Environment("development",new JdbcTransactionFactory(),dataSource);
+//                    configurationPropertyValues.addPropertyValue("environment",environment);
+//                    configurationPropertyValues.addPropertyValue("mapperRegistry",environment);
+                    Configuration configuration = new Configuration();
+                    configuration.setEnvironment(environment);
+                    configuration.addMappers(dataSourceTemplate.getMapperScanPackage());
+                    ConstructorArgumentValues constructorArgs = new ConstructorArgumentValues();
+                    constructorArgs.addIndexedArgumentValue(0, configuration);
+                    sqlSessionFactoryBeanDefinition.setConstructorArgumentValues(constructorArgs);
 
-                    // 注册SqlSessionTemplate
-                    String sqlSessionTemplateBeanName = dataSourceTemplate.getDataSourceName() + SqlSessionTemplateSuffix;
-                    registerBean(sqlSessionTemplateBeanName, new SqlSessionTemplate(sqlSessionFactory));
-
-                    // 注册MapperScannerConfigurer
-                    String mapperScannerConfigurerBeanName = dataSourceTemplate.getDataSourceName() + MapperScannerConfigurerSuffix;
-                    // 创建BeanDefinition
-                    GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
-                    beanDefinition.setBeanClass(MapperScannerConfigurer.class);
-                    beanFactory.registerBeanDefinition(mapperScannerConfigurerBeanName,beanDefinition);
-                    applicationContext.refresh();
-                    MapperScannerConfigurer mapperScannerConfigurer = applicationContext.getBean(mapperScannerConfigurerBeanName, MapperScannerConfigurer.class);
-                    mapperScannerConfigurer.setBasePackage(dataSourceTemplate.getMapperScanPackage());
-                    mapperScannerConfigurer.setSqlSessionFactoryBeanName(sqlSessionFactoryBeanName);
-                    mapperScannerConfigurer.setSqlSessionTemplateBeanName(sqlSessionTemplateBeanName);
+//                    String sqlSessionFactoryConfigurationName = sqlSessionFactoryBeanName + "Configuration";
+//                    beanFactory.registerBeanDefinition(sqlSessionFactoryConfigurationName,sqlSessionFactoryBeanDefinition);
+//                    String resourcesPath = dataSourceTemplate.getResourcesPath();
+//                    if(StrUtil.isNotEmpty(resourcesPath)){
+//                        configuration.addLoadedResource("classpath:" + resourcesPath);
+//                    }
+//                    sqlSessionFactoryPropertyValues.addPropertyValue("configuration",configuration);
+                    beanFactory.registerBeanDefinition(sqlSessionFactoryBeanName,sqlSessionFactoryBeanDefinition);
+                    beanFactory.preInstantiateSingletons();
+                    DefaultSqlSessionFactory bean = applicationContext.getBean(sqlSessionFactoryBeanName, DefaultSqlSessionFactory.class);
+//                    // 注册SqlSessionTemplate
+//                    String sqlSessionTemplateBeanName = dataSourceTemplate.getDataSourceName() + SqlSessionTemplateSuffix;
+//                    // 创建BeanDefinition
+//                    GenericBeanDefinition sqlSessionTemplateBeanDefinition = new GenericBeanDefinition();
+//                    sqlSessionTemplateBeanDefinition.setBeanClass(SqlSessionTemplate.class);
+//                    MutablePropertyValues sqlSessionTemplatePropertyValues = sqlSessionTemplateBeanDefinition.getPropertyValues();
+//                    sqlSessionTemplatePropertyValues.addPropertyValue("sqlSessionFactory",new RuntimeBeanReference(sqlSessionFactoryBeanName) );
+//                    beanFactory.registerBeanDefinition(sqlSessionTemplateBeanName,sqlSessionTemplateBeanDefinition);
+//
+//                    // 注册MapperScannerConfigurer
+//                    String mapperScannerConfigurerBeanName = dataSourceTemplate.getDataSourceName() + MapperScannerConfigurerSuffix;
+//                    // 创建BeanDefinition
+//                    GenericBeanDefinition mapperScannerConfigurerBeanDefinition = new GenericBeanDefinition();
+//                    mapperScannerConfigurerBeanDefinition.setBeanClass(MapperScannerConfigurer.class);
+//                    MutablePropertyValues mapperScannerConfigurerPropertyValues = mapperScannerConfigurerBeanDefinition.getPropertyValues();
+//                    mapperScannerConfigurerPropertyValues.addPropertyValue("basePackage",dataSourceTemplate.getMapperScanPackage());
+//                    mapperScannerConfigurerPropertyValues.addPropertyValue("sqlSessionFactoryBeanName",sqlSessionFactoryBeanName);
+//                    mapperScannerConfigurerPropertyValues.addPropertyValue("sqlSessionTemplateBeanName",sqlSessionTemplateBeanName);
+//                    beanFactory.registerBeanDefinition(mapperScannerConfigurerBeanName,mapperScannerConfigurerBeanDefinition);
 
                     // 创建数据源对应事务管理器并存储
                     transactionManagerList.add(new DataSourceTransactionManager(dataSource));
@@ -98,6 +137,7 @@ public class MultiDataSourceFactory {
                 // 注册联合事务管理器
                 PlatformTransactionManager platformTransactionManager = new ChainedTransactionManager(transactionManagerList.toArray(new DataSourceTransactionManager[]{}));
                 registerBean("platformTransactionManager", platformTransactionManager);
+                beanFactory.preInstantiateSingletons();
             }
         }
     }

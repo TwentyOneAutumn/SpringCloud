@@ -37,6 +37,7 @@ public class MultiDataSourceTemplate {
                     factory.registerDataSourceBean(multiDataSourceTemplate);
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 throw new RuntimeException("initialize MultiDataSource is error.");
             }
             return multiDataSourceTemplate;
