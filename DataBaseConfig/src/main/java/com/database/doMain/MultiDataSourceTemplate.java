@@ -2,8 +2,12 @@ package com.database.doMain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import com.database.config.EnableBeanConfig;
 import com.database.config.MultiDataSourceFactory;
 import lombok.Data;
+import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import java.util.List;
 
 @Data
@@ -28,19 +32,9 @@ public class MultiDataSourceTemplate {
      * @param factory 多数据源初始化工厂
      * @return MultiDataSourceTemplate
      */
-    public static MultiDataSourceTemplate create(List<DataSourceTemplate> dataSourceTemplateList,MultiDataSourceFactory factory) {
+    public static MultiDataSourceTemplate create(List<DataSourceTemplate> dataSourceTemplateList) {
         if(CollUtil.isNotEmpty(dataSourceTemplateList)){
-            MultiDataSourceTemplate multiDataSourceTemplate = new MultiDataSourceTemplate(dataSourceTemplateList);
-            try {
-                if(BeanUtil.isNotEmpty(factory)){
-                    // 初始化多数据源相关Bean
-                    factory.registerDataSourceBean(multiDataSourceTemplate);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException("initialize MultiDataSource is error.");
-            }
-            return multiDataSourceTemplate;
+            return new MultiDataSourceTemplate(dataSourceTemplateList);
         }else {
             throw new IllegalArgumentException("create MultiDataSourceTemplate is error. dataSourceTemplateList is not null");
         }
