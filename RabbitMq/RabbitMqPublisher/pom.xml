@@ -17,4 +17,11 @@
     <name>RabbitMqPublisher</name>
     <description>Publisher</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.rabbitmq.config</groupId>
+            <artifactId>RabbitMqConfig</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 </project>

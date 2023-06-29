@@ -1,4 +1,4 @@
-package com.test.mapper.test1;
+package com.test.mapper.test2;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.test.doMain.Test2;

@@ -55,10 +55,10 @@
             <version>1.0</version>
         </dependency>
 
+        <!--  MySQL数据库依赖  -->
         <dependency>
-            <groupId>com.config</groupId>
-            <artifactId>Config</artifactId>
-            <version>1.0</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
     </dependencies>
 </project>

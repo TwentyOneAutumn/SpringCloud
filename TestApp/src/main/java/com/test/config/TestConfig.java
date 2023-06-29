@@ -6,31 +6,41 @@ import com.database.doMain.MultiDataSourceTemplate;
 import com.database.utils.DataSourceUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
 public class TestConfig {
 
+
     @Bean
-    public MultiDataSourceTemplate multiDataSourceTemplate(MultiDataSourceFactory factory){
+    public DataSource Test1DataSource(){
+        return DataSourceUtils.builder(DataSourceUtils.joinJdbcUrl("124.221.27.253","test1"),"root","2762581@com");
+    }
+
+    @Bean
+    public DataSource Test2DataSource(){
+        return DataSourceUtils.builder(DataSourceUtils.joinJdbcUrl("124.221.27.253","test2"),"root","2762581@com");
+    }
+
+    @Bean
+    public DataSource Test3DataSource(){
+        return DataSourceUtils.builder(DataSourceUtils.joinJdbcUrl("124.221.27.253","test3"),"root","2762581@com");
+    }
+
+
+    @Bean
+    public MultiDataSourceTemplate multiDataSourceTemplate(MultiDataSourceFactory factory, DataSource Test1DataSource, DataSource Test2DataSource, DataSource Test3DataSource){
         List<DataSourceTemplate> dataSourceTemplateList = new ArrayList<>();
         dataSourceTemplateList.add(
-                DataSourceTemplate.create("Test1","com.test.mapper.test1","mapper/test1/*.xml",
-                        DataSourceUtils.builder("jdbc:mysql://124.221.27.253:3306/test1?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true","root","2762581@com")
-                )
+                DataSourceTemplate.create("Test1","com.test.mapper.test1","mapper/test1/*.xml", Test1DataSource)
         );
         dataSourceTemplateList.add(
-                DataSourceTemplate.create("Test2","com.test.mapper.test2","mapper/test2/*.xml",
-                        DataSourceUtils.builder("jdbc:mysql://124.221.27.253:3306/test2?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true","root","2762581@com")
-                )
+                DataSourceTemplate.create("Test2","com.test.mapper.test2","mapper/test2/*.xml", Test2DataSource)
         );
         dataSourceTemplateList.add(
-                DataSourceTemplate.create("Test3","com.test.mapper.test3","mapper/test3/*.xml",
-                        DataSourceUtils.builder("jdbc:mysql://124.221.27.253:3306/test3?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true","root","2762581@com")
-                )
+                DataSourceTemplate.create("Test3","com.test.mapper.test3","mapper/test3/*.xml", Test3DataSource)
         );
         return MultiDataSourceTemplate.create(dataSourceTemplateList,factory);
     }

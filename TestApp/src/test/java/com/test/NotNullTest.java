@@ -1,18 +1,16 @@
 package com.test;
 
-import cn.hutool.core.lang.TypeReference;
-import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.core.doMain.Row;
 import com.test.doMain.Test1;
 import com.test.doMain.Test2;
 import com.test.doMain.Test3;
 import com.test.mapper.test1.Test1Mapper;
-import com.test.mapper.test1.Test2Mapper;
-import com.test.mapper.test1.Test3Mapper;
+import com.test.mapper.test2.Test2Mapper;
+import com.test.mapper.test3.Test3Mapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 public class NotNullTest {
@@ -25,6 +23,7 @@ public class NotNullTest {
     Test3Mapper test3Mapper;
 
     @Test
+    @Transactional
     public void test(){
         test1();
         test2();
@@ -43,7 +42,7 @@ public class NotNullTest {
                 .set(Test2::getName,"Test2")
                 .eq(Test2::getId,"1")
         );
-        throw new RuntimeException();
+//        throw new RuntimeException();
     }
 
     public void test3(){

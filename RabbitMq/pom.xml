@@ -43,11 +43,5 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.rabbitmq.config</groupId>
-            <artifactId>RabbitMqConfig</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
 </project>

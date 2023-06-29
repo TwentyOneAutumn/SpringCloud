@@ -15,4 +15,11 @@
     <groupId>com.rabbitmq.Consumer</groupId>
     <artifactId>RabbitMqConsumer</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.rabbitmq.config</groupId>
+            <artifactId>RabbitMqConfig</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 </project>

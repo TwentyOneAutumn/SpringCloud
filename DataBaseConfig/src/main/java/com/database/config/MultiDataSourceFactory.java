@@ -7,12 +7,17 @@ import com.database.doMain.DataSourceTemplate;
 import com.database.doMain.MultiDataSourceTemplate;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.data.transaction.ChainedTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -42,39 +47,50 @@ public class MultiDataSourceFactory {
     private final String SqlSessionTemplateSuffix = "SqlSessionTemplate";
 
     /**
+     * MapperScannerConfigurer对象后缀名
+     */
+    private final String MapperScannerConfigurerSuffix = "MapperScannerConfigurer";
+
+
+    /**
      * Spring上下文对象
      */
-    private final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(EnableBeanConfig.class);
+    private final ConfigurableApplicationContext applicationContext = new AnnotationConfigApplicationContext(EnableBeanConfig.class);
 
     /**
      * SpringBean工厂对象
      */
     private final DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
 
-    /**
-     * 事务管理器缓存列表
-     */
-//    private List<DataSourceTransactionManager> transactionManagerList;
-
-
     public void registerDataSourceBean(MultiDataSourceTemplate multiDataSourceTemplate) throws Exception {
         if(BeanUtil.isNotEmpty(multiDataSourceTemplate)){
             List<DataSourceTemplate> dataSourceTemplateList = multiDataSourceTemplate.getDataSourceTemplateList();
             if(CollUtil.isNotEmpty(dataSourceTemplateList)){
+                // 事务管理器缓存列表
                 List<DataSourceTransactionManager> transactionManagerList = new ArrayList<>();
                 // 循环注册Bean
                 for (DataSourceTemplate dataSourceTemplate : dataSourceTemplateList) {
-                    String dataSourceBeanName = dataSourceTemplate.getDataSourceName() + DataSourceSuffix;
-
-                    // 注册数据源
-                    DataSource dataSource = registerBean(dataSourceBeanName, dataSourceTemplate.getDataSource());
+                    DataSource dataSource = dataSourceTemplate.getDataSource();
 
                     // 注册SqlSessionFactory
-                    SqlSessionFactory sqlSessionFactory = registerSqlSessionFactoryBean(dataSourceTemplate, dataSource);
+                    String sqlSessionFactoryBeanName = dataSourceTemplate.getDataSourceName() + SqlSessionFactorySuffix;
+                    SqlSessionFactory sqlSessionFactory = registerSqlSessionFactoryBean(dataSourceTemplate, dataSource,sqlSessionFactoryBeanName);
 
                     // 注册SqlSessionTemplate
                     String sqlSessionTemplateBeanName = dataSourceTemplate.getDataSourceName() + SqlSessionTemplateSuffix;
                     registerBean(sqlSessionTemplateBeanName, new SqlSessionTemplate(sqlSessionFactory));
+
+                    // 注册MapperScannerConfigurer
+                    String mapperScannerConfigurerBeanName = dataSourceTemplate.getDataSourceName() + MapperScannerConfigurerSuffix;
+                    // 创建BeanDefinition
+                    GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
+                    beanDefinition.setBeanClass(MapperScannerConfigurer.class);
+                    beanFactory.registerBeanDefinition(mapperScannerConfigurerBeanName,beanDefinition);
+                    applicationContext.refresh();
+                    MapperScannerConfigurer mapperScannerConfigurer = applicationContext.getBean(mapperScannerConfigurerBeanName, MapperScannerConfigurer.class);
+                    mapperScannerConfigurer.setBasePackage(dataSourceTemplate.getMapperScanPackage());
+                    mapperScannerConfigurer.setSqlSessionFactoryBeanName(sqlSessionFactoryBeanName);
+                    mapperScannerConfigurer.setSqlSessionTemplateBeanName(sqlSessionTemplateBeanName);
 
                     // 创建数据源对应事务管理器并存储
                     transactionManagerList.add(new DataSourceTransactionManager(dataSource));
@@ -92,7 +108,7 @@ public class MultiDataSourceFactory {
      * @param dataSource 数据源对象
      * @return 注册的SqlSessionFactory Bean
      */
-    private SqlSessionFactory registerSqlSessionFactoryBean(DataSourceTemplate dataSourceTemplate, DataSource dataSource) throws Exception {
+    private SqlSessionFactory registerSqlSessionFactoryBean(DataSourceTemplate dataSourceTemplate, DataSource dataSource, String sqlSessionFactoryBeanName) throws Exception {
         // 注册SqlSessionFactory
         MybatisSqlSessionFactoryBean factory = new MybatisSqlSessionFactoryBean();
         // 设置数据源
@@ -102,7 +118,6 @@ public class MultiDataSourceFactory {
         // 设置XML映射扫描
 //        factory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:" + dataSourceTemplate.getResourcesPath()));
         SqlSessionFactory sqlSessionFactory = factory.getObject();
-        String sqlSessionFactoryBeanName = dataSourceTemplate.getDataSourceName() + SqlSessionFactorySuffix;
         return registerBean(sqlSessionFactoryBeanName,sqlSessionFactory);
     }
 
@@ -133,6 +148,19 @@ public class MultiDataSourceFactory {
         return getBean(beanName, bean.getClass());
     }
 
+
+    /**
+     * 将对象注册到Spring容器
+     * @param beanName 对象在Spring容器中的名称
+     * @param bean Bean对象
+     * @return 注册的Bean
+     */
+    private MapperScannerConfigurer registerBean(String beanName, MapperScannerConfigurer bean) {
+        // 注册Bean
+        beanFactory.registerSingleton(beanName, bean);
+        // 获取手动注入的Bean实例
+        return getBean(beanName, bean.getClass());
+    }
 
     /**
      * 将对象注册到Spring容器

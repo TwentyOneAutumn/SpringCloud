@@ -23,4 +23,8 @@ public class DataSourceUtils {
                 .password(password)
                 .build();
     }
+
+    public static String joinJdbcUrl(String ip, String dataBaseName){
+        return "jdbc:mysql://" + ip + ":3306/" + dataBaseName + "?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true";
+    }
 }

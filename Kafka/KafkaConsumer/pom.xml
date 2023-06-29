@@ -21,7 +21,11 @@
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.kafka.config</groupId>
+            <artifactId>KafkaConfig</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 </project>
