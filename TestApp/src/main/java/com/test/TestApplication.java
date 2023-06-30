@@ -1,21 +1,9 @@
 package com.test;
 
-import com.core.utils.SpringUtil;
-import com.database.Interface.EnableMultiDataSource;
-import com.database.config.MultiDataSourceFactory;
-import com.database.doMain.DataSourceTemplate;
-import com.database.doMain.MultiDataSourceTemplate;
-import com.database.utils.DataSourceUtils;
-import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
+import com.database.multiDataSource.EnableMultiDataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.List;
 
 @EnableMultiDataSource
 @SpringBootApplication

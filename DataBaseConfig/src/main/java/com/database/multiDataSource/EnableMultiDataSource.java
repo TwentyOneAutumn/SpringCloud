@@ -1,6 +1,6 @@
-package com.database.Interface;
+package com.database.multiDataSource;
 
-import com.database.config.MultiDataSourceConfig;
+import com.database.multiDataSource.MultiDataSourceConfig;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
