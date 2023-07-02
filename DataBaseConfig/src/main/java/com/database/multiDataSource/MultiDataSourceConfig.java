@@ -26,7 +26,7 @@ public class MultiDataSourceConfig {
 
     /**
      * 注册多数据联合事务管理器覆盖默认事务管理器
-     * @param transactionManagerList 数据源事务管理器集合
+     * @param dataSourceList 数据源集合
      * @return PlatformTransactionManager
      */
     @Bean

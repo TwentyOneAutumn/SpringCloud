@@ -21,6 +21,7 @@
     <!-- 聚合模块 -->
     <modules>
         <module>Basic</module>
+        <module>File</module>
     </modules>
     <dependencies>
 

@@ -36,7 +36,7 @@ public class NotNullTest {
     Test3Mapper test3Mapper;
 
     @Test
-//    @Transactional
+    @Transactional
     public void test(){
         test1();
         test2();
@@ -49,6 +49,7 @@ public class NotNullTest {
                 .set(Test1::getName,"Test1")
                 .eq(Test1::getId,"1")
         );
+        throw new RuntimeException();
     }
 
     public void test2(){
@@ -56,7 +57,6 @@ public class NotNullTest {
                 .set(Test2::getName,"Test2")
                 .eq(Test2::getId,"1")
         );
-//        throw new RuntimeException();
     }
 
     public void test3(){

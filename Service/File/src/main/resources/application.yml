@@ -1,17 +1,15 @@
 server:
-  port: 8802
+  port: 8803
   servlet:
-    context-path: /basic
+    context-path: /file
 spring:
-  main:
-    banner-mode: off
   application:
-    name: basic # 服务名称
+    name: file # 服务名称
   datasource:
-    driver-class-name: ${mysql.basic.driver}
-    url: ${mysql.basic.url}
-    username: ${mysql.basic.username}
-    password: ${mysql.basic.password}
+    driver-class-name: ${mysql.file.driver}
+    url: ${mysql.file.url}
+    username: ${mysql.file.username}
+    password: ${mysql.file.password}
 #  cloud:
 #    sentinel:
 #      eager: true
@@ -28,6 +26,8 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 打印SQL
   global-config:  # 全局配置
     banner: false   # 是否控制台输出 MybatisPlus的LOGO
-#logging:
-#  level:
-#    root: off
+
+logging:
+  level:
+    cn.itcast: info
+    org.springframework: info

@@ -67,6 +67,20 @@
             <!-- springBoot父依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${SpringBoot.version}</version>
+                <exclusions>
+                    <!-- 移除自带的logback -->
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- springBoot父依赖 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${SpringBoot.version}</version>
                 <type>pom</type>
@@ -316,6 +330,20 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- springBoot父依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${SpringBoot.version}</version>
+            <exclusions>
+                <!-- 移除自带的logback -->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!-- springBoot父依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

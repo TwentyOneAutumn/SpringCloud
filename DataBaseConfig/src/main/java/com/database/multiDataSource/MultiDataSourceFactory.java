@@ -11,7 +11,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.*;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 import java.util.List;
 
@@ -24,11 +23,6 @@ public class MultiDataSourceFactory implements BeanFactoryPostProcessor {
      * 数据源模版缓存
      */
     private List<DataSourceTemplate> dataSourceTemplateList;
-
-    /**
-     * 数据源对象后缀名
-     */
-    private final String DataSourceSuffix = "DataSource";
 
     /**
      * SqlSessionFactory对象后缀名
@@ -45,11 +39,6 @@ public class MultiDataSourceFactory implements BeanFactoryPostProcessor {
      */
     private final String MapperScannerConfigurerSuffix = "MapperScannerConfigurer";
 
-    /**
-     * TransactionManager对象后缀名
-     */
-    private final String TransactionManagerSuffix = "TransactionManager";
-
     public MultiDataSourceFactory(MultiDataSourceTemplate multiDataSourceTemplate){
         this.dataSourceTemplateList = multiDataSourceTemplate.getDataSourceTemplateList();
     }
@@ -59,9 +48,6 @@ public class MultiDataSourceFactory implements BeanFactoryPostProcessor {
     public void postProcessBeanFactory(@NotNull ConfigurableListableBeanFactory beanFactory) throws BeansException {
         // 循环注册Bean
         for (DataSourceTemplate dataSourceTemplate : dataSourceTemplateList) {
-
-            // 注册DataSource
-//            DataSource dataSourceBean = registerDataSource(dataSourceTemplate, beanFactory);
 
             // 注册SqlSessionFactory
             SqlSessionFactory sessionFactoryBean = registerSqlSessionFactory(dataSourceTemplate,beanFactory);
@@ -73,21 +59,6 @@ public class MultiDataSourceFactory implements BeanFactoryPostProcessor {
             registerMapperScannerConfigurer(dataSourceTemplate, beanFactory);
            }
     }
-
-    /**
-     * 注册DataSource
-     * @param dataSourceTemplate 数据库模版对象
-     * @param beanFactory Bean工厂对象
-     * @return DataSource
-     * @throws Exception 异常
-     */
-    public DataSource registerDataSource(DataSourceTemplate dataSourceTemplate,@NotNull ConfigurableListableBeanFactory beanFactory) throws Exception {
-        DataSource dataSource = dataSourceTemplate.getDataSource();
-        String dataSourceBeanName = dataSourceTemplate.getDataSourceName() + DataSourceSuffix;
-        beanFactory.registerSingleton(dataSourceBeanName, dataSource);
-        return beanFactory.getBean(dataSourceBeanName, DataSource.class);
-    }
-
 
     /**
      * 注册SqlSessionFactory

@@ -1,6 +1,5 @@
 package com.database.utils;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import javax.sql.DataSource;
 
