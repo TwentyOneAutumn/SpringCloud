@@ -34,10 +34,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private SecurityAuthenticationProvider securityAuthenticationProvider;
-
-
     /**
      * 获取配置的AuthenticationManager对象
      * @return 返回一个完全填充了身份验证信息的Authentication对象
@@ -47,6 +43,19 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
+    }
+
+    /**
+     * 配置身份验证的方式
+     * @param auth 用于构建和配置AuthenticationManager的构建器类
+     * @throws Exception 异常
+     */
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // 设置自定义UserDetailsService和密码编码器
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        // 设置自定义身份验证逻辑
+//        auth.authenticationProvider(securityAuthenticationProvider);
     }
 
     /**
@@ -78,18 +87,5 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(PermitUrl.UrlArr);
-    }
-
-    /**
-     * 配置身份验证的方式
-     * @param auth 用于构建和配置AuthenticationManager的构建器类
-     * @throws Exception 异常
-     */
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // 设置自定义UserDetailsService和密码编码器
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-        // 设置自定义身份验证逻辑
-        auth.authenticationProvider(securityAuthenticationProvider);
     }
 }

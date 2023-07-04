@@ -31,3 +31,5 @@ mybatis-plus:
 #logging:
 #  level:
 #    root: off
+
+# PageHelper禁止Logo输出：添加环境变量:PAGEHELPER_BANNER=false;

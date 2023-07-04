@@ -34,9 +34,9 @@ public class SysUserRole {
     private String roleId;
 
 
-    /**
-     * 是否删除
-     */
-    @TableLogic
-    private Boolean isDeleted;
+//    /**
+//     * 是否删除
+//     */
+//    @TableLogic
+//    private Boolean isDeleted;
 }

@@ -55,7 +55,7 @@ public class TestAspect {
 //    java
 //    Copy code
     // 匹配返回类型为 void 的 UserService 中的以 save 或 update 开头的方法
-    @Pointcut("execution(void com.example.UserService.save*(..)) || execution(void com.example.UserService.update*(..))")
+    @Pointcut("execution(* com.example.UserService.save*(..)) || execution(void com.example.UserService.update*(..))")
     public void saveOrUpdateMethod() {}
 //    更多关于 AspectJ 的语法可以参考官方文档：https://www.eclipse.org/aspectj/doc/released/progguide/index.html
 }

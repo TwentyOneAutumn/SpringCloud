@@ -7,19 +7,21 @@ import com.basic.api.doMain.UserInfo;
 import com.core.doMain.Row;
 import com.core.doMain.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * 重写Security用户信息类
  */
-@Component
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private RemoteUserService remoteUserService;
+    RemoteUserService remoteUserService;
 
     /**
      * 根据用户名找用户信息
@@ -40,7 +42,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         UserInfo userInfo = userInfoRow.getRow();
         // 判断用户信息是否合法
-        if(BeanUtil.isEmpty(userInfo) || BeanUtil.isEmpty(userInfo.getUser()) || CollUtil.isEmpty(userInfo.getRoleSet())){
+//        if(BeanUtil.isEmpty(userInfo) || BeanUtil.isEmpty(userInfo.getUser()) || CollUtil.isEmpty(userInfo.getRoleSet())){
+        if(BeanUtil.isEmpty(userInfo) || BeanUtil.isEmpty(userInfo.getUser())){
             isError("获取用户信息异常");
         }
         // 返回UserDetails对象

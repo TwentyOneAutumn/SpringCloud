@@ -6,6 +6,9 @@ import com.core.utils.StrUtils;
 import com.core.utils.StreamUtils;
 import com.core.utils.ThreadUtils;
 import com.security.enums.RedisTokenKey;
+import feign.Feign;
+import feign.Retryer;
+import feign.querymap.BeanQueryMapEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -34,9 +37,13 @@ import java.util.Map;
 /**
  * SecurityBean配置类
  */
-@ComponentScan(basePackages = {"com.security"})
 @Configuration
 public class SecurityBeanConfig {
+
+    @Bean
+    public Feign.Builder feignBuilder(){
+        return Feign.builder().queryMapEncoder(new BeanQueryMapEncoder()).retryer(Retryer.NEVER_RETRY);
+    }
 
     /**
      *

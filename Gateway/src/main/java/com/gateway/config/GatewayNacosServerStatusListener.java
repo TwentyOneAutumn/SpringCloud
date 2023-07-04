@@ -45,7 +45,6 @@ public class GatewayNacosServerStatusListener {
 //                    if (BeanUtil.isNotEmpty(instances)) {
 //                        log.info("刷新[" + serviceId + "]服务实例成功");
 //                    }
-                    System.out.println(serviceId);
                 });
             } catch (NacosException e) {
                 e.printStackTrace();

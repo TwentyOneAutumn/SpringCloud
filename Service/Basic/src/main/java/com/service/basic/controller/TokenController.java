@@ -57,7 +57,7 @@ public class TokenController {
             String clientId = clientDetails.getClientId();
             String clientSecret = clientDetails.getClientSecret();
             Set<String> scope = clientDetails.getScope();
-            TokenRequest tokenRequest = new TokenRequest(new HashMap<>(),clientId,scope,"password");
+            TokenRequest tokenRequest = new TokenRequest(new HashMap<>(),clientId,scope,"customer");
             OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCode, password));
             SecurityContextHolder.getContext().setAuthentication(authenticate);
@@ -73,6 +73,7 @@ public class TokenController {
             tokenVo.setTokenType(oAuth2AccessToken.getTokenType());
             RequestUtils.writer(response, Build.buildRow(tokenVo));
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("登录异常");
         }
     }

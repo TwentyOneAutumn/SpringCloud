@@ -6,9 +6,9 @@ import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.api.doMain.UserInfo;
-import com.core.Interface.NotNullArgs;
 import com.core.doMain.*;
 import com.core.utils.StreamUtils;
+import com.security.config.UserDetailsImpl;
 import com.service.basic.doMain.dto.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -19,6 +19,8 @@ import com.service.basic.mapper.SysUserMapper;
 import com.service.basic.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.HashSet;
@@ -62,6 +64,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public TableInfo<SysUserListVo> toList(SysUserListDto dto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+        if(principal instanceof UserDetailsImpl){
+            UserDetailsImpl userDetails = (UserDetailsImpl) principal;
+            System.out.println(userDetails);
+        }
+        System.out.println(principal.getClass().getName());
         Page<Object> page = PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
         List<SysUser> list = list(new LambdaQueryWrapper<SysUser>());
         List<SysUserListVo> voList = BeanUtil.copyToList(list, SysUserListVo.class);
@@ -162,12 +171,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public Row<UserInfo> getUserInfo(SysUser user) {
         UserInfo userInfo = new UserInfo();
         // 获取用户信息
-        String userId = user.getUserId();
-        SysUser sysUser = getById(userId);
+        String userCode = user.getUserCode();
+        SysUser sysUser = getOne(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getUserCode,userCode)
+        );
         userInfo.setUser(sysUser);
         // 获取该用户角色信息
         List<SysUserRole> userRoleList = sysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
-                .eq(SysUserRole::getUserId, userId)
+                .eq(SysUserRole::getUserId, sysUser.getUserId())
         );
         if(CollUtil.isNotEmpty(userRoleList)){
             List<String> roleIdList = StreamUtils.mapToList(userRoleList, SysUserRole::getRoleId);

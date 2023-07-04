@@ -26,24 +26,7 @@
             <artifactId>Basic-API</artifactId>
             <version>1.0</version>
         </dependency>
-        <!-- SpringBootSecurity -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-security</artifactId>-->
-<!--            <exclusions>-->
-<!--                &lt;!&ndash; 移除自带的logback &ndash;&gt;-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.springframework.boot</groupId>-->
-<!--                    <artifactId>spring-boot-starter-logging</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-oauth2</artifactId>-->
-<!--        </dependency>-->
-        
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
@@ -55,6 +38,12 @@
         <dependency>
             <groupId>com.Common</groupId>
             <artifactId>Common</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.Basic-API</groupId>
+            <artifactId>Basic-API</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

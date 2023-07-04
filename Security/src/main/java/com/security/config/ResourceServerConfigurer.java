@@ -1,5 +1,6 @@
 package com.security.config;
 
+import com.security.enums.PermitUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -34,6 +35,10 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/**")
                 .authenticated()
+//                .antMatchers(PermitUrl.UrlArr)
+//                .permitAll()
+//                .antMatchers("/**")
+//                .authenticated()
                 .and()
                 .csrf().disable()
                 .sessionManagement()
