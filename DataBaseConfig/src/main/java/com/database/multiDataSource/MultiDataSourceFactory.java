@@ -57,7 +57,7 @@ public class MultiDataSourceFactory implements BeanFactoryPostProcessor {
 
             // 注册MapperScannerConfigurer
             registerMapperScannerConfigurer(dataSourceTemplate, beanFactory);
-           }
+        }
     }
 
     /**

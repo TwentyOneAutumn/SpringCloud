@@ -2,6 +2,9 @@ package com.core.utils;
 
 import com.core.enums.CompareType;
 import com.core.enums.TimeUnit;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,6 +27,43 @@ public class TimeUtils {
     }
 
     /**
+     * 将日期字符串转换为LocalDateTime，时区为系统默认时区
+     * @param time 时间字符串
+     * @return LocalDateTime
+     */
+    public static LocalDateTime toLocalDateTime(String time) throws ParseException {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    }
+
+    /**
+     * 将日期字符串转换为LocalDate，时区为系统默认时区
+     * @param time 时间字符串
+     * @return LocalDate
+     */
+    public static LocalDate toLocalDate(String time) throws ParseException {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    /**
+     * 将日期字符串转换为Date
+     * @param time 时间字符串
+     * @return Date
+     */
+    public static Date toDate(String time) throws ParseException {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time);
+    }
+
+    /**
+     * 将日期字符串转换为Date
+     * @param time 时间字符串
+     * @param format 格式
+     * @return Date
+     */
+    public static Date toDate(String time,String format) throws ParseException {
+        return new SimpleDateFormat(format).parse(time);
+    }
+
+    /**
      * 将LocalDate转换为LocalDateTime，默认为午夜00:00:00
      * @param time LocalDate对象
      * @return LocalDateTime
@@ -33,7 +73,7 @@ public class TimeUtils {
     }
 
     /**
-     * 计算两个时间的差异并转化为响应的单位
+     * 计算两个时间的差异并转化为相应的时间单位
      * @param startTime 时间参数
      * @param endTime 时间参数
      * @param timeUnit 时间单位，参考{@link TimeUnit}
@@ -122,5 +162,115 @@ public class TimeUtils {
      */
     public static boolean compareTo(Date startTime, Date endTime,String compare){
         return compareTo(toLocalDateTime(startTime),toLocalDateTime(endTime),compare);
+    }
+
+    /**
+     * 添加或者减少天数，并修改因此影响到的其他日期单位
+     * @param time 时间对象
+     * @param millis 正数代表增加，负数代表减少
+     * @return LocalDate
+     */
+    public static LocalDate figureUpDay(LocalDate time,long millis){
+        return time.plusDays(millis);
+    }
+
+    /**
+     * 添加或者减少月数，并修改因此影响到的其他日期单位
+     * @param time 时间对象
+     * @param millis 正数代表增加，负数代表减少
+     * @return LocalDate
+     */
+    public static LocalDate figureUpMonth(LocalDate time,long millis){
+        return time.plusMonths(millis);
+    }
+
+    /**
+     * 添加或者减少年，并修改因此影响到的其他日期单位
+     * @param time 时间对象
+     * @param millis 正数代表增加，负数代表减少
+     * @return LocalDate
+     */
+    public static LocalDate figureUpYear(LocalDate time,long millis){
+        return time.plusYears(millis);
+    }
+
+    /**
+     * 添加或者减少周，并修改因此影响到的其他日期单位
+     * @param time 时间对象
+     * @param millis 正数代表增加，负数代表减少
+     * @return LocalDate
+     */
+    public static LocalDate figureUpWeek(LocalDate time,long millis){
+        return time.plusWeeks(millis);
+    }
+
+    /**
+     * 添加或者减少天数，并修改因此影响到的其他日期单位
+     * @param time 时间对象
+     * @param millis 正数代表增加，负数代表减少
+     * @return LocalDateTime
+     */
+    public static LocalDateTime figureUpDay(LocalDateTime time,long millis){
+        return time.plusDays(millis);
+    }
+
+    /**
+     * 添加或者减少月数，并修改因此影响到的其他日期单位
+     * @param time 时间对象
+     * @param millis 正数代表增加，负数代表减少
+     * @return LocalDateTime
+     */
+    public static LocalDateTime figureUpMonth(LocalDateTime time,long millis){
+        return time.plusMonths(millis);
+    }
+
+    /**
+     * 添加或者减少年，并修改因此影响到的其他日期单位
+     * @param time 时间对象
+     * @param millis 正数代表增加，负数代表减少
+     * @return LocalDateTime
+     */
+    public static LocalDateTime figureUpYear(LocalDateTime time,long millis){
+        return time.plusYears(millis);
+    }
+
+    /**
+     * 添加或者减少周，并修改因此影响到的其他日期单位
+     * @param time 时间对象
+     * @param millis 正数代表增加，负数代表减少
+     * @return LocalDateTime
+     */
+    public static LocalDateTime figureUpWeek(LocalDateTime time,long millis){
+        return time.plusWeeks(millis);
+    }
+
+    /**
+     * 添加或者减少小时，并修改因此影响到的其他日期单位
+     * @param time 时间对象
+     * @param millis 正数代表增加，负数代表减少
+     * @return LocalDateTime
+     */
+    public static LocalDateTime figureUpHour(LocalDateTime time,long millis){
+        return time.plusHours(millis);
+    }
+
+    /**
+     * 添加或者减少分钟，并修改因此影响到的其他日期单位
+     * @param time 时间对象
+     * @param millis 正数代表增加，负数代表减少
+     * @return LocalDateTime
+     */
+    public static LocalDateTime figureUpMinute(LocalDateTime time,long millis){
+        return time.plusMinutes(millis);
+    }
+
+    /**
+     * 添加或者减少秒，并修改因此影响到的其他日期单位
+     * @param time 时间对象
+     * @param millis 正数代表增加，负数代表减少
+     * @return LocalDateTime
+     */
+    public static LocalDateTime figureUpSecond(LocalDateTime time,long millis){
+        return time.plusSeconds(millis);
     }
 }
