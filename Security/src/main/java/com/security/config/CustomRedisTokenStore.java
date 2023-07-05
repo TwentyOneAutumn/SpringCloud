@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.core.utils.StrUtils;
 import com.core.utils.ThreadUtils;
 import com.security.enums.RedisTokenKey;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.Cursor;
@@ -11,6 +12,7 @@ import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.store.redis.JdkSerializationStrategy;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStoreSerializationStrategy;
@@ -27,8 +29,14 @@ import java.util.Set;
 @Component
 public class CustomRedisTokenStore extends RedisTokenStore {
 
+    /**
+     * Redis连接工厂对象
+     */
     private final RedisConnectionFactory factory;
 
+    /**
+     * 序列化对象
+     */
     private final RedisTokenStoreSerializationStrategy strategy = new JdkSerializationStrategy();
 
     /**
@@ -65,7 +73,7 @@ public class CustomRedisTokenStore extends RedisTokenStore {
         String clientId = oAuth2Request.getClientId();
         map.put(RedisTokenKey.USER_NAME,userName);
         map.put(RedisTokenKey.CLIENT_ID,clientId);
-        map.put(RedisTokenKey.IP,"*");
+        map.put(RedisTokenKey.IP,ip);
         String patternKey = StrUtils.join(map,":","#");
         // 通过键的前缀匹配，找到所有与用户名相关的访问令牌
         byte[] pattern = strategy.serialize(patternKey);

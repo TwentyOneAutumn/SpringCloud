@@ -1,6 +1,7 @@
 package com.security.aspect;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.security.config.SecurityAuthority;
 import com.security.config.UserDetailsImpl;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -14,6 +15,8 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Aspect
 @Component
@@ -29,9 +32,9 @@ public class RoleAspect {
             Object principal = returnValue1.getPrincipal();
             if(principal instanceof UserDetailsImpl){
                 UserDetailsImpl userDetails = (UserDetailsImpl) principal;
+                Set<SecurityAuthority> authorities = userDetails.getAuthorities();
                 System.out.println(userDetails);
             }
-            System.out.println(principal.getClass().getName());
         }
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        Object principal = authentication.getPrincipal();

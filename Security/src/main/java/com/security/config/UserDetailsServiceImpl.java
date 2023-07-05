@@ -42,8 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         UserInfo userInfo = userInfoRow.getRow();
         // 判断用户信息是否合法
-//        if(BeanUtil.isEmpty(userInfo) || BeanUtil.isEmpty(userInfo.getUser()) || CollUtil.isEmpty(userInfo.getRoleSet())){
-        if(BeanUtil.isEmpty(userInfo) || BeanUtil.isEmpty(userInfo.getUser())){
+        if(BeanUtil.isEmpty(userInfo) || BeanUtil.isEmpty(userInfo.getUser()) || CollUtil.isEmpty(userInfo.getRoleSet())){
             isError("获取用户信息异常");
         }
         // 返回UserDetails对象

@@ -3,6 +3,7 @@ package com.service.basic.controller;
 import com.core.doMain.Build;
 import com.core.utils.IPUtil;
 import com.core.utils.RequestUtils;
+import com.core.utils.ResponseUtils;
 import com.core.utils.ThreadUtils;
 import com.service.basic.doMain.dto.TokenDto;
 import com.service.basic.doMain.vo.TokenVo;
@@ -36,7 +37,7 @@ public class TokenController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private ClientDetailsService clientDetailsService;
+    private ClientDetailsService jdbcClientDetailsService;
 
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
@@ -53,7 +54,7 @@ public class TokenController {
         try {
             String userCode = dto.getUserCode();
             String password = dto.getPassword();
-            ClientDetails clientDetails = clientDetailsService.loadClientByClientId(dto.getClientId());
+            ClientDetails clientDetails = jdbcClientDetailsService.loadClientByClientId(dto.getClientId());
             String clientId = clientDetails.getClientId();
             String clientSecret = clientDetails.getClientSecret();
             Set<String> scope = clientDetails.getScope();
@@ -71,7 +72,7 @@ public class TokenController {
             tokenVo.setIp(ip);
             tokenVo.setUserCode(userCode);
             tokenVo.setTokenType(oAuth2AccessToken.getTokenType());
-            RequestUtils.writer(response, Build.buildRow(tokenVo));
+            ResponseUtils.writer(response, Build.buildRow(tokenVo));
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("登录异常");

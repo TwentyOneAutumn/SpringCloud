@@ -1,20 +1,15 @@
 package com.security.config;
 
 import cn.hutool.core.codec.Base64;
-import cn.hutool.core.collection.CollUtil;
+import com.core.doMain.Build;
+import com.core.utils.ResponseUtils;
 import com.core.utils.StrUtils;
-import com.core.utils.StreamUtils;
 import com.core.utils.ThreadUtils;
+import com.security.enums.ClientsSql;
 import com.security.enums.RedisTokenKey;
-import feign.Feign;
-import feign.Retryer;
-import feign.querymap.BeanQueryMapEncoder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -24,9 +19,9 @@ import org.springframework.security.oauth2.provider.client.JdbcClientDetailsServ
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.*;
-
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import javax.sql.DataSource;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -39,11 +34,6 @@ import java.util.Map;
  */
 @Configuration
 public class SecurityBeanConfig {
-
-    @Bean
-    public Feign.Builder feignBuilder(){
-        return Feign.builder().queryMapEncoder(new BeanQueryMapEncoder()).retryer(Retryer.NEVER_RETRY);
-    }
 
     /**
      *
@@ -100,14 +90,14 @@ public class SecurityBeanConfig {
      * @return JdbcClientDetailsService
      */
     @Bean
-    public JdbcClientDetailsService jdbcClientDetailsService(DataSource dataSource){
+    public ClientDetailsService jdbcClientDetailsService(DataSource dataSource,PasswordEncoder passwordEncoder){
         JdbcClientDetailsService client = new JdbcClientDetailsService(dataSource);
         // 设置查询客户端详情Sql
-        client.setSelectClientDetailsSql("select * from oauth_client_details where client_id = ?");
+        client.setSelectClientDetailsSql(ClientsSql.SELECT_CLIENT_DETAILS_SQL);
         // 设置查询所有客户端Sql
-        client.setFindClientDetailsSql("select * from oauth_client_details");
+        client.setFindClientDetailsSql(ClientsSql.FIND_CLIENT_DETAILS_SQL);
         // 设置PasswordEncoder
-        client.setPasswordEncoder(passwordEncoder());
+        client.setPasswordEncoder(passwordEncoder);
         return client;
     }
 
@@ -115,6 +105,7 @@ public class SecurityBeanConfig {
      * 生成唯一的键（key）用于标识 OAuth2Authentication 对象在Redis中的位置
      * @return AuthenticationKeyGenerator
      */
+    @Bean
     public AuthenticationKeyGenerator authenticationKeyGenerator() {
         return new DefaultAuthenticationKeyGenerator() {
             @Override
@@ -150,8 +141,10 @@ public class SecurityBeanConfig {
      * @return TokenStore
      */
     @Bean
-    public TokenStore tokenStore(RedisConnectionFactory factory) {
-        return new CustomRedisTokenStore(factory);
+    public TokenStore tokenStore(RedisConnectionFactory factory,AuthenticationKeyGenerator authenticationKeyGenerator) {
+        CustomRedisTokenStore tokenStore = new CustomRedisTokenStore(factory);
+        tokenStore.setAuthenticationKeyGenerator(authenticationKeyGenerator);
+        return tokenStore;
     }
 
     /**
@@ -169,25 +162,52 @@ public class SecurityBeanConfig {
         };
     }
 
+
     /**
      * 用于管理和操作授权服务器端的令牌
      * @return AuthorizationServerTokenServices
      */
     @Bean
-    public AuthorizationServerTokenServices authorizationServerTokenServices(DataSource dataSource,RedisConnectionFactory factory){
+    public AuthorizationServerTokenServices authorizationServerTokenServices(TokenStore tokenStore,ClientDetailsService jdbcClientDetailsService){
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         // 设置客户端服务
-        tokenServices.setClientDetailsService(jdbcClientDetailsService(dataSource));
+        tokenServices.setClientDetailsService(jdbcClientDetailsService);
         // 支持刷新令牌
         tokenServices.setSupportRefreshToken(true);
         // 设置令牌存储策略
-        tokenServices.setTokenStore(tokenStore(factory));
+        tokenServices.setTokenStore(tokenStore);
         // 设置访问令牌的过期时间
-        tokenServices.setAccessTokenValiditySeconds(20);
+//        tokenServices.setAccessTokenValiditySeconds(20);
         // 设置刷新令牌的过期时间
-        tokenServices.setRefreshTokenValiditySeconds(20);
+//        tokenServices.setRefreshTokenValiditySeconds(20);
         // 令牌增强
-        tokenServices.setTokenEnhancer(tokenEnhancer());
+//        tokenServices.setTokenEnhancer(tokenEnhancer());
         return tokenServices;
     }
+
+    /**
+     * AuthenticationEntryPoint是Spring Security中的一个接口
+     * 用于处理未经身份验证的用户试图访问受保护资源时的情况
+     * 它定义了一个方法 commence，该方法在未经身份验证的用户访问受保护资源时被调用
+     * 主要作用是在用户请求需要身份验证的资源时，如果用户尚未进行身份验证，则自定义身份验证入口点将被触发
+     * 身份验证入口点负责决定如何处理未经身份验证的请求
+     * @return AuthenticationEntryPoint
+     */
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint(){
+        return ((request, response, authException) -> {
+            ResponseUtils.writer(response, Build.buildAjax(false,"认证失败"));
+        });
+    }
+
+    /**
+     * AuthenticationFailureHandler 用于处理身份验证失败的情况
+     * 当身份验证失败时，Spring Security将调用AuthenticationFailureHandler的实现来处理失败的结果
+     * @return AuthenticationFailureHandler
+     */
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler(){
+        return (request, response, exception) -> ResponseUtils.writer(response, Build.buildAjax(false,exception.getMessage()));
+    }
+
 }
