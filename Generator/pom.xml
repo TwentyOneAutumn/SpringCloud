@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 继承父工程 -->
+    <parent>
+        <groupId>com.demo.SpringCloudDemo</groupId>
+        <artifactId>SpringCloudDemo</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <!-- 定义当前项目版本坐标 -->
+    <groupId>com.demo.Generator</groupId>
+    <artifactId>Generator</artifactId>
+    <version>1.0</version>
+    <name>Generator</name>
+
+    <dependencies>
+        <!-- Common模块 -->
+        <dependency>
+            <groupId>com.Common</groupId>
+            <artifactId>Common</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- 代码生成器依赖 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+    </dependencies>
+
+</project>

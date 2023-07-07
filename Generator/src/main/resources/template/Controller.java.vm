@@ -1,0 +1,83 @@
+package ${package}.${moduleName}.controller.${packageName};
+
+import com.atmb.common.core.web.controller.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import com.atmb.common.core.web.domain.AjaxResult;
+import com.atmb.common.core.domain.R;
+#if( $packageName == '')
+import ${package}.${moduleName}.domain.${className};
+import ${package}.${moduleName}.domain.dto.*;
+import ${package}.${moduleName}.domain.vo.*;
+import ${package}.${moduleName}.service.I${className}Service;
+#else
+import ${package}.${moduleName}.domain.${packageName}.${className};
+import ${package}.${moduleName}.domain.${packageName}.dto.*;
+import ${package}.${moduleName}.domain.${packageName}.vo.*;
+import ${package}.${moduleName}.service.${packageName}.I${className}Service;
+#end
+import lombok.extern.slf4j.Slf4j;
+import javax.validation.Valid;
+import java.util.List;
+
+/**
+ * ${comments}Controller
+ */
+@Slf4j
+@RestController
+@RequestMapping("/${classname}")
+public class ${className}Controller extends BaseController{
+
+    @Autowired
+    private I${className}Service ${classname}Service;
+
+    /**
+     * 查询列表
+     * @param dto 数据对象
+     * @return R
+     */
+    @GetMapping("/list")
+    public TableDataInfo<${className}ListVo> toList(@Valid ${className}ListDto dto){
+        return getDataTable(${classname}Service.toList(dto));
+    }
+
+    /**
+     * 详情
+     * @param dto 数据对象
+     * @return AjaxResult
+     */
+    @GetMapping("/detail")
+    public R<${className}DetailVo> toDetail(@Valid ${className}DetailDto dto){
+        return ${classname}Service.toDetail(dto);
+    }
+
+    /**
+     * 新增
+     * @param dto 数据对象
+     * @return AjaxResult
+     */
+    @PostMapping("/add")
+    public AjaxResult toAdd(@Valid @RequestBody ${className}AddDto dto){
+        return ${classname}Service.toAdd(dto);
+    }
+
+    /**
+     * 修改
+     * @param dto 数据对象
+     * @return AjaxResult
+     */
+    @PutMapping("/edit")
+    public AjaxResult toEdit(@Valid @RequestBody ${className}EditDto dto){
+        return ${classname}Service.toEdit(dto);
+    }
+
+    /**
+     * 删除
+     * @param dto 数据对象
+     * @return AjaxResult
+     */
+    @DeleteMapping("/delete")
+    public AjaxResult toDelete(@Valid @RequestBody ${className}DeleteDto dto){
+        return ${classname}Service.toDelete(dto);
+    }
+}

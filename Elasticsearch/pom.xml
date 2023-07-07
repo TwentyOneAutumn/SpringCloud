@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- 继承父工程 -->
+    <parent>
+        <groupId>com.demo.SpringCloudDemo</groupId>
+        <artifactId>SpringCloudDemo</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <!-- Maven模型版本 -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 定义当前项目版本坐标 -->
+    <groupId>com.demo.Elasticsearch</groupId>
+    <artifactId>Elasticsearch</artifactId>
+    <version>1.0</version>
+    <name>Elasticsearch</name>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>co.elastic.clients</groupId>
+            <artifactId>elasticsearch-java</artifactId>
+        </dependency>
+
+        <!-- Common模块 -->
+        <dependency>
+            <groupId>com.Common</groupId>
+            <artifactId>Common</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+</project>

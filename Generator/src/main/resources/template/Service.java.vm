@@ -1,0 +1,32 @@
+package ${package}.${moduleName}.service.${packageName};
+
+import com.baomidou.mybatisplus.extension.service.IService;
+#if( $packageName == '')
+import ${package}.${moduleName}.domain.${className};
+import ${package}.${moduleName}.domain.dto.*;
+import ${package}.${moduleName}.domain.vo.*;
+#else
+import ${package}.${moduleName}.domain.${packageName}.${className};
+import ${package}.${moduleName}.domain.${packageName}.dto.*;
+import ${package}.${moduleName}.domain.${packageName}.vo.*;
+#end
+import com.atmb.common.core.web.domain.AjaxResult;
+import com.atmb.common.core.domain.R;
+import java.util.List;
+
+/**
+ * ${comments}Service
+ */
+public interface I${className}Service extends IService<${className}> {
+
+    List<${className}ListVo> toList(${className}ListDto dto);
+
+    R<${className}DetailVo> toDetail(${className}DetailDto dto);
+
+    AjaxResult toAdd(${className}AddDto dto);
+
+    AjaxResult toEdit(${className}EditDto dto);
+
+    AjaxResult toDelete(${className}DeleteDto dto);
+}
+
