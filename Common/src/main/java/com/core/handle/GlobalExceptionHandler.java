@@ -40,6 +40,16 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 处理参数校验异常
+     * @param ex 异常对象
+     * @return AjaxResult
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public AjaxResult RuntimeException(RuntimeException ex){
+        return Build.buildAjax(false,ex.getMessage());
+    }
+
+    /**
      * 处理Sentinel异常
      * @param ex 异常对象
      * @return AjaxResult

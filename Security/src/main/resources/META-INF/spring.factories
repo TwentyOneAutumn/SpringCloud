@@ -3,7 +3,6 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.security.config.UserDetailsServiceImpl,\
   com.security.config.ResourceServerConfigurer,\
   com.security.config.AuthorizationServerConfig,\
-  com.security.aspect.RoleAspect,\
   com.security.config.WebSecurityConfigurer
 
 

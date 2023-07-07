@@ -1,8 +1,7 @@
 package com.service.basic;
 
-import com.basic.api.RemoteUserService;
+import com.security.authentication.annotation.EnableAuthenticationPostProcessor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -11,6 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
 //@EnableScheduling
+@EnableAuthenticationPostProcessor
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
