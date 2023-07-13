@@ -22,8 +22,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.Basic-API</groupId>
-            <artifactId>Basic-API</artifactId>
+            <groupId>com.BasicApi</groupId>
+            <artifactId>BasicApi</artifactId>
             <version>1.0</version>
         </dependency>
 
@@ -38,12 +38,6 @@
         <dependency>
             <groupId>com.Common</groupId>
             <artifactId>Common</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.Basic-API</groupId>
-            <artifactId>Basic-API</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

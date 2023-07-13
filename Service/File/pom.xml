@@ -32,11 +32,5 @@
 			<artifactId>seata</artifactId>
 			<version>1.0</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.Basic-API</groupId>
-			<artifactId>Basic-API</artifactId>
-			<version>1.0</version>
-		</dependency>
 	</dependencies>
 </project>

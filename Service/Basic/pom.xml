@@ -21,11 +21,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.Basic-API</groupId>
-            <artifactId>Basic-API</artifactId>
-            <version>1.0</version>
-        </dependency>
 
         <!-- 安全模块 -->
         <dependency>
