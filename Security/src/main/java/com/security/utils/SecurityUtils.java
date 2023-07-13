@@ -1,7 +1,7 @@
 package com.security.utils;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.core.doMain.SysUser;
+import com.core.doMain.basic.SysUser;
 import com.security.config.UserDetailsImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

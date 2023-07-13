@@ -2,13 +2,13 @@ package com.security.config;
 
 import cn.hutool.core.collection.CollUtil;
 import com.basic.api.doMain.UserInfo;
-import com.core.doMain.SysModule;
-import com.core.doMain.SysRole;
-import com.core.doMain.SysUser;
+import com.core.doMain.basic.SysModule;
+import com.core.doMain.basic.SysRole;
+import com.core.doMain.basic.SysUser;
 import com.core.utils.StreamUtils;
 import lombok.Data;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
+
 import java.util.HashSet;
 import java.util.Set;
 

@@ -3,7 +3,7 @@ package com.service.basic.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.core.doMain.AjaxResult;
 import com.core.doMain.Row;
-import com.core.doMain.SysModule;
+import com.core.doMain.basic.SysModule;
 import com.core.doMain.TableInfo;
 import com.service.basic.doMain.dto.*;
 import com.service.basic.doMain.vo.SysModuleDetailVo;

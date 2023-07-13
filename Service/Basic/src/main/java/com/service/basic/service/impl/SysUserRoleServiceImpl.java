@@ -1,7 +1,7 @@
 package com.service.basic.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.core.doMain.*;
+import com.core.doMain.basic.SysUserRole;
 import com.service.basic.mapper.SysUserMapper;
 import com.service.basic.mapper.SysUserRoleMapper;
 import com.service.basic.service.ISysUserRoleService;

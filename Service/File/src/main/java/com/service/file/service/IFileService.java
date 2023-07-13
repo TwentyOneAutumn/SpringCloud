@@ -2,9 +2,9 @@ package com.service.file.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.core.doMain.Row;
-import com.service.file.doMain.FileResource;
-import com.service.file.doMain.UploadForm;
-import com.service.file.doMain.UploadsForm;
+import com.core.doMain.file.FileResource;
+import com.core.doMain.file.UploadForm;
+import com.core.doMain.file.UploadsForm;
 import java.util.List;
 
 /**

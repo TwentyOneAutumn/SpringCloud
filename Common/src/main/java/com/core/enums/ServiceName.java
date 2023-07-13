@@ -6,4 +6,6 @@ package com.core.enums;
 public class ServiceName {
 
     public static final String BASIC = "basic";
+
+    public static final String FILE = "file";
 }

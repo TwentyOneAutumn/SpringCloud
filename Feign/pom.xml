@@ -18,7 +18,8 @@
 
     <!-- 聚合模块 -->
     <modules>
-        <module>basic-api</module>
+        <module>BasicApi</module>
+        <module>FileApi</module>
     </modules>
 
     <dependencies>

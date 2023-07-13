@@ -1,7 +1,7 @@
 package com.service.basic.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.core.doMain.SysRole;
+import com.core.doMain.basic.SysRole;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

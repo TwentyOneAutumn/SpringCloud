@@ -6,11 +6,12 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.core.doMain.Build;
 import com.core.doMain.Row;
+import com.core.doMain.file.FileResource;
+import com.core.doMain.file.UploadForm;
+import com.core.doMain.file.UploadsForm;
 import com.core.utils.FileUtils;
 import com.security.utils.SecurityUtils;
-import com.service.file.doMain.FileResource;
-import com.service.file.doMain.UploadForm;
-import com.service.file.doMain.UploadsForm;
+import com.service.file.enums.FilePath;
 import com.service.file.mapper.FileMapper;
 import com.service.file.service.IFileService;
 import lombok.extern.slf4j.Slf4j;
@@ -72,7 +73,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implem
         Path currentPath = Paths.get(System.getProperty("user.dir"));
         String projectPath = currentPath.toAbsolutePath().toString();
         // 获取文件夹路径
-        String mkdirPath = FileUtils.joinFilePath(projectPath,moduleName,filePostfix);
+        String mkdirPath = FileUtils.joinFilePath(projectPath,FilePath.FILE_PATH,moduleName,filePostfix);
         // 创建文件夹
         FileUtils.ofMkdir(mkdirPath);
         // 获取文件路径

@@ -3,10 +3,9 @@ package com.service.basic.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.basic.api.doMain.UserInfo;
 import com.core.doMain.*;
+import com.core.doMain.basic.SysUser;
 import com.service.basic.doMain.dto.*;
 import com.service.basic.doMain.vo.*;
-
-import java.util.List;
 
 /**
  * 用户Service
