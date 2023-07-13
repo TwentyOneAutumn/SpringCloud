@@ -20,5 +20,23 @@
 
 	<dependencies>
 
+		<!-- 安全模块 -->
+		<dependency>
+			<groupId>com.Security</groupId>
+			<artifactId>Security</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.seata</groupId>
+			<artifactId>seata</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.Basic-API</groupId>
+			<artifactId>Basic-API</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 </project>

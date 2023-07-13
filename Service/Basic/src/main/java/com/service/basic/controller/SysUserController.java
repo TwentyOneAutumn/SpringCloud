@@ -7,10 +7,13 @@ import com.service.basic.doMain.vo.SysUserAddVo;
 import com.service.basic.doMain.vo.SysUserDetailVo;
 import com.service.basic.doMain.vo.SysUserListVo;
 import com.service.basic.service.ISysUserService;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.Date;
 
 /**
  * 用户Controller
@@ -22,6 +25,18 @@ public class SysUserController {
 
     @Autowired
     private ISysUserService sysUserService;
+
+    @PostMapping("/test")
+    @Transactional
+    public Row<Boolean> test(@RequestBody SysUser user){
+        SysUserAddDto dto = new SysUserAddDto();
+        dto.setPassword("111");
+        dto.setBirthday(new Date());
+        dto.setUserName("test");
+        dto.setGender(true);
+        sysUserService.toAdd(dto);
+        return Build.row(true);
+    }
 
     /**
      * 列表

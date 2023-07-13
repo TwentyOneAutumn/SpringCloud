@@ -37,7 +37,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         Page<Object> page = PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
         List<SysRole> list = list(new LambdaQueryWrapper<SysRole>());
         List<SysRoleListVo> voList = BeanUtil.copyToList(list, SysRoleListVo.class);
-        return Build.buildTable(page,voList);
+        return Build.table(page,voList);
     }
 
 
@@ -53,7 +53,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             throw new RuntimeException("数据不存在");
         }
         SysRoleDetailVo vo = BeanUtil.toBean(pojo, SysRoleDetailVo.class);
-        return Build.buildRow(vo);
+        return Build.row(vo);
     }
 
 

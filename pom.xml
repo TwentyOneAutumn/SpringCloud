@@ -33,6 +33,7 @@
         <module>Generator</module>
         <module>Config</module>
         <module>DataBaseConfig</module>
+        <module>Seata</module>
     </modules>
 
     <properties>

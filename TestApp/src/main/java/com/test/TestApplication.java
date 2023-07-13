@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@EnableMultiDataSource
+//@EnableMultiDataSource
 @SpringBootApplication
 @EnableTransactionManagement
 public class TestApplication {

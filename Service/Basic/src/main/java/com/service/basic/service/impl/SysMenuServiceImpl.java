@@ -39,7 +39,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         Page<Object> page = PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
         List<SysMenu> list = list(new LambdaQueryWrapper<SysMenu>());
         List<SysMenuListVo> voList = BeanUtil.copyToList(list, SysMenuListVo.class);
-        return Build.buildTable(page,voList);
+        return Build.table(page,voList);
     }
 
 
@@ -55,7 +55,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             throw new RuntimeException("数据不存在");
         }
         SysMenuDetailVo vo = BeanUtil.toBean(pojo, SysMenuDetailVo.class);
-        return Build.buildRow(vo);
+        return Build.row(vo);
     }
 
 

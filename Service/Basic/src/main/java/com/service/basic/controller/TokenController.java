@@ -2,7 +2,6 @@ package com.service.basic.controller;
 
 import com.core.doMain.Build;
 import com.core.utils.IPUtil;
-import com.core.utils.RequestUtils;
 import com.core.utils.ResponseUtils;
 import com.core.utils.ThreadUtils;
 import com.service.basic.doMain.dto.TokenDto;
@@ -18,12 +17,10 @@ import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Set;
@@ -37,7 +34,7 @@ public class TokenController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private ClientDetailsService jdbcClientDetailsService;
+    private ClientDetailsService clientDetailsService;
 
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
@@ -54,7 +51,7 @@ public class TokenController {
         try {
             String userCode = dto.getUserCode();
             String password = dto.getPassword();
-            ClientDetails clientDetails = jdbcClientDetailsService.loadClientByClientId(dto.getClientId());
+            ClientDetails clientDetails = clientDetailsService.loadClientByClientId(dto.getClientId());
             String clientId = clientDetails.getClientId();
             String clientSecret = clientDetails.getClientSecret();
             Set<String> scope = clientDetails.getScope();
@@ -72,7 +69,7 @@ public class TokenController {
             tokenVo.setIp(ip);
             tokenVo.setUserCode(userCode);
             tokenVo.setTokenType(oAuth2AccessToken.getTokenType());
-            ResponseUtils.writer(response, Build.buildRow(tokenVo));
+            ResponseUtils.writer(response, Build.row(tokenVo));
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("登录异常");

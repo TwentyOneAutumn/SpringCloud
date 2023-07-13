@@ -1,5 +1,9 @@
 package com.database.multiDataSource;
 
+import cn.hutool.core.collection.CollUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.transaction.ChainedTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -14,6 +18,13 @@ import java.util.stream.Collectors;
  */
 public class MultiDataSourceConfig {
 
+
+    @Bean
+    @ConfigurationProperties(prefix = "multi")
+    public MultiDataSourceTemplate multiDataSourceTemplate(){
+        return new MultiDataSourceTemplate();
+    }
+
     /**
      * 注册MultiDataSourceFactory，添加数据源模版缓存，方便后续注册组件调用
      * @param multiDataSourceTemplate 多数据源模版对象
@@ -21,6 +32,18 @@ public class MultiDataSourceConfig {
      */
     @Bean
     public MultiDataSourceFactory multiDataSourceFactory(MultiDataSourceTemplate multiDataSourceTemplate){
+        List<DataSourceTemplate> dataSourceTemplateList = multiDataSourceTemplate.getDataSourceTemplateList();
+        if(CollUtil.isEmpty(dataSourceTemplateList)){
+            throw new IllegalStateException("The necessary MultiDataSource configuration is missing");
+        }
+        dataSourceTemplateList.forEach(dataSourceTemplate -> dataSourceTemplate.setDataSource(
+                DataSourceBuilder.create()
+                        .driverClassName(dataSourceTemplate.getDriverClassName())
+                        .url(dataSourceTemplate.getUrl())
+                        .username(dataSourceTemplate.getUsername())
+                        .password(dataSourceTemplate.getPassword())
+                        .build()
+        ));
         return new MultiDataSourceFactory(multiDataSourceTemplate);
     }
 

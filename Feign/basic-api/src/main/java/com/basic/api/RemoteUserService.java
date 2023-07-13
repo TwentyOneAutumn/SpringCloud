@@ -28,4 +28,7 @@ public interface RemoteUserService {
      */
     @PostMapping("/user/check")
     Row<Boolean> checkUser(@RequestBody SysUser user);
+
+    @PostMapping("/user/test")
+    Row<Boolean> test(@RequestBody SysUser user);
 }

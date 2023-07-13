@@ -39,7 +39,7 @@ public class SysModuleServiceImpl extends ServiceImpl<SysModuleMapper, SysModule
         Page<Object> page = PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
         List<SysModule> list = list(new LambdaQueryWrapper<SysModule>());
         List<SysModuleListVo> voList = BeanUtil.copyToList(list, SysModuleListVo.class);
-        return Build.buildTable(page,voList);
+        return Build.table(page,voList);
     }
 
 
@@ -55,7 +55,7 @@ public class SysModuleServiceImpl extends ServiceImpl<SysModuleMapper, SysModule
             throw new RuntimeException("数据不存在");
         }
         SysModuleDetailVo vo = BeanUtil.toBean(pojo, SysModuleDetailVo.class);
-        return Build.buildRow(vo);
+        return Build.row(vo);
     }
 
 

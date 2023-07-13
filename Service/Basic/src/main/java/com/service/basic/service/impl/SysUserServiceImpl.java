@@ -74,7 +74,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Page<Object> page = PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
         List<SysUser> list = list(new LambdaQueryWrapper<SysUser>());
         List<SysUserListVo> voList = BeanUtil.copyToList(list, SysUserListVo.class);
-        return Build.buildTable(page,voList);
+        return Build.table(page,voList);
     }
 
 
@@ -90,7 +90,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new RuntimeException("数据不存在");
         }
         SysUserDetailVo vo = BeanUtil.toBean(pojo, SysUserDetailVo.class);
-        return Build.buildRow(vo);
+        return Build.row(vo);
     }
 
 
@@ -108,7 +108,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String encode = passwordEncoder.encode(pojo.getPassword());
         pojo.setPassword(encode);
         boolean save = save(pojo);
-        return save ? Build.buildRow(BeanUtil.toBean(pojo, SysUserAddVo.class)) : Build.buildRow(false);
+        return save ? Build.row(BeanUtil.toBean(pojo, SysUserAddVo.class)) : Build.row(false);
     }
 
 
@@ -204,7 +204,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 }
             }
         }
-        return Build.buildRow(userInfo);
+        return Build.row(userInfo);
     }
 
 
@@ -218,6 +218,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         long count = count(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUserCode, user.getUserCode())
         );
-        return Build.buildRow(count == 1);
+        return Build.row(count == 1);
     }
 }

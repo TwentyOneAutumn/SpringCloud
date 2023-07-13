@@ -53,13 +53,13 @@
 1. 拉取Seata镜像 
 
    ```shell
-   docker pull seataio/seata-server:latest
+   docker pull seataio/seata-server:1.6.0
    ```
 
 2. 启动容器
 
    ```shell
-   docker run --rm --name seata-server -p 8091:8091 -p 7091:7091 seataio/seata-server:latest
+   docker run --rm -d --name seata -p 8091:8091 -p 7091:7091 seataio/seata-server:1.6.0
    ```
 
 3. Copy resources 目录
@@ -214,6 +214,23 @@
    INSERT INTO `distributed_lock` (lock_key, lock_value, expire) VALUES ('RetryCommitting', ' ', 0);
    INSERT INTO `distributed_lock` (lock_key, lock_value, expire) VALUES ('RetryRollbacking', ' ', 0);
    INSERT INTO `distributed_lock` (lock_key, lock_value, expire) VALUES ('TxTimeoutCheck', ' ', 0);
+   
+   DROP TABLE IF EXISTS `lock_table`;
+   CREATE TABLE `lock_table`  (
+     `row_key` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '行键',
+     `xid` varchar(96) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '全局事务ID',
+     `transaction_id` bigint(20) NULL DEFAULT NULL COMMENT '全局事务ID，不带TC 地址',
+     `branch_id` bigint(20) NOT NULL COMMENT '分支ID',
+     `resource_id` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源ID',
+     `table_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表名',
+     `pk` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '主键对应的值',
+     `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+     `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+     PRIMARY KEY (`row_key`) USING BTREE,
+     INDEX `idx_branch_id`(`branch_id`) USING BTREE
+   ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+   
+   SET FOREIGN_KEY_CHECKS = 1;
    ```
 
 6. 在Nacos创建Seata配置
@@ -349,9 +366,17 @@
    ```shell
    docker stop seata
    
-   docker run --restart=always -p 8091:8091 -p 7091:7091 --name seata -v /home/seata/config:/seata-server/resources seataio/seata-server:latest
+   docker run -d \
+   -p 8091:8091 \
+   -p 7091:7091 \
+   -v /home/seata/config:/seata-server/resources \
+   -e SEATA_IP=124.221.27.253 \
+   -e SEATA_PORT=8091 \
+   --name seata \
+   --restart=always \
+   seataio/seata-server:1.6.0
    ```
-
+   
    
 
 ---

@@ -25,7 +25,7 @@ public class AfterValidationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if(authenticationExceptionProcessor.isError()){
-            ResponseUtils.writer((HttpServletResponse) response, Build.buildAjax(false,authenticationExceptionProcessor.getErrorMsg()));
+            ResponseUtils.writer((HttpServletResponse) response, Build.ajax(false,authenticationExceptionProcessor.getErrorMsg()));
         }else {
             chain.doFilter(request, response);
         }

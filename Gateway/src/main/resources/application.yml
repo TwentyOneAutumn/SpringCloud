@@ -15,6 +15,10 @@ spring:
           uri: lb://basic
           predicates:
             - Path=/basic/**
+        - id: file
+          uri: lb://file
+          predicates:
+            - Path=/file/**
     sentinel:
       eager: true
       transport:

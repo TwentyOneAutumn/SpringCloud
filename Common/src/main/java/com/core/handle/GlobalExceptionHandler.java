@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
         List<String> errorMsgList = new LinkedList<>();
         allErrors.forEach(error -> errorMsgList.add("[ " + error.getDefaultMessage() + " ]"));
         Set<String> errorMsgSet = new LinkedHashSet<>(errorMsgList);
-        return Build.buildAjax(false,String.join(",",errorMsgSet));
+        return Build.ajax(false,String.join(",",errorMsgSet));
     }
 
     /**
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(RuntimeException.class)
     public AjaxResult RuntimeException(RuntimeException ex){
-        return Build.buildAjax(false,ex.getMessage());
+        return Build.ajax(false,ex.getMessage());
     }
 
     /**

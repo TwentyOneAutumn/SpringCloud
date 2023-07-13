@@ -7,6 +7,8 @@ import com.core.utils.StrUtils;
 import com.core.utils.ThreadUtils;
 import com.security.enums.ClientsSql;
 import com.security.enums.RedisTokenKey;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -84,14 +86,21 @@ public class SecurityBeanConfig {
         };
     }
 
+    @Bean
+    @ConfigurationProperties(prefix = "client-details.datasource")
+    public DataSource clientDetailsServiceDataSource(){
+        return DataSourceBuilder.create().build();
+    }
+
     /**
      * 用于管理 OAuth2 客户端的信息
-     * @param dataSource 数据源对象
-     * @return JdbcClientDetailsService
+     * 方法名称必须为clientDetailsService，否则Seata找不到clientDetailsService会导致服务启动失败
+     * @param clientDetailsServiceDataSource 数据源对象
+     * @return clientDetailsService
      */
     @Bean
-    public ClientDetailsService jdbcClientDetailsService(DataSource dataSource,PasswordEncoder passwordEncoder){
-        JdbcClientDetailsService client = new JdbcClientDetailsService(dataSource);
+    public ClientDetailsService clientDetailsService(DataSource clientDetailsServiceDataSource,PasswordEncoder passwordEncoder){
+        JdbcClientDetailsService client = new JdbcClientDetailsService(clientDetailsServiceDataSource);
         // 设置查询客户端详情Sql
         client.setSelectClientDetailsSql(ClientsSql.SELECT_CLIENT_DETAILS_SQL);
         // 设置查询所有客户端Sql
@@ -168,10 +177,10 @@ public class SecurityBeanConfig {
      * @return AuthorizationServerTokenServices
      */
     @Bean
-    public AuthorizationServerTokenServices authorizationServerTokenServices(TokenStore tokenStore,ClientDetailsService jdbcClientDetailsService){
+    public AuthorizationServerTokenServices authorizationServerTokenServices(TokenStore tokenStore,ClientDetailsService clientDetailsService){
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         // 设置客户端服务
-        tokenServices.setClientDetailsService(jdbcClientDetailsService);
+        tokenServices.setClientDetailsService(clientDetailsService);
         // 支持刷新令牌
         tokenServices.setSupportRefreshToken(true);
         // 设置令牌存储策略
@@ -196,7 +205,7 @@ public class SecurityBeanConfig {
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint(){
         return ((request, response, authException) -> {
-            ResponseUtils.writer(response, Build.buildAjax(false,"认证失败"));
+            ResponseUtils.writer(response, Build.ajax(false,"认证失败"));
         });
     }
 
@@ -207,7 +216,7 @@ public class SecurityBeanConfig {
      */
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler(){
-        return (request, response, exception) -> ResponseUtils.writer(response, Build.buildAjax(false,exception.getMessage()));
+        return (request, response, exception) -> ResponseUtils.writer(response, Build.ajax(false,exception.getMessage()));
     }
 
 }

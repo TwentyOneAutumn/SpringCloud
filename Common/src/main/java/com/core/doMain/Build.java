@@ -10,7 +10,7 @@ public class Build {
      * @param collection 集合
      * @return TableInfo
      */
-    public static  <T> TableInfo<T> buildTable(Collection<T> collection){
+    public static  <T> TableInfo<T> table(Collection<T> collection){
         return new TableInfo<T>(collection);
     }
 
@@ -20,7 +20,7 @@ public class Build {
      * @param collection 集合
      * @return TableInfo
      */
-    public static  <T> TableInfo<T> buildTable(Page<Object> page, Collection<T> collection){
+    public static  <T> TableInfo<T> table(Page<Object> page, Collection<T> collection){
         return new TableInfo<T>(page.getPages(),collection);
     }
 
@@ -30,7 +30,7 @@ public class Build {
      * @param msg 错误信息
      * @return TableInfo
      */
-    public static  <T> TableInfo<T> buildTable(String msg){
+    public static  <T> TableInfo<T> table(String msg){
         return new TableInfo<T>(0,HttpStatus.ERROR,msg,null);
     }
 
@@ -41,7 +41,7 @@ public class Build {
      * @param <T> 泛型
      * @return Row
      */
-    public static <T> Row<T> buildRow(T row){
+    public static <T> Row<T> row(T row){
         return new Row<T>(HttpStatus.SUCCESS, "操作成功", row);
     }
 
@@ -52,7 +52,7 @@ public class Build {
      * @param <T> 泛型
      * @return Row
      */
-    public static <T> Row<T> buildRow(boolean flg){
+    public static <T> Row<T> row(boolean flg){
         return flg ? new Row<T>(HttpStatus.SUCCESS,"操作成功",null) : new Row<T>(HttpStatus.ERROR,"操作失败",null);
     }
 
@@ -63,7 +63,7 @@ public class Build {
      * @param <T> 泛型
      * @return Row
      */
-    public static <T> Row<T> buildRow(boolean flg,String msg){
+    public static <T> Row<T> row(boolean flg, String msg){
         return flg ? new Row<T>(HttpStatus.SUCCESS,msg,null) : new Row<T>(HttpStatus.ERROR,msg,null);
     }
 
@@ -74,7 +74,7 @@ public class Build {
      * @param msg 错误信息
      * @return AjaxResult
      */
-    public static AjaxResult buildAjax(boolean flg,String msg){
+    public static AjaxResult ajax(boolean flg, String msg){
         return flg ? AjaxResult.success(msg) : AjaxResult.error(msg);
     }
 
@@ -85,7 +85,7 @@ public class Build {
      * @param msg 错误信息
      * @return AjaxResult
      */
-    public static AjaxResult buildAjax(int code,String msg){
+    public static AjaxResult ajax(int code, String msg){
         return AjaxResult.error(code,msg);
     }
 

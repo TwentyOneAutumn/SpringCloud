@@ -24,7 +24,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private ClientDetailsService jdbcClientDetailsService;
+    private ClientDetailsService clientDetailsService;
 
     @Autowired
     private AuthorizationCodeServices authorizationCodeServices;
@@ -55,7 +55,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(jdbcClientDetailsService);
+        clients.withClientDetails(clientDetailsService);
     }
 
     /**

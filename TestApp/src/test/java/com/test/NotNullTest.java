@@ -1,5 +1,6 @@
 package com.test;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.core.utils.SpringUtil;
 import com.database.config.EnableBeanConfig;
@@ -16,13 +17,17 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @SpringBootTest
@@ -49,7 +54,6 @@ public class NotNullTest {
                 .set(Test1::getName,"Test1")
                 .eq(Test1::getId,"1")
         );
-        throw new RuntimeException();
     }
 
     public void test2(){
