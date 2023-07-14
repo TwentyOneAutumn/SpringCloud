@@ -79,6 +79,17 @@ public class Build {
     }
 
 
+
+    /**
+     * 构建AjaxResult
+     * @param flg 是否成功
+     * @return AjaxResult
+     */
+    public static AjaxResult ajax(boolean flg){
+        return flg ? AjaxResult.success("操作成功") : AjaxResult.error("操作失败");
+    }
+
+
     /**
      * 构建AjaxResult
      * @param code 状态码

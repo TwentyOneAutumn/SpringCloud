@@ -1,11 +1,12 @@
-package com.basic.api;
+package com.file.api;
 
-import com.basic.api.factory.FileFallbackFactory;
+import com.core.doMain.AjaxResult;
 import com.core.doMain.Row;
 import com.core.doMain.file.FileResource;
 import com.core.doMain.file.UploadForm;
 import com.core.doMain.file.UploadsForm;
 import com.core.enums.ServiceName;
+import com.file.api.factory.FileFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,4 +31,7 @@ public interface RemoteFileService {
      */
     @PostMapping("/uploads")
     Row<List<FileResource>> uploads(@Valid @ModelAttribute UploadsForm uploadsForm);
+
+    @PostMapping("/testSeata")
+    AjaxResult testSeata();
 }

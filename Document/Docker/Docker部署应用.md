@@ -101,12 +101,12 @@
      config: # 配置中心
        type: nacos
        nacos:
-         server-addr: 124.221.27.253:8848
+         server-addr: 124.221.27.253:8848 # Nacos地址
          group: SEATA_GROUP # 分组
          namespace: 38efd505-cc1a-4ffa-b1fb-d8aa0982e8b2 # 命名空间
          username: nacos
          password: nacos
-         data-id: SeataServer.properties
+         data-id: SeataConfig.yaml
      registry: # 注册中心
        type: nacos
        nacos:
@@ -239,7 +239,7 @@
 
    2. 创建配置
 
-      DataID:SeataServer.properties 
+      DataID:SeataConfig.yaml
 
       Group:SEATA_GROUP
 
@@ -377,6 +377,42 @@
    seataio/seata-server:1.6.0
    ```
    
+   ```shell
+   docker run -d \
+   -p 8091:8091 \
+   -p 7091:7091 \
+   -v /home/seata/config:/seata-server/resources \
+   -e SEATA_IP=124.221.27.253 \
+   -e SEATA_PORT=8091 \
+   -e SERVER_NODE=1 \
+   --name seata1 \
+   --restart=always \
+   seataio/seata-server:1.6.0
+   
+   docker run -d \
+   -p 8092:8092 \
+   -p 7092:7091 \
+   -v /home/seata/config:/seata-server/resources \
+   -e SEATA_IP=124.221.27.253 \
+   -e SEATA_PORT=8092 \
+   -e SERVER_NODE=2 \
+   --name seata2 \
+   --restart=always \
+   seataio/seata-server:1.6.0
+   
+   
+   docker run -d \
+   -p 8093:8093 \
+   -p 7093:7091 \
+   -v /home/seata/config:/seata-server/resources \
+   -e SEATA_IP=124.221.27.253 \
+   -e SEATA_PORT=8093 \
+   -e SERVER_NODE=3 \
+   --name seata3 \
+   --restart=always \
+   seataio/seata-server:1.6.0
+   ```
+   
    
 
 ---
@@ -448,7 +484,7 @@
 1. 拉取ES镜像
 
    ```shell
-   docker pull elasticsearch:8.1.2
+   docker pull docker.elastic.co/elasticsearch/elasticsearch:8.8.2
    ```
 
 2. 创建网络
@@ -460,36 +496,45 @@
 3. 运行ES容器
 
    ```shell
-   docker run --name es -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" -e "discovery.type=single-node"  --privileged --net es-net -p 9200:9200 -p 9300:9300 -it  --restart=always elasticsearch:8.1.2
+   docker run -d -it \
+   --name es \
+   -p 9200:9200 \
+   -p 9300:9300 \
+   --privileged \
+   --net es-net \
+   -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
+   -e "discovery.type=single-node" \
+   -e ELASTIC_PASSWORD=elastic \
+   -e KIBANA_PASSWORD=kibana \
+   --restart=always \
+   docker.elastic.co/elasticsearch/elasticsearch:8.8.2
    ```
 
-4. 查看Log
+4. 查看Log，但是Kibana不需要Token，而是手动连接ES
 
    ```shell
-   -------------------------------------------------------------------------------------------------------------------------------------------------------
-   -> Elasticsearch security features have been automatically configured!
-   -> Authentication is enabled and cluster connections are encrypted.
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ✅ Elasticsearch security features have been automatically configured!
+   ✅ Authentication is enabled and cluster connections are encrypted.
    
-   ->  Password for the elastic user (reset with `bin/elasticsearch-reset-password -u elastic`):
-   ->  初始密码
-     HpWHQ7UXq-VRL7Sre0dD
    
-   ->  HTTP CA certificate SHA-256 fingerprint:
-     4f23ff962e5c639af32565ffd2cfbc244fc83fe577796fd54bc264b3dd2155ee
    
-   ->  Configure Kibana to use this cluster:
-   * Run Kibana and click the configuration link in the terminal when Kibana starts.
-   * Copy the following enrollment token and paste it into Kibana in your browser (valid for the next 30 minutes):
-    
-   ->  初始token,用来连接Kibnana eyJ2ZXIiOiI4LjEuMiIsImFkciI6WyIxNzIuMTguMC4yOjkyMDAiXSwiZmdyIjoiNGYyM2ZmOTYyZTVjNjM5YWYzMjU2NWZmZDJjZmJjMjQ0ZmM4M2ZlNTc3Nzk2ZmQ1NGJjMjY0YjNkZDIxNTVlZSIsImtleSI6InZCYzFDb1VCbjE4SFRIa2xUNE5qOnR2Z0c5OFlSUllHSVUxNGhSdWwyUFEifQ==
+   ℹ️  HTTP CA certificate SHA-256 fingerprint:
+     2eece7079b42d56e164a3031e88042f41e996e266024b483e12d4f7b9bb89613
    
-   -> Configure other nodes to join this cluster:
-   * Copy the following enrollment token and start new Elasticsearch nodes with `bin/elasticsearch --enrollment-token <token>` (valid for the next 30 minutes):
-     eyJ2ZXIiOiI4LjEuMiIsImFkciI6WyIxNzIuMTguMC4yOjkyMDAiXSwiZmdyIjoiNGYyM2ZmOTYyZTVjNjM5YWYzMjU2NWZmZDJjZmJjMjQ0ZmM4M2ZlNTc3Nzk2ZmQ1NGJjMjY0YjNkZDIxNTVlZSIsImtleSI6InZoYzFDb1VCbjE4SFRIa2xUNE5rOldNQklZVXVrVHFpejVPV3NOWVdpdlEifQ==
+   ℹ️  Configure Kibana to use this cluster:
+   • Run Kibana and click the configuration link in the terminal when Kibana starts.
+   • Copy the following enrollment token and paste it into Kibana in your browser (valid for the next 30 minutes):
+     eyJ2ZXIiOiI4LjguMiIsImFkciI6WyIxNzIuMTguMC4yOjkyMDAiXSwiZmdyIjoiMmVlY2U3MDc5YjQyZDU2ZTE2NGEzMDMxZTg4MDQyZjQxZTk5NmUyNjYwMjRiNDgzZTEyZDRmN2I5YmI4OTYxMyIsImtleSI6ImJDU0hVNGtCYWlzdU9XSkdqNmcyOkZvQUFpdUlJUlk2UTZLdDhpckJxX0EifQ==
+   
+   ℹ️ Configure other nodes to join this cluster:
+   • Copy the following enrollment token and start new Elasticsearch nodes with `bin/elasticsearch --enrollment-token <token>` (valid for the next 30 minutes):
+     eyJ2ZXIiOiI4LjguMiIsImFkciI6WyIxNzIuMTguMC4yOjkyMDAiXSwiZmdyIjoiMmVlY2U3MDc5YjQyZDU2ZTE2NGEzMDMxZTg4MDQyZjQxZTk5NmUyNjYwMjRiNDgzZTEyZDRmN2I5YmI4OTYxMyIsImtleSI6ImFpU0hVNGtCYWlzdU9XSkdqNmdkOk50dzVJQ1NOVEt1Y3FyN3ZCdF9uOWcifQ==
    
      If you're running in Docker, copy the enrollment token and run:
-     `docker run -e "ENROLLMENT_TOKEN=<token>" docker.elastic.co/elasticsearch/elasticsearch:8.1.2`
-   -------------------------------------------------------------------------------------------------------------------------------------------------------
+     `docker run -e "ENROLLMENT_TOKEN=<token>" docker.elastic.co/elasticsearch/elasticsearch:8.8.2`
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   
    ```
 
 5. 将容器中配置文件Copy出来
@@ -504,33 +549,23 @@
    cluster.name: "docker-cluster"
    network.host: 0.0.0.0
    
-   #----------------------- BEGIN SECURITY AUTO CONFIGURATION -----------------------
-   #
-   # The following settings, TLS certificates, and keys have been automatically      
-   # generated to configure Elasticsearch security features on 13-12-2022 00:39:46
-   #
-   # --------------------------------------------------------------------------------
-   
-   # Enable security features
+   # 启用安全功能
    xpack.security.enabled: true
-   xpack.security.audit.enabled: true
-   xpack.license.self_generated.type: basic
    xpack.security.enrollment.enabled: true
    
-   # Enable encryption for HTTP API client connections, such as Kibana, Logstash, and Agents
+   # 启用加密 HTTP API客户端连接(如Kibana、Logstash和Agents)
    xpack.security.http.ssl:
      enabled: false
      keystore.path: certs/http.p12
    
-   # Enable encryption and mutual authentication between cluster nodes
+   # 启用集群节点之间的加密和相互认证
    xpack.security.transport.ssl:
      enabled: true
      verification_mode: certificate
      keystore.path: certs/transport.p12
      truststore.path: certs/transport.p12
-   #----------------------- END SECURITY AUTO CONFIGURATION -------------------------
    ```
-
+   
 7. 将配置文件Copy回容器中，重启容器
 
    ```shell
@@ -550,19 +585,11 @@
    
    elasticsearch-reset-password --username kibana_system -i
    
-   -- 建议密码修改为:kibana_system
+   -- 建议密码修改为:kibana
    
    exit
    ```
    
-9. 手动生成Token
-
-   ```shell
-   docker exec -it es /bin/bash
-   
-   bin/elasticsearch-create-enrollment-token -s kibana --url "https://localhost:9200"
-   ```
-
    
 
 ---
@@ -574,36 +601,67 @@
 1. 拉取Kibana镜像
 
    ```shell
-   docker pull kibana:8.1.2
+   docker pull docker.elastic.co/kibana/kibana:8.8.2
    ```
 
 2. 启动Kibana
 
    ```shell
-   docker run --name kib --net es-net -p 5601:5601 --restart=always kibana:8.1.2
+   docker run -d \
+   --name kibana \
+   -p 5601:5601 \
+   --net es-net \
+   --restart=always \
+   docker.elastic.co/kibana/kibana:8.8.2
    ```
 
-3. 访问kibana网址:
+3. 访问ES，输出一下内容，表示ES连接成功
 
-   http://192.168.111.111:5601
+   ```json
+   {
+     "name" : "a6cecc1a6c80",
+     "cluster_name" : "docker-cluster",
+     "cluster_uuid" : "Bvb5R4KpQFW2h2ouYFuxOA",
+     "version" : {
+       "number" : "8.8.2",
+       "build_flavor" : "default",
+       "build_type" : "docker",
+       "build_hash" : "98e1271edf932a480e4262a471281f1ee295ce6b",
+       "build_date" : "2023-06-26T05:16:16.196344851Z",
+       "build_snapshot" : false,
+       "lucene_version" : "9.6.0",
+       "minimum_wire_compatibility_version" : "7.17.0",
+       "minimum_index_compatibility_version" : "7.0.0"
+     },
+     "tagline" : "You Know, for Search"
+   }
+   ```
 
-4. 手动连接ES
+   
 
-   http://192.168.111.111:9200
+4. 访问kibana网址:
 
-5. 查看验证码
+   http://IP:5601
+
+5. 手动连接ES
+
+6. 输入kibana_system账号的密码
+
+7. 输入ES账号密码
+
+8. xxx
 
    ```shell
-   docker logs kib
+   sudo docker cp kibana:/usr/share/kibana/config/kibana.yml /home/kibana/config
+   
+   
+   
+   sudo docker cp /home/kibana/config/kibana.yml  kibana:/usr/share/kibana/config/
    ```
 
-6. 输入账号密码
+   
 
-   ```tex
-   kibana_system
-   ```
-
-
+   
 
 ---
 
@@ -642,6 +700,8 @@
 
    ```shell
    docker run -d --name sentinel -p 8858:8858 --restart=always bladex/sentinel-dashboard:latest
+   
+   sudo docker cp /home/es/config/elasticsearch.yml  es:/usr/share/elasticsearch/config/
    ```
 
 

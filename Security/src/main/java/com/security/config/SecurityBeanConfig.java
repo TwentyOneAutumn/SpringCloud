@@ -9,9 +9,13 @@ import com.security.enums.ClientsSql;
 import com.security.enums.RedisTokenKey;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -23,6 +27,9 @@ import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeSe
 import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionManager;
+
 import javax.sql.DataSource;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -35,6 +42,7 @@ import java.util.Map;
  * SecurityBean配置类
  */
 @Configuration
+@EnableFeignClients(basePackages = {"com.basic.api"})
 public class SecurityBeanConfig {
 
     /**
@@ -92,6 +100,11 @@ public class SecurityBeanConfig {
         return DataSourceBuilder.create().build();
     }
 
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public TransactionManager transactionManager(DataSource dataSource){
+        return new DataSourceTransactionManager(dataSource);
+    }
     /**
      * 用于管理 OAuth2 客户端的信息
      * 方法名称必须为clientDetailsService，否则Seata找不到clientDetailsService会导致服务启动失败

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
-@EnableFeignClients(basePackages = {"com.basic.api"})
+@EnableFeignClients(basePackages = {"com.file.api"})
 public class BasicApplication {
 
     public static void main(String[] args) {

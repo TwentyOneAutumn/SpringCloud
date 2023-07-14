@@ -34,6 +34,12 @@
             <artifactId>seata</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.FileApi</groupId>
+            <artifactId>FileApi</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 </project>

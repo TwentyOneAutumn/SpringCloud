@@ -22,4 +22,5 @@ public class ESClientConfig {
         ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
         return new ElasticsearchClient(transport);
     }
+
 }

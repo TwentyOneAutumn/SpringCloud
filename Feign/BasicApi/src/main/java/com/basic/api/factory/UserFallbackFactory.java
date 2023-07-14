@@ -21,11 +21,6 @@ public class UserFallbackFactory implements FallbackFactory<RemoteUserService> {
             public Row<Boolean> checkUser(SysUser user) {
                 return Build.row(false,"调用基础模块checkUser接口异常");
             }
-
-            @Override
-            public Row<Boolean> test(SysUser user) {
-                return null;
-            }
         };
     }
 }
