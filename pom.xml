@@ -48,7 +48,7 @@
         <Hutool.version>5.8.8</Hutool.version>
         <Jakarta.version>2.0.1</Jakarta.version>
         <FastJson.version>2.0.1</FastJson.version>
-        <ElasticSearch.version>8.1.2</ElasticSearch.version>
+        <ElasticSearch.version>8.8.2</ElasticSearch.version>
         <OpenFeign.version>3.1.1</OpenFeign.version>
         <Loadbalancer.version>3.1.1</Loadbalancer.version>
         <Gateway.version>3.1.1</Gateway.version>

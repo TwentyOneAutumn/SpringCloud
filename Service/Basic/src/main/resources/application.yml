@@ -34,13 +34,9 @@ mybatis-plus:
 
 
 seata:
-  transport:
-    type: TCP # socket通信方式
-    server: NIO # socket通道类型
-
   enabled: true # 启用 Seata
   application-id: ${spring.application.name} # 应用程序ID
-  tx-service-group: ${seata.tx.service.group} # 事务分组
+  tx-service-group: ${seata.txServiceGroup} # 事务分组
   service:
     vgroup-mapping:
       tx_group: default # 服务:事务组 映射

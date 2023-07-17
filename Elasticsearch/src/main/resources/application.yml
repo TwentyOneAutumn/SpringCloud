@@ -1,12 +1,11 @@
 spring:
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 192.168.111.111:8848 # nacos服务地址
   elasticsearch:
+    host: ${ip}
+    port: 9200
     username: "elastic" # 登录es的帐号
     password: "elastic" # 登录es的密码
-    uris: "http://192.168.111.111:9200" # es路径
+    uris: http://${ip}:9200 # es路径
     connection-timeout: 2s
     socket-timeout: 2s
+
 

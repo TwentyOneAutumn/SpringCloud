@@ -71,7 +71,7 @@
 4. 切换到目录下编辑文件application.yml
 
    ```shell
-   cd /home/seata/config
+   cd /home/seata/config/resources
    vim application.yml
    ```
 
@@ -246,120 +246,125 @@
    3. 复制粘贴以下内容
 
       ```properties
-      #For details about configuration items, see https://seata.io/zh-cn/docs/user/configurations.html
-      #Transport configuration, for client and server
-      transport.type=TCP
-      transport.server=NIO
-      transport.heartbeat=true
-      transport.enableTmClientBatchSendRequest=false
-      transport.enableRmClientBatchSendRequest=true
-      transport.enableTcServerBatchSendResponse=false
-      transport.rpcRmRequestTimeout=30000
-      transport.rpcTmRequestTimeout=30000
-      transport.rpcTcRequestTimeout=30000
-      transport.threadFactory.bossThreadPrefix=NettyBoss
-      transport.threadFactory.workerThreadPrefix=NettyServerNIOWorker
-      transport.threadFactory.serverExecutorThreadPrefix=NettyServerBizHandler
-      transport.threadFactory.shareBossWorker=false
-      transport.threadFactory.clientSelectorThreadPrefix=NettyClientSelector
-      transport.threadFactory.clientSelectorThreadSize=1
-      transport.threadFactory.clientWorkerThreadPrefix=NettyClientWorkerThread
-      transport.threadFactory.bossThreadSize=1
-      transport.threadFactory.workerThreadSize=default
-      transport.shutdown.wait=3
-      transport.serialization=seata
-      transport.compressor=none
+      # 详细的参数配置请参考Seata网关：https://seata.io/zh-cn/docs/user/configurations.html
       
-      #Transaction routing rules configuration, only for the client
-      # 此处的mygroup名字可以自定义，只修改这个值即可
-      service.vgroupMapping.mygroup=default
-      #If you use a registry, you can ignore it
-      service.default.grouplist=127.0.0.1:8091
-      service.enableDegrade=false
-      service.disableGlobalTransaction=false
+      # 传输配置，用于客户端和服务器
+      transport:
+        type: TCP # 传输类型，TCP
+        server: NIO # 传输服务器类型，NIO
+        heartbeat: true # 是否启用心跳
+        enableTmClientBatchSendRequest: false # 是否启用TM客户端批量发送请求
+        enableRmClientBatchSendRequest: true # 是否启用RM客户端批量发送请求
+        enableTcServerBatchSendResponse: false # 是否启用TC服务器批量发送响应
+        rpcRmRequestTimeout: 30000 # RM请求超时时间（毫秒）
+        rpcTmRequestTimeout: 30000 # TM请求超时时间（毫秒）
+        rpcTcRequestTimeout: 30000 # TC请求超时时间（毫秒）
+        threadFactory:
+          bossThreadPrefix: NettyBoss # boss线程名称前缀
+          workerThreadPrefix: NettyServerNIOWorker # worker线程名称前缀
+          serverExecutorThreadPrefix: NettyServerBizHandler # 服务器执行线程名称前缀
+          shareBossWorker: false # 是否共享boss和worker线程池
+          clientSelectorThreadPrefix: NettyClientSelector # 客户端选择器线程名称前缀
+          clientSelectorThreadSize: 1 # 客户端选择器线程数
+          clientWorkerThreadPrefix: NettyClientWorkerThread # 客户端工作线程名称前缀
+          bossThreadSize: 1 # boss线程数
+          workerThreadSize: default # worker线程数
+        shutdown:
+          wait: 3 # 关闭等待时间（秒）
+        serialization: seata # 序列化方式，seata
+        compressor: none # 压缩方式，无压缩
       
-      #Transaction rule configuration, only for the client
-      client.rm.asyncCommitBufferLimit=10000
-      client.rm.lock.retryInterval=10
-      client.rm.lock.retryTimes=30
-      client.rm.lock.retryPolicyBranchRollbackOnConflict=true
-      client.rm.reportRetryCount=5
-      client.rm.tableMetaCheckEnable=true
-      client.rm.tableMetaCheckerInterval=60000
-      client.rm.sqlParserType=druid
-      client.rm.reportSuccessEnable=false
-      client.rm.sagaBranchRegisterEnable=false
-      client.rm.sagaJsonParser=fastjson
-      client.rm.tccActionInterceptorOrder=-2147482648
-      client.tm.commitRetryCount=5
-      client.tm.rollbackRetryCount=5
-      client.tm.defaultGlobalTransactionTimeout=60000
-      client.tm.degradeCheck=false
-      client.tm.degradeCheckAllowTimes=10
-      client.tm.degradeCheckPeriod=2000
-      client.tm.interceptorOrder=-2147482648
-      client.undo.dataValidation=true
-      client.undo.logSerialization=jackson
-      client.undo.onlyCareUpdateColumns=true
-      server.undo.logSaveDays=7
-      server.undo.logDeletePeriod=86400000
-      client.undo.logTable=undo_log
-      client.undo.compress.enable=true
-      client.undo.compress.type=zip
-      client.undo.compress.threshold=64k
-      #For TCC transaction mode
-      tcc.fence.logTableName=tcc_fence_log
-      tcc.fence.cleanPeriod=1h
+      # 事务路由规则配置，仅针对客户端
+      service:
+        vgroupMapping:
+          tx_group: default # 事务分组映射
+        default:
+          grouplist: 127.0.0.1:8091 # 默认事务组的列表
+        enableDegrade: false # 是否启用降级
+        disableGlobalTransaction: false # 是否禁用全局事务
       
-      #Log rule configuration, for client and server
-      log.exceptionRate=100
+      # 事务规则配置，只针对客户端
+      client:
+        rm:
+          asyncCommitBufferLimit: 10000 # 异步提交缓冲区限制
+          lock:
+            retryInterval: 10 # 锁重试间隔（毫秒）
+            retryTimes: 30 # 锁重试次数
+            retryPolicyBranchRollbackOnConflict: true # 在冲突时回滚分支事务
+          reportRetryCount: 5 # 上报重试次数
+          tableMetaCheckEnable: true # 是否启用表元数据检查
+          tableMetaCheckerInterval: 60000 # 表元数据检查间隔（毫秒）
+          sqlParserType: druid # SQL解析器类型，druid
+          reportSuccessEnable: false # 是否启用上报成功
+          sagaBranchRegisterEnable: false # 是否启用Saga分支注册
+          sagaJsonParser: fastjson # Saga JSON解析器，fastjson
+          tccActionInterceptorOrder: -2147482648 # TCC动作拦截器顺序
+        tm:
+          commitRetryCount: 5 # 提交重试次数
+          rollbackRetryCount: 5 # 回滚重试次数
+          defaultGlobalTransactionTimeout: 60000 # 默认全局事务超时时间（毫秒）
+          degradeCheck: false # 是否启用降级检查
+          degradeCheckAllowTimes: 10 # 降级检查允许次数
+          degradeCheckPeriod: 2000 # 降级检查周期（毫秒）
+          interceptorOrder: -2147482648 # 拦截器顺序
+        undo:
+          dataValidation: true # 是否启用数据校验
+          logSerialization: jackson # 日志序列化方式，jackson
+          onlyCareUpdateColumns: true # 是否只关注更新列
+        store:
+          mode: db # 存储模式，数据库模式
+          lock:
+            mode: db # 锁存储模式，数据库模式
+          session:
+            mode: db # 会话存储模式，数据库模式
+          db:
+            datasource: druid # 数据源类型，druid
+            dbType: mysql # 数据库类型，mysql
+            driverClassName: com.mysql.cj.jdbc.Driver # 数据库驱动类名
+            url: jdbc:mysql://124.221.27.253:3306/seata?useUnicode=true&characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false # 数据库连接URL
+            user: root # 数据库用户名
+            password: 2762581@com # 数据库密码
+            minConn: 5 # 最小连接数
+            maxConn: 30 # 最大连接数
+            globalTable: global_table # 全局事务表名
+            branchTable: branch_table # 分支事务表名
+            distributedLockTable: distributed_lock # 分布式锁表名
+            queryLimit: 100 # 查询限制
+            lockTable: lock_table # 锁表名
+            maxWait: 5000 # 最大等待时间（毫秒）
       
-      #Transaction storage configuration, only for the server. The file, db, and redis configuration values are optional.
-      # 默认为file，一定要改为db，我们自己的服务启动会连接不到seata
-      store.mode=db
-      store.lock.mode=db
-      store.session.mode=db
-      #Used for password encryption
+      # 事务规则配置，仅用于服务器
+      server:
+        recovery:
+          committingRetryPeriod: 1000 # 提交事务重试周期（毫秒）
+          asynCommittingRetryPeriod: 1000 # 异步提交事务重试周期（毫秒）
+          rollbackingRetryPeriod: 1000 # 回滚事务重试周期（毫秒）
+          timeoutRetryPeriod: 1000 # 超时事务重试周期（毫秒）
+        maxCommitRetryTimeout: -1 # 最大提交重试超时时间（毫秒）
+        maxRollbackRetryTimeout: -1 # 最大回滚重试超时时间（毫秒）
+        rollbackRetryTimeoutUnlockEnable: false # 回滚重试超时解锁开关
+        distributedLockExpireTime: 10000 # 分布式锁过期时间（毫秒）
+        xaerNotaRetryTimeout: 60000 # XAER_NOTA重试超时时间（毫秒）
+        session:
+          branchAsyncQueueSize: 5000 # 分支异步队列大小
+          enableBranchAsyncRemove: false # 是否启用分支异步删除
+        enableParallelRequestHandle: false # 是否启用并行请求处理
       
-      #These configurations are required if the `store mode` is `db`. If `store.mode,store.lock.mode,store.session.mode` are not equal to `db`, you can remove the configuration block.
-      # 修改mysql的配置
-      store.db.datasource=druid
-      store.db.dbType=mysql
-      store.db.driverClassName=com.mysql.cj.jdbc.Driver
-      # 指定seata的数据库，下面会提
-      store.db.url=jdbc:mysql://124.221.27.253:3306/seata?useUnicode=true&characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
-      store.db.user=root
-      store.db.password=2762581@com
-      store.db.minConn=5
-      store.db.maxConn=30
-      store.db.globalTable=global_table
-      store.db.branchTable=branch_table
-      store.db.distributedLockTable=distributed_lock
-      store.db.queryLimit=100
-      store.db.lockTable=lock_table
-      store.db.maxWait=5000
-      
-      
-      #Transaction rule configuration, only for the server
-      server.recovery.committingRetryPeriod=1000
-      server.recovery.asynCommittingRetryPeriod=1000
-      server.recovery.rollbackingRetryPeriod=1000
-      server.recovery.timeoutRetryPeriod=1000
-      server.maxCommitRetryTimeout=-1
-      server.maxRollbackRetryTimeout=-1
-      server.rollbackRetryTimeoutUnlockEnable=false
-      server.distributedLockExpireTime=10000
-      server.xaerNotaRetryTimeout=60000
-      server.session.branchAsyncQueueSize=5000
-      server.session.enableBranchAsyncRemove=false
-      server.enableParallelRequestHandle=false
-      
-      #Metrics configuration, only for the server
-      metrics.enabled=false
-      metrics.registryType=compact
-      metrics.exporterList=prometheus
-      metrics.exporterPrometheusPort=9898
+      # 度量配置，仅适用于服务器
+      metrics:
+        enabled: false # 是否启用Metrics
+        registryType: compact # Metrics注册表类型，compact
+        exporterList: prometheus # Metrics导出器列表，prometheus
+        exporterPrometheusPort: 9898 # Prometheus导出器端口
       ```
+
+   4. 创建配置
+
+      DataID:service.vgroupMapping.tx_group （tx_group为事务分组）
+
+      Group:SEATA_GROUP
+
+      内容：default
 
 7. 重新启动容器
 
@@ -369,7 +374,7 @@
    docker run -d \
    -p 8091:8091 \
    -p 7091:7091 \
-   -v /home/seata/config:/seata-server/resources \
+   -v /home/seata/config/resources:/seata-server/resources \
    -e SEATA_IP=124.221.27.253 \
    -e SEATA_PORT=8091 \
    --name seata \
@@ -377,6 +382,8 @@
    seataio/seata-server:1.6.0
    ```
    
+8. 集群启动
+
    ```shell
    docker run -d \
    -p 8091:8091 \
@@ -412,7 +419,7 @@
    --restart=always \
    seataio/seata-server:1.6.0
    ```
-   
+
    
 
 ---
@@ -579,6 +586,8 @@
    ```shell
    docker exec -it es /bin/bash
    
+   cd /bin
+   
    elasticsearch-reset-password --username elastic -i
    
    -- 建议密码修改为:elastic
@@ -611,6 +620,7 @@
    --name kibana \
    -p 5601:5601 \
    --net es-net \
+   -e "I18N_LOCALE=zh-CN" \
    --restart=always \
    docker.elastic.co/kibana/kibana:8.8.2
    ```
@@ -645,23 +655,41 @@
 
 5. 手动连接ES
 
-6. 输入kibana_system账号的密码
+6. 重置Kibana密码
 
-7. 输入ES账号密码
+   ```shell
+   docker exec -it es /bin/bash
+   
+   cd /bin
+   
+   elasticsearch-reset-password --username elastic -i
+   ```
 
-8. xxx
+7. 输入kibana_system账号的密码
+
+8. 输入ES账号密码
+
+9. 可以通过修改kibana.yml配置文件修改用户名密码
 
    ```shell
    sudo docker cp kibana:/usr/share/kibana/config/kibana.yml /home/kibana/config
    
-   
-   
    sudo docker cp /home/kibana/config/kibana.yml  kibana:/usr/share/kibana/config/
+   
+   docker restart kibana
    ```
 
-   
+10. 安装IK分词器
 
-   
+    ```shell
+    docker exec -it es容器ID /bin/bash
+    
+    ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v8.8.2/elasticsearch-analysis-ik-8.8.2.zip
+    
+    docker restart es
+    ```
+
+
 
 ---
 

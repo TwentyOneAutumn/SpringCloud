@@ -19,9 +19,7 @@ public class TestConifg {
     @Bean
     public AuthenticationPostProcessor authenticationPostProcessor(){
         return authentication -> {
-            System.out.println("--------------------------------");
-            System.out.println("测试");
-            System.out.println("--------------------------------");
+            System.out.println("测试AuthenticationPostProcessor");
         };
     }
 }
