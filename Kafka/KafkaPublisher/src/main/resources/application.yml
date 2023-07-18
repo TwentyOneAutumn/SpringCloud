@@ -5,6 +5,8 @@ server:
 spring:
   application:
     name: KafkaPublisher # 服务名称
+  kafka:
+    bootstrap-servers: 124.221.27.253:9092
   cloud:
     stream:
       kafka:
