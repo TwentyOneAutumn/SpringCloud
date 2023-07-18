@@ -10,6 +10,7 @@ import com.core.doMain.file.FileResource;
 import com.core.doMain.file.UploadForm;
 import com.core.doMain.file.UploadsForm;
 import com.core.utils.FileUtils;
+import com.core.utils.SystemUtils;
 import com.security.utils.SecurityUtils;
 import com.service.file.enums.FilePath;
 import com.service.file.mapper.FileMapper;
@@ -18,8 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,8 +69,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implem
         // 文件后缀
         String filePostfix = split[1];
         // 获取当前项目路径
-        Path currentPath = Paths.get(System.getProperty("user.dir"));
-        String projectPath = currentPath.toAbsolutePath().toString();
+        String projectPath = SystemUtils.projectPath();
         // 获取文件夹路径
         String mkdirPath = FileUtils.joinFilePath(projectPath,FilePath.FILE_PATH,moduleName,filePostfix);
         // 创建文件夹
