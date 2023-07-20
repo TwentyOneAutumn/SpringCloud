@@ -706,7 +706,12 @@
 2. 启动MySQL
 
    ```shell
-   docker run -itd --name mysql -p 3306:3306 --restart=always -e MYSQL_ROOT_PASSWORD=2762581@com mysql:8.0.32
+   docker run -itd \
+   --name mysql \
+   -p 3306:3306 \
+   -e MYSQL_ROOT_PASSWORD=2762581@com \
+   --restart=always \
+   mysql:8.0.32
    ```
 
 
@@ -727,7 +732,11 @@
 2. 启动Sentinel
 
    ```shell
-   docker run -d --name sentinel -p 8858:8858 --restart=always bladex/sentinel-dashboard:latest
+   docker run -d \
+   --name sentinel \
+   -p 8858:8858 \
+   --restart=always \
+   bladex/sentinel-dashboard:latest
    
    sudo docker cp /home/es/config/elasticsearch.yml  es:/usr/share/elasticsearch/config/
    ```
@@ -749,7 +758,16 @@
 2. 启动RabbitMQ
 
    ```shell
-   docker run -e RABBITMQ_DEFAULT_USER=root -e RABBITMQ_DEFAULT_PASS=2762581@com -e RABBITMQ_MANAGEMENT=true --name rabbitmq --hostname rabbitmq  -p 15672:15672 -p 5672:5672 -d rabbitmq:latest
+   docker run -d \
+   -p 15672:15672  \
+   -p 5672:5672   \
+   -e RABBITMQ_DEFAULT_USER=root  \
+   -e RABBITMQ_DEFAULT_PASS=2762581@com  \
+   -e RABBITMQ_MANAGEMENT=true \
+   --name rabbitmq \
+   --hostname rabbitmq \  
+   --restart=always \
+   rabbitmq:latest
    ```
 
 3. 安装依赖
@@ -771,4 +789,34 @@
    
 
 ---
+
+
+
+### ActiveMq
+
+
+
+1.拉取ActiveMq镜像
+
+```shell
+docker pull islandora/activemq:main
+```
+2.启动ActiveMq
+
+```shell
+docker run -d \
+-p 8161:8161 \
+-p 61616:61616 \
+-e ACTIVEMQ_USER=root \
+-e ACTIVEMQ_PASSWORD=2762581@com \
+--name activemq \
+--restart=always \
+islandora/activemq:main
+```
+
+
+
+
+
+
 

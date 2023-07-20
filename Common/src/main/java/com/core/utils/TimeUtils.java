@@ -2,7 +2,6 @@ package com.core.utils;
 
 import com.core.enums.CompareType;
 import com.core.enums.TimeUnit;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;

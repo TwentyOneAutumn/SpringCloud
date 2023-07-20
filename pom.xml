@@ -23,13 +23,12 @@
     <modules>
         <module>Feign</module>
         <module>Gateway</module>
-        <module>RabbitMq</module>
         <module>Elasticsearch</module>
         <module>TestApp</module>
         <module>Service</module>
         <module>Common</module>
         <module>Security</module>
-        <module>Kafka</module>
+        <module>MessageQueue</module>
         <module>Generator</module>
         <module>Config</module>
         <module>DataBaseConfig</module>
@@ -58,7 +57,6 @@
         <JWT.version>0.11.2</JWT.version>
         <Slf4j.version>1.7.30</Slf4j.version>
         <Log4j2.version>2.19.0</Log4j2.version>
-        <Kafka.version>3.2.0</Kafka.version>
         <PageHelper.version>1.4.6</PageHelper.version>
         <Sentinel.version>1.8.6</Sentinel.version>
     </properties>
@@ -280,13 +278,6 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
                 <version>${Log4j2.version}</version>
-            </dependency>
-
-            <!-- Kafka依赖 -->
-            <dependency>
-                <groupId>org.apache.kafka</groupId>
-                <artifactId>kafka-clients</artifactId>
-                <version>${Kafka.version}</version>
             </dependency>
 
             <!-- PageHelper分页插件 -->

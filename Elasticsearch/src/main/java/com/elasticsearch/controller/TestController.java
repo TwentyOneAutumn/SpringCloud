@@ -10,6 +10,10 @@ public class TestController {
 
     @Autowired
     ElasticsearchClient ESClient;
-    public void test(){
+    public void insert(){
+//        GetRequest.of(request -> {
+//
+//        })
+//        ESClient.get();
     }
 }

@@ -3,31 +3,38 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <groupId>com.demo.SpringCloudDemo</groupId>
-        <artifactId>SpringCloudDemo</artifactId>
+        <groupId>com.messagequeue</groupId>
+        <artifactId>MessageQueue</artifactId>
         <version>1.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.demo.kafka</groupId>
-    <artifactId>Kafka</artifactId>
+    <groupId>com.activemq</groupId>
+    <artifactId>ActiveMq</artifactId>
     <version>1.0</version>
-    <name>Kafka</name>
-    <description>Kafka</description>
+    <name>ActiveMq</name>
+    <description>ActiveMq</description>
     <packaging>pom</packaging>
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
     <modules>
-        <module>KafkaPublisher</module>
-        <module>KafkaConsumer</module>
-        <module>KafkaConfig</module>
+        <module>ActiveMqConfig</module>
+        <module>ActiveMqPublisher</module>
+        <module>ActiveMqConsumer</module>
     </modules>
 
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+
         <!-- Common模块 -->
         <dependency>
             <groupId>com.Common</groupId>
@@ -42,12 +49,6 @@
             </exclusions>
         </dependency>
 
-        <!-- Kafka依赖 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-stream-kafka</artifactId>
-        </dependency>
-
         <!-- 配置模块-->
         <dependency>
             <groupId>com.config</groupId>
@@ -55,4 +56,14 @@
             <version>1.0</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
