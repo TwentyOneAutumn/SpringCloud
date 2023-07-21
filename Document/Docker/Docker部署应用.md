@@ -26,18 +26,36 @@
 
 
 
-### Docker安装Redis
+### Redis
 
 1. 拉取Redis镜像 
 
    ```shell
-   docker pull redis:latest
+   docker pull redis:6.0
    ```
 
 1. 启动容器
 
    ```shell
-   docker run --restart=always --log-opt max-size=100m --log-opt max-file=2 -p 6379:6379 --name redis -v /home/redis/redis.conf:/etc/redis/redis.conf -v /home/redis/data:/data -d redis redis-server /etc/redis/redis.conf  --appendonly yes  --requirepass redis
+   docker run -d \
+   -p 6379:6379 \
+   redis redis-server /etc/redis/redis.conf \
+   --name redis \
+   --restart=always \
+   redis:6.0
+   
+   
+   docker run -d \
+   -p 6379:6379 \
+   -v /home/redis/config:/home/redis/config \
+   -v /home/redis/aof:/home/redis/aof \
+   --name redis \
+   --restart=always \
+   redis:6.0 \
+   redis-server /home/redis/config/redis.conf \
+   --requirepass 2762581@com \
+   --appendonly yes \
+   --appendfilename /home/redis/aof/RedismMasterAof1.aof
    ```
 
 1. 修改配置文件redis.conf
@@ -695,7 +713,7 @@
 
 
 
-### Docker部署MySQL
+### MySQL
 
 1. 拉取MySQL镜像
 
@@ -816,7 +834,5 @@ islandora/activemq:main
 
 
 
-
-
-
+---
 
