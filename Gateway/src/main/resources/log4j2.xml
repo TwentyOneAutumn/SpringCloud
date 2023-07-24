@@ -54,9 +54,6 @@
 
     <!-- 然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
     <loggers>
-        <logger name="org.springframework" level="OFF"/>
-        <logger name="com.github.pagehelper" level="OFF"/>
-
         <!-- 使用 RollingInfoFile appender 记录 INFO 级别的日志 -->
         <logger name="InfoLogger" level="INFO">
             <appender-ref ref="RollingInfoFile"/>
@@ -68,7 +65,7 @@
         </logger>
 
         <!-- 建立一个默认的root的logger -->
-        <root level="INFO">
+        <root level="DEBUG">
             <!-- 控制台输出日志 -->
             <appender-ref ref="Console"/>
         </root>

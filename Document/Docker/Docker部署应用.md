@@ -39,23 +39,20 @@
    ```shell
    docker run -d \
    -p 6379:6379 \
-   redis redis-server /etc/redis/redis.conf \
-   --name redis \
-   --restart=always \
-   redis:6.0
-   
-   
-   docker run -d \
-   -p 6379:6379 \
-   -v /home/redis/config:/home/redis/config \
-   -v /home/redis/aof:/home/redis/aof \
+   -v /home/redis/config/:/home/redis/config \
+   -v /home/redis/data:/home/redis/data \
    --name redis \
    --restart=always \
    redis:6.0 \
    redis-server /home/redis/config/redis.conf \
-   --requirepass 2762581@com \
+   --port 6379 \
+   --bind 0.0.0.0 \
+   --protected-mode no \
+   --requirepass root \
    --appendonly yes \
-   --appendfilename /home/redis/aof/RedismMasterAof1.aof
+   --dir /home/redis/data \
+   --appendfilename RedisAof.aof \
+   --save ''
    ```
 
 1. 修改配置文件redis.conf
