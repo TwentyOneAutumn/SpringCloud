@@ -25,11 +25,10 @@
     </modules>
     <dependencies>
 
-        <!-- 数据库依赖 -->
+        <!-- Nacos注册发现依赖 -->
         <dependency>
-            <groupId>com.database</groupId>
-            <artifactId>DataBaseConfig</artifactId>
-            <version>1.0</version>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
         <!-- Common模块 -->
@@ -37,30 +36,6 @@
             <groupId>com.Common</groupId>
             <artifactId>Common</artifactId>
             <version>1.0</version>
-        </dependency>
-
-        <!-- Slf4j依赖-->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <!-- Log4j2和slf4j桥接依赖-->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-        </dependency>
-
-        <!-- Log4j2依赖-->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-        </dependency>
-
-        <!-- Log4j2-Core-->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
         </dependency>
 
         <!-- 配置模块-->

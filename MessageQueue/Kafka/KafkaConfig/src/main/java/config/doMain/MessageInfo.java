@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,5 +23,5 @@ public class MessageInfo implements Serializable {
      * 消息对象
      */
     @NotNull(message = "消息对象不能为空")
-    private Object message;
+    private List<String> message;
 }

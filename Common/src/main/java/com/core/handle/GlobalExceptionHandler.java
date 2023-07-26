@@ -75,16 +75,6 @@ public class GlobalExceptionHandler {
 //        return Build.buildAjax(code,errorMsg);
 //    }
 
-    @ExceptionHandler(RedisConnectionFailureException.class)
-    public AjaxResult RedisConnectionFailureException(RedisConnectionFailureException ex){
-        return Build.ajax(500,"Redis服务连接异常");
-    }
-
-    @ExceptionHandler(RedisConnectionException.class)
-    public AjaxResult Exception(RedisConnectionException ex){
-        return Build.ajax(500,"Redis服务连接异常");
-    }
-
     @ExceptionHandler(Exception.class)
     public AjaxResult Exception(Exception ex){
         return Build.ajax(500,"服务异常");

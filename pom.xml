@@ -362,12 +362,6 @@
             <type>pom</type>
             <scope>import</scope>
         </dependency>
-
-        <!-- Nacos注册发现依赖 -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
