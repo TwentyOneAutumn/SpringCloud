@@ -49,6 +49,12 @@
             <artifactId>fastjson</artifactId>
         </dependency>
 
+        <!-- jakarta依赖 -->
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+        </dependency>
+
         <!-- Lombok依赖 -->
         <dependency>
             <groupId>org.projectlombok</groupId>

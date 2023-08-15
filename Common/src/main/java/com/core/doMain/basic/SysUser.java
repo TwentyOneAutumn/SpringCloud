@@ -1,7 +1,7 @@
 package com.core.doMain.basic;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.core.doMain.BaseEntity;
+import com.core.doMain.TimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +17,7 @@ import java.util.Date;
 @TableName("sys_user")
 @EqualsAndHashCode(callSuper = true)
 @KeySequence("KeyGenerator")
-public class SysUser extends BaseEntity {
+public class SysUser extends TimeEntity {
 
     /**
      * 主键ID

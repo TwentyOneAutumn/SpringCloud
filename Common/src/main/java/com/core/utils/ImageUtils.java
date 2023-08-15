@@ -1,5 +1,7 @@
 package com.core.utils;
 
+import cn.hutool.core.bean.BeanUtil;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,14 +19,21 @@ public class ImageUtils {
      * @return Base64 encoded
      */
     public static String toBase64String(File file) {
-        try {
-            // 读取图片文件并将其转换为字节数组
-            byte[] imageBytes = Files.readAllBytes(Paths.get(file.getPath()));
+        if(BeanUtil.isEmpty(file)){
+            throw new RuntimeException("文件对象不能为空");
+        }
+        if(file.exists()){
+            try {
+                // 读取图片文件并将其转换为字节数组
+                byte[] imageBytes = Files.readAllBytes(Paths.get(file.getPath()));
 
-            // 将字节数组进行Base64编码
-            return Base64.getEncoder().encodeToString(imageBytes);
-        } catch (IOException e) {
-            throw new RuntimeException("转换Base64异常");
+                // 将字节数组进行Base64编码
+                return Base64.getEncoder().encodeToString(imageBytes);
+            } catch (IOException e) {
+                throw new RuntimeException("转换Base64异常");
+            }
+        }else {
+            throw new RuntimeException("文件不存在");
         }
     }
 
@@ -34,14 +43,19 @@ public class ImageUtils {
      * @return  Base64 encoded
      */
     public static String toBase64String(String filePath) {
-        try {
-            // 读取图片文件并将其转换为字节数组
-            byte[] imageBytes = Files.readAllBytes(Paths.get(filePath));
+        File file = new File(filePath);
+        if(file.exists()){
+            try {
+                // 读取图片文件并将其转换为字节数组
+                byte[] imageBytes = Files.readAllBytes(Paths.get(filePath));
 
-            // 将字节数组进行Base64编码
-            return Base64.getEncoder().encodeToString(imageBytes);
-        } catch (IOException e) {
-            throw new RuntimeException("转换Base64异常");
+                // 将字节数组进行Base64编码
+                return Base64.getEncoder().encodeToString(imageBytes);
+            } catch (IOException e) {
+                throw new RuntimeException("转换Base64异常");
+            }
+        }else {
+            throw new RuntimeException("文件不存在");
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.core.doMain.basic;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.core.doMain.BaseEntity;
+import com.core.doMain.TimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @TableName("sys_role")
 @EqualsAndHashCode(callSuper = true)
 @KeySequence("KeyGenerator")
-public class SysRole extends BaseEntity {
+public class SysRole extends TimeEntity {
 
 
     /**

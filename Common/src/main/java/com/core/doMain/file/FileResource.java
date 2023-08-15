@@ -1,7 +1,7 @@
 package com.core.doMain.file;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.core.doMain.BaseEntity;
+import com.core.doMain.TimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @TableName("file_resource")
 @EqualsAndHashCode(callSuper = true)
 @KeySequence("KeyGenerator")
-public class FileResource extends BaseEntity {
+public class FileResource extends TimeEntity {
 
     /**
      * 主键ID

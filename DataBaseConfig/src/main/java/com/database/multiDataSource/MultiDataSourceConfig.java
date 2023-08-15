@@ -1,7 +1,7 @@
 package com.database.multiDataSource;
 
 import cn.hutool.core.collection.CollUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.data.transaction.ChainedTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
-
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,13 +18,6 @@ import java.util.stream.Collectors;
  * 多数据源配置类，负责加载创建一系列多数据依赖对象
  */
 public class MultiDataSourceConfig {
-
-
-    @Bean
-    @ConfigurationProperties(prefix = "multi")
-    public MultiDataSourceTemplate multiDataSourceTemplate(){
-        return new MultiDataSourceTemplate();
-    }
 
     /**
      * 注册MultiDataSourceFactory，添加数据源模版缓存，方便后续注册组件调用

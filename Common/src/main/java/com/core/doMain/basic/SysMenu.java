@@ -1,7 +1,7 @@
 package com.core.doMain.basic;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.core.doMain.BaseEntity;
+import com.core.doMain.TimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @TableName("sys_menu")
 @EqualsAndHashCode(callSuper = true)
 @KeySequence("KeyGenerator")
-public class SysMenu extends BaseEntity {
+public class SysMenu extends TimeEntity {
 
     /**
      * 主键ID

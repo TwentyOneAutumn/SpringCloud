@@ -21,6 +21,6 @@ public class KeyGenerator implements IKeyGenerator {
 
     @Override
     public DbType dbType() {
-        return null;
+        return DbType.MYSQL;
     }
 }

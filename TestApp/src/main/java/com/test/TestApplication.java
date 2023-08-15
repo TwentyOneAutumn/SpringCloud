@@ -1,12 +1,12 @@
 package com.test;
 
-import com.database.multiDataSource.EnableMultiDataSource;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-//@EnableMultiDataSource
+
+@MapperScan(basePackages = "com.test.mapper")
 @SpringBootApplication
 @EnableTransactionManagement
 public class TestApplication {

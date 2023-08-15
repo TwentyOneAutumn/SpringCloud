@@ -3,6 +3,13 @@ server:
   servlet:
     context-path: /basic
 spring:
+  cloud:
+    nacos:
+      discovery:
+        heart-beat-interval: 2 # 心跳间隔
+        heart-beat-timeout: 4 # 心跳超时时间
+        ip-delete-timeout: 6 # 剔除服务时间
+        ephemeral: true # 是否为临时服务实例
   application:
     name: basic # 服务名称
   datasource:
