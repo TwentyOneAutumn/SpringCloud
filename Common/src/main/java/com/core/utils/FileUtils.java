@@ -71,16 +71,17 @@ public class FileUtils {
      * 如果文件不存在会自动创建文件
      * @param file 文件对象
      * @param data 文本内容
+     * @param append 是否追加
      * @throws IOException IO异常
      */
-    public static void write(File file, String data) throws IOException {
+    public static void write(File file, String data, boolean append) throws IOException {
         if(BeanUtil.isEmpty(file)){
             throw new IllegalArgumentException("The file cannot be empty.");
         }
         if(StrUtil.isEmpty(data)){
             throw new IllegalArgumentException("The data cannot be empty.");
         }
-        FileWriter fileWriter = new FileWriter(file.getAbsolutePath(), true);
+        FileWriter fileWriter = new FileWriter(file.getAbsolutePath(), append);
         fileWriter.write(data);
         fileWriter.close();
     }
@@ -90,9 +91,10 @@ public class FileUtils {
      * 如果文件不存在会自动创建文件
      * @param filePath 文件对象路径
      * @param data 文本内容
+     * @param append 是否追加
      * @throws IOException IO异常
      */
-    public static void write(String filePath, String data) throws IOException {
+    public static void write(String filePath, String data, boolean append) throws IOException {
         if(StrUtil.isEmpty(filePath)){
             throw new IllegalArgumentException("The filePath cannot be empty.");
         }

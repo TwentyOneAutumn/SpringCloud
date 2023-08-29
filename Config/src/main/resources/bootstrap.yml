@@ -1,0 +1,26 @@
+# IP
+ip: 124.221.27.253
+
+# Nacos
+spring:
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${ip}:8848,${ip}:8849,${ip}:8850
+        username: nacos
+        password: nacos
+  redis:
+    host: ${ip}
+    port: 6379
+    password: root
+
+# ClientDetailsService
+client-details:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbcUr: jdbc:mysql://${ip}:3306/client?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 2762581@com

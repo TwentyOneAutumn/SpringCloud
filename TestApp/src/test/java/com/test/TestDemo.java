@@ -9,26 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 @Slf4j
 @SpringBootTest
 public class TestDemo {
 
-    @Autowired
-    private ISysTestService sysTestService;
+
     @Test
     @Transactional
     public void test(){
-        SysTest sysTest = new SysTest();
-        sysTest.setId("1");
-        sysTest.setCode("test");
-        sysTest.setAge(18);
-        try {
-            sysTestService.save(sysTest);
-            sysTestService.save(sysTest);
-        }
-        catch (Exception ex){
-            log.error("测试异常:{}",ex.getMessage());
-        }
-        log.info("测试成功");
+        LocalDateTime now1 = LocalDateTime.now();
+        LocalDateTime now2 = LocalDateTime.now();
+        LocalDateTime localDateTime = now2.minusDays(1);
+        long minutes = Duration.between(localDateTime,now1).toMinutes();
+        System.out.println(minutes);
     }
 }

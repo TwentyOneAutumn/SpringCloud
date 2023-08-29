@@ -11,15 +11,94 @@
 1. 拉取Nacos镜像
 
    ```shell
-   docker pull nacos/nacos-server
+   docker pull nacos/nacos-server:v2.2.2
    ```
 
-2. 启动容器
+2. 单机启动
 
    ```shell
-   docker run --env MODE=standalone --restart=always --name nacos_server -d -p 8848:8848 nacos/nacos-server
+   docker run -d \
+   -p 8848:8848 \
+   -e MODE=standalone \
+   --restart=always \
+   --name nacos \
+   nacos/nacos-server:v2.2.2
    ```
-   
+
+3. 集群启动
+
+   ```shell
+   docker run -d \
+   -p 8848:8848 \
+   -p 9848:9848 \
+   -p 9849:9849 \
+   -e MODE=cluster \
+   -e NACOS_SERVER_IP=124.221.27.253 \
+   -e NACOS_SERVERS=124.221.27.253:8848,124.221.27.253:8849,124.221.27.253:8850 \
+   -e NACOS_APPLICATION_PORT=8848 \
+   -e MYSQL_SERVICE_HOST=124.221.27.253 \
+   -e MYSQL_SERVICE_PORT=3306 \
+   -e MYSQL_SERVICE_DB_NAME=nacos \
+   -e MYSQL_SERVICE_USER=root \
+   -e MYSQL_SERVICE_PASSWORD=2762581@com \
+   -e PREFER_HOST_MODE=hostname \
+   -e SPRING_DATASOURCE_PLATFORM=mysql \
+   --restart=always  \
+   --name nacos1  \
+   nacos/nacos-server:v2.2.2
+   ```
+
+   ```shell
+   	docker run -d \
+   -p 8849:8849 \
+   -p 9850:9850 \
+   -p 9851:9851 \
+   -e MODE=cluster \
+   -e NACOS_SERVER_IP=124.221.27.253 \
+   -e NACOS_SERVERS=124.221.27.253:8848,124.221.27.253:8849,124.221.27.253:8850 \
+   -e NACOS_APPLICATION_PORT=8849 \
+   -e MYSQL_SERVICE_HOST=124.221.27.253 \
+   -e MYSQL_SERVICE_PORT=3306 \
+   -e MYSQL_SERVICE_DB_NAME=nacos \
+   -e MYSQL_SERVICE_USER=root \
+   -e MYSQL_SERVICE_PASSWORD=2762581@com \
+   -e PREFER_HOST_MODE=hostname \
+   -e SPRING_DATASOURCE_PLATFORM=mysql \
+   --restart=always  \
+   --name nacos1  \
+   nacos/nacos-server:v2.2.2
+   ```
+
+   ```shell
+   docker run -d \
+   -p 8850:8850 \
+   -p 9852:9852 \
+   -p 9853:9853 \
+   -e MODE=cluster \
+   -e NACOS_SERVER_IP=124.221.27.253 \
+   -e NACOS_SERVERS=124.221.27.253:8848,124.221.27.253:8849,124.221.27.253:8850 \
+   -e NACOS_APPLICATION_PORT=8850 \
+   -e MYSQL_SERVICE_HOST=124.221.27.253 \
+   -e MYSQL_SERVICE_PORT=3306 \
+   -e MYSQL_SERVICE_DB_NAME=nacos \
+   -e MYSQL_SERVICE_USER=root \
+   -e MYSQL_SERVICE_PASSWORD=2762581@com \
+   -e PREFER_HOST_MODE=hostname \
+   -e SPRING_DATASOURCE_PLATFORM=mysql \
+   --restart=always  \
+   --name nacos3  \
+   nacos/nacos-server:v2.2.2
+   ```
+
+4. 开启集群权限（未测试）
+
+   ```shell
+   -e NACOS_AUTH_ENABLE=true \
+   -e NACOS_AUTH_IDENTITY_KEY=nacos \
+   -e NACOS_AUTH_IDENTITY_VALUE=nacos \
+   -e NACOS_AUTH_TOKEN='VGhpc0lzTXlDdXN0b21TZWNyZXRLZXkwMTIzNDU2Nzg=' \
+   ```
+
    
 
 ---
@@ -31,33 +110,148 @@
 1. 拉取Redis镜像 
 
    ```shell
-   docker pull redis:6.0
+   docker pull redis:7.0
    ```
 
-1. 启动容器
+1. 单机启动
 
    ```shell
    docker run -d \
    -p 6379:6379 \
-   -v /home/redis/config/:/home/redis/config \
-   -v /home/redis/data:/home/redis/data \
-   --name redis \
-   --restart=always \
-   redis:6.0 \
+   -v /home/redis/config/:/home/redis/config
+   -v /home/redis/data/:/home/redis/data
+   --name redis-master \
+   --restart=always \ 
+   redis:7.0 \
    redis-server /home/redis/config/redis.conf \
    --port 6379 \
    --bind 0.0.0.0 \
    --protected-mode no \
    --requirepass root \
-   --appendonly yes \
+   --masterauth root \
    --dir /home/redis/data \
-   --appendfilename RedisAof.aof \
-   --save ''
+   --appendfilename RedisMasterAof.aof
    ```
 
-1. 修改配置文件redis.conf
+1. 集群启动
 
+   ```shell
+   docker run -d \
+   -p 6379:6379 \
+   -v /home/redis/config/:/home/redis/config
+   -v /home/redis/data/:/home/redis/data
+   --name redis-master \
+   --restart=always \ 
+   redis:7.0 \
+   redis-server \
+   /home/redis/config/redis.conf \
+   --port 6379 \
+   --bind 0.0.0.0 \
+   --protected-mode no \
+   --requirepass root \
+   --masterauth root \
+   --dir /home/redis/data \
+   --appendfilename RedisMasterAof.aof
+   ```
 
+   ```shell
+   docker run -d \
+   -p 6380:6380 \
+   -v /home/redis/config/:/home/redis/config
+   -v /home/redis/data/:/home/redis/data
+   --name redis-slave1 \
+   --restart=always \ 
+   redis:7.0 \
+   redis-server \
+   /home/redis/config/redis.conf \
+   --port 6380 \
+   --bind 0.0.0.0 \
+   --protected-mode no \
+   --requirepass root \
+   --masterauth root \
+   --slaveof redis-master 6379
+   --dir /home/redis/data \
+   --appendfilename RedisSlaveOneAof.aof
+   ```
+
+   ```shell
+   docker run -d \
+   -p 6381:6381 \
+   -v /home/redis/config/:/home/redis/config
+   -v /home/redis/data/:/home/redis/data
+   --name redis-slave2 \
+   --restart=always \ 
+   redis:7.0 \
+   redis-server \
+   /home/redis/config/redis.conf \
+   --port 6381 \
+   --bind 0.0.0.0 \
+   --protected-mode no \
+   --requirepass root \
+   --masterauth root \
+   --slaveof redis-master 6379
+   --dir /home/redis/data \
+   --appendfilename RedisSlaveTwoAof.aof
+   ```
+
+   ```shell
+   docker run -d \
+   -p 6379:6379 \
+   -v /home/redis/config/:/home/redis/config
+   --name redis-sentinel1 \
+   --restart=always \ 
+   redis:7.0 \
+   redis-sentinel \
+   /home/redis/config/sentinel.conf \
+   --port 26379 \
+   --bind 0.0.0.0 \
+   --protected-mode no \
+   --sentinel resolve-hostnames yes \
+   --sentinel monitor redis-master redis-master 6379 2 \
+   --sentinel down-after-milliseconds redis-master 2000 \
+   --sentinel failover-timeout redis-master 2000 \
+   --sentinel auth-pass redis-master root
+   ```
+
+   ```shell
+   docker run -d \
+   -p 26380:26380 \
+   -v /home/redis/config/:/home/redis/config
+   --name redis-sentinel2 \
+   --restart=always \ 
+   redis:7.0 \
+   redis-sentinel \
+   /home/redis/config/sentinel.conf \
+   --port 26380 \
+   --bind 0.0.0.0 \
+   --protected-mode no \
+   --sentinel resolve-hostnames yes \
+   --sentinel monitor redis-master redis-master 6379 2 \
+   --sentinel down-after-milliseconds redis-master 2000 \
+   --sentinel failover-timeout redis-master 2000 \
+   --sentinel auth-pass redis-master root
+   ```
+
+   ```shell
+   docker run -d \
+   -p 26381:26381 \
+   -v /home/redis/config/:/home/redis/config
+   --name redis-sentinel3 \
+   --restart=always \ 
+   redis:7.0 \
+   redis-sentinel \
+   /home/redis/config/sentinel.conf \
+   --port 26381 \
+   --bind 0.0.0.0 \
+   --protected-mode no \
+   --sentinel resolve-hostnames yes \
+   --sentinel monitor redis-master redis-master 6379 2 \
+   --sentinel down-after-milliseconds redis-master 2000 \
+   --sentinel failover-timeout redis-master 2000 \
+   --sentinel auth-pass redis-master root
+   ```
+
+   
 
 ---
 
@@ -426,15 +620,13 @@
    docker run -d \
    -p 8093:8093 \
    -p 7093:7091 \
-   -v /home/seata/config:/seata-server/resources \
    -e SEATA_IP=124.221.27.253 \
    -e SEATA_PORT=8093 \
-   -e SERVER_NODE=3 \
-   --name seata3 \
+   --name seata1 \
    --restart=always \
-   seataio/seata-server:1.6.0
+   dockerhub.kubekey.local/sipds/seata:1.6.0 
    ```
-
+   
    
 
 ---

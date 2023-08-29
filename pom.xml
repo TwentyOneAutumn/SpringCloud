@@ -33,6 +33,7 @@
         <module>Config</module>
         <module>DataBaseConfig</module>
         <module>Seata</module>
+        <module>Security6</module>
     </modules>
 
     <properties>
@@ -59,6 +60,7 @@
         <Log4j2.version>2.19.0</Log4j2.version>
         <PageHelper.version>1.4.6</PageHelper.version>
         <Sentinel.version>1.8.6</Sentinel.version>
+        <NacosClient.version>2.2.2</NacosClient.version>
     </properties>
 
     <dependencyManagement>
@@ -152,6 +154,12 @@
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
                 <version>${AlibabaCloud.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.alibaba.nacos</groupId>
+                        <artifactId>nacos-client</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- Nacos配置管理依赖 -->
@@ -159,6 +167,19 @@
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
                 <version>${AlibabaCloud.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.alibaba.nacos</groupId>
+                        <artifactId>nacos-client</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- Nacos客户端依赖 -->
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${NacosClient.version}</version>
             </dependency>
 
             <!-- SpringAMQP依赖 -->
@@ -361,6 +382,12 @@
             <version>${AlibabaCloud.version}</version>
             <type>pom</type>
             <scope>import</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>2.0.3</version>
         </dependency>
     </dependencies>
 
