@@ -23,7 +23,3 @@ spring:
       eager: true
       transport:
         dashboard: ${sentinel.dashboard.url}
-
-logging:
-  level:
-    org.springframework.cloud.gateway: info

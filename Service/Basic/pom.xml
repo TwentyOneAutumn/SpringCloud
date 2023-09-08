@@ -29,11 +29,11 @@
             <version>1.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.seata</groupId>
-            <artifactId>seata</artifactId>
-            <version>1.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.seata</groupId>-->
+<!--            <artifactId>seata</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.FileApi</groupId>

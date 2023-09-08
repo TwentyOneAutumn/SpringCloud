@@ -2,9 +2,14 @@ package com.service.file.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.core.doMain.Row;
+import com.core.doMain.file.DownLoadForm;
 import com.core.doMain.file.FileResource;
 import com.core.doMain.file.UploadForm;
 import com.core.doMain.file.UploadsForm;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -18,12 +23,12 @@ public interface IFileService extends IService<FileResource> {
      * @param uploadForm 文件对象
      * @return Row
      */
-    Row<FileResource> upload(UploadForm uploadForm);
+    Row<FileResource> uploading(UploadForm uploadForm) throws Exception;
 
     /**
-     * 上传多文件
-     * @param uploadsForm 文件对象
-     * @return Row
+     * 下载文件
+     * @param downLoadForm 数据对象
+     * @param response 响应对象
      */
-    Row<List<FileResource>> uploads(UploadsForm uploadsForm);
+    void downloading(DownLoadForm downLoadForm, HttpServletResponse response) throws Exception;
 }

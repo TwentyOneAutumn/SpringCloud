@@ -2,10 +2,12 @@ package com.core.doMain.file;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.core.doMain.TimeEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
@@ -34,11 +36,6 @@ public class FileResource extends TimeEntity {
     private String filePostfix;
 
     /**
-     * 文件所在路径
-     */
-    private String filePath;
-
-    /**
      * 所属模块
      */
     private String moduleName;
@@ -51,6 +48,7 @@ public class FileResource extends TimeEntity {
     /**
      * 上传时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private LocalDateTime uploadTime;
 
     /**

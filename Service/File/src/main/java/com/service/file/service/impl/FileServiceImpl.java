@@ -1,27 +1,27 @@
 package com.service.file.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.core.doMain.Build;
 import com.core.doMain.Row;
+import com.core.doMain.file.DownLoadForm;
 import com.core.doMain.file.FileResource;
 import com.core.doMain.file.UploadForm;
-import com.core.doMain.file.UploadsForm;
-import com.core.utils.FileUtils;
-import com.core.utils.SystemUtils;
 import com.security.utils.SecurityUtils;
-import com.service.file.enums.FilePath;
 import com.service.file.mapper.FileMapper;
 import com.service.file.service.IFileService;
+import io.minio.*;
+import io.minio.messages.Item;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Iterator;
 
 /**
  * 文件ServiceImpl
@@ -30,101 +30,151 @@ import java.util.stream.Collectors;
 @Service
 public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implements IFileService {
 
-    /**
-     * 上传文件
-     *
-     * @param uploadForm 文件对象
-     * @return Row
-     */
-    @Override
-    public Row<FileResource> upload(UploadForm uploadForm) {
-        return Build.row(uploadFile(uploadForm));
-    }
-
-    /**
-     * 上传多文件
-     * @param uploadsForm 文件对象
-     * @return Row
-     */
-    @Override
-    public Row<List<FileResource>> uploads(UploadsForm uploadsForm) {
-        String moduleName = uploadsForm.getModuleName();
-        List<FileResource> fileResourceList = uploadsForm.getFileList().stream().map(multipartFile -> uploadFile(new UploadForm(moduleName, multipartFile))).collect(Collectors.toList());
-        return Build.row(fileResourceList);
-    }
+    @Autowired
+    private MinioClient minioClient;
 
     /**
      * 上传文件
      * @param uploadForm 文件对象
-     * @return FileResource 文件资源对象
+     * @return Row
      */
-    public FileResource uploadFile(UploadForm uploadForm){
+    @Override
+    public Row<FileResource> uploading(UploadForm uploadForm) throws Exception {
         MultipartFile file = uploadForm.getFile();
         String moduleName = uploadForm.getModuleName();
-        // 获取文件名称和文件后缀
-        String originalFilename = file.getOriginalFilename();
-        String[] split = originalFilename.split("\\.");
-        // 文件名称
-        String fileName = split[0];
-        // 文件后缀
-        String filePostfix = split[1];
-        // 获取当前项目路径
-        String projectPath = SystemUtils.projectPath();
-        // 获取文件夹路径
-        String mkdirPath = FileUtils.joinFilePath(projectPath,FilePath.FILE_PATH,moduleName,filePostfix);
-        // 创建文件夹
-        FileUtils.ofMkdir(mkdirPath);
-        // 获取文件路径
-        String filePath = FileUtils.joinFilePath(mkdirPath,originalFilename);
-        boolean exist = FileUtils.isExist(filePath);
-        // 写入文件
-        try {
-            FileUtils.write(file.getInputStream(),filePath);
-        } catch (IOException e) {
-            throw new RuntimeException("获取文件输入流异常");
-        }
-        // 如果文件存在则获取ID
-        if(exist){
-            // 获取对应FileResource
+        // 获取文件名称
+        String fileName = file.getOriginalFilename();
+        // 判断object是否存在
+        if(objectExists(moduleName,fileName)){
+            // 获取文件信息
             FileResource fileResource = getOne(new LambdaQueryWrapper<FileResource>()
-                    .eq(FileResource::getFileName, fileName)
-                    .eq(FileResource::getFilePostfix, filePostfix)
-                    .eq(FileResource::getFilePath, mkdirPath)
                     .eq(FileResource::getModuleName, moduleName)
+                    .eq(FileResource::getFileName, fileName)
             );
-            if(BeanUtil.isEmpty(fileResource)){
-                throw new IllegalStateException("获取文件资源信息异常");
+            // 更新文件信息
+            fileResource.setUploadUserId(SecurityUtils.getUser().getUserId());
+            fileResource.setUploadTime(LocalDateTime.now());
+            boolean update = updateById(fileResource);
+            if(update){
+                uploading(file,moduleName);
+                return Build.row(fileResource);
+            }else {
+                throw new RuntimeException("更新文件信息失败");
             }
-            String id = fileResource.getId();
-            // 更新上传人员和上传时间
-            boolean update = update(new LambdaUpdateWrapper<FileResource>()
-                    .set(FileResource::getUploadUserId, SecurityUtils.getUser().getUserId())
-                    .set(FileResource::getUploadTime, LocalDateTime.now())
-                    .eq(FileResource::getId, id)
-            );
-            if(!update){
-                throw new IllegalStateException("更新文件资源信息异常");
-            }
-            // 获取更新后的数据
-            FileResource fileResourceUpdated = getById(id);
-            if(BeanUtil.isEmpty(fileResourceUpdated)){
-                throw new IllegalStateException("获取文件资源信息异常");
-            }
-            return fileResourceUpdated;
-        }else{
-            // 处理FileResource
+        } else {
             FileResource fileResource = new FileResource();
-            fileResource.setFileName(fileName);
-            fileResource.setFilePostfix(filePostfix);
-            fileResource.setFilePath(mkdirPath);
             fileResource.setModuleName(moduleName);
+            fileResource.setFileName(fileName);
+            // 文件后缀
+            if(StrUtil.isNotBlank(fileName) && fileName.contains(".")){
+                String[] split = fileName.split("\\.");
+                fileResource.setFilePostfix(split[1]);
+            }
             fileResource.setUploadUserId(SecurityUtils.getUser().getUserId());
             fileResource.setUploadTime(LocalDateTime.now());
             boolean save = save(fileResource);
-            if(!save){
-                throw new IllegalStateException("写入文件资源信息异常");
+            if(save){
+                uploading(file,moduleName);
+                return Build.row(fileResource);
+            } else {
+                throw new RuntimeException("新增文件信息失败");
             }
-            return fileResource;
         }
+    }
+
+    /**
+     * 下载文件
+     * @param downLoadForm 数据对象
+     * @param response 响应对象
+     */
+    @Override
+    public void downloading(DownLoadForm downLoadForm, HttpServletResponse response) throws Exception {
+        String moduleName = downLoadForm.getModuleName();
+        String fileName = downLoadForm.getFileName();
+        // 判断object是否存在
+        if(objectExists(moduleName,fileName)){
+            downloading(moduleName,fileName,response);
+        } else {
+            throw new RuntimeException("文件不存在");
+        }
+    }
+
+    /**
+     * 判断object是否存在
+     * @param bucket 桶名称
+     * @param object 文件名称
+     * @return 是否存在
+     * @throws Exception 异常
+     */
+    public boolean objectExists(String bucket, String object) throws Exception {
+        // 判断该桶是否存在
+        boolean exists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
+        if(!exists){
+            return false;
+        }
+        Iterable<Result<Item>> results = minioClient.listObjects(ListObjectsArgs.builder()
+                .bucket(bucket)
+                .build()
+        );
+        boolean objectExists = false;
+        for (Result<Item> result : results) {
+            Item item = result.get();
+            String s = item.objectName();
+            if (result.get().objectName().equals(object)) {
+                objectExists = true;
+                break;
+            }
+        }
+        return objectExists;
+    }
+
+    /**
+     * 上传文件到Minio
+     * @param file 文件对象
+     * @param bucket 桶名称
+     * @throws Exception 异常
+     */
+    public void uploading(MultipartFile file,String bucket) throws Exception {
+        // 判断该桶是否存在
+        boolean exists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
+        if(!exists){
+            // 创建桶
+            minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+        }
+        // 上传
+        minioClient.putObject(PutObjectArgs.builder()
+                .bucket(bucket)
+                .object(file.getOriginalFilename())
+                .stream(file.getInputStream(), file.getSize(),-1)
+                .contentType(file.getContentType())
+                .build()
+        );
+    }
+
+    /**
+     * 从Minio下载文件
+     * @param bucket 桶名称
+     * @param object 文件名称
+     * @param response 响应对象
+     * @throws Exception 异常
+     */
+    public void downloading(String bucket, String object, HttpServletResponse response) throws Exception {
+        GetObjectResponse inputStream = minioClient.getObject(GetObjectArgs.builder()
+                .bucket(bucket)
+                .object(object)
+                .build()
+        );
+        // 获取响应的输出流
+        OutputStream outputStream = response.getOutputStream();
+        // TODO 设置响应头
+
+        // 读取输入流中的数据并写入响应输出流
+        byte[] buffer = new byte[4096];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+        // 刷新输出流
+        outputStream.flush();
     }
 }

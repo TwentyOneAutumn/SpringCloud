@@ -29,11 +29,10 @@
         <module>Common</module>
         <module>Security</module>
         <module>MessageQueue</module>
-        <module>Generator</module>
+<!--        <module>Generator</module>-->
         <module>Config</module>
         <module>DataBaseConfig</module>
         <module>Seata</module>
-        <module>Security6</module>
     </modules>
 
     <properties>

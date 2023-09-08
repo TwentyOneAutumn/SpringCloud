@@ -1,5 +1,6 @@
 package com.test;
 
+import cn.hutool.core.util.StrUtil;
 import com.test.doMain.SysTest;
 import com.test.mapper.SysTestMapper;
 import com.test.service.ISysTestService;
@@ -20,10 +21,12 @@ public class TestDemo {
     @Test
     @Transactional
     public void test(){
-        LocalDateTime now1 = LocalDateTime.now();
-        LocalDateTime now2 = LocalDateTime.now();
-        LocalDateTime localDateTime = now2.minusDays(1);
-        long minutes = Duration.between(localDateTime,now1).toMinutes();
-        System.out.println(minutes);
+        String fileName = "context.txt";
+        System.out.println(StrUtil.isNotBlank(fileName));
+        System.out.println(fileName.contains("."));
+        if(StrUtil.isNotBlank(fileName) && fileName.contains("\\.")){
+            String[] split = fileName.split("\\.");
+            System.out.println(split[1]);
+        }
     }
 }

@@ -19,6 +19,8 @@
    ```shell
    docker run -d \
    -p 8848:8848 \
+   -p 9848:9848 \
+   -p 9849:9849 \
    -e MODE=standalone \
    --restart=always \
    --name nacos \
