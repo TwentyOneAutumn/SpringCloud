@@ -1,6 +1,7 @@
 package com.service.file.config;
 
 import io.minio.MinioClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,17 +14,20 @@ public class FileConfig {
     /**
      * Minio地址
      */
-    private final String endpoint = "http://124.221.27.253:9000";
+    @Value("${minio.endpoint}")
+    private String endpoint;
 
     /**
      * 账号
      */
-    private final String accessKey = "root";
+    @Value("${minio.accessKey}")
+    private String accessKey;
 
     /**
      * 密码
      */
-    private final String secretKey = "2762581@com";
+    @Value("${minio.secretKey}")
+    private String secretKey;
 
     /**
      * 配置Minio客户端

@@ -1,5 +1,5 @@
 server:
-  port: 8805
+  port: 8806
   servlet:
     context-path: /kafka/publisher
 spring:

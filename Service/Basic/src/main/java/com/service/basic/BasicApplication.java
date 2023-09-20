@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
 //@EnableScheduling
-@EnableAuthenticationPostProcessor
+//@EnableAuthenticationPostProcessor
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @EnableTransactionManagement

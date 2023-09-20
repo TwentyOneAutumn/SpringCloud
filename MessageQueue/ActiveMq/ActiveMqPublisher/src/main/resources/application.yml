@@ -1,5 +1,5 @@
 server:
-  port: 8807
+  port: 8808
   servlet:
     context-path: /activemq/publisher
 spring:

@@ -1,5 +1,5 @@
 server:
-  port: 8803
+  port: 8804
   servlet:
     context-path: /rabbitMq/publisher
 spring:
@@ -13,8 +13,3 @@ spring:
     password: 2762581@com
     publisher-returns: true
     publisher-confirm-type: correlated
-
-logging:
-  level:
-    cn.itcast: info
-    org.springframework: info

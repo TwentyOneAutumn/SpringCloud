@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.stream.Stream;
 
 @Slf4j
 @SpringBootTest
@@ -21,12 +23,8 @@ public class TestDemo {
     @Test
     @Transactional
     public void test(){
-        String fileName = "context.txt";
-        System.out.println(StrUtil.isNotBlank(fileName));
-        System.out.println(fileName.contains("."));
-        if(StrUtil.isNotBlank(fileName) && fileName.contains("\\.")){
-            String[] split = fileName.split("\\.");
-            System.out.println(split[1]);
-        }
+        ArrayList<String> list1 = new ArrayList<>();
+        ArrayList<Integer> list2 = new ArrayList<>();
+        Stream<String> concat = Stream.concat(list1.stream(), list2.stream().map(Object::toString));
     }
 }

@@ -15,13 +15,13 @@ import com.service.file.service.IFileService;
 import io.minio.*;
 import io.minio.messages.Item;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.Headers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
-import java.util.Iterator;
 
 /**
  * 文件ServiceImpl
@@ -89,8 +89,12 @@ public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implem
      */
     @Override
     public void downloading(DownLoadForm downLoadForm, HttpServletResponse response) throws Exception {
-        String moduleName = downLoadForm.getModuleName();
-        String fileName = downLoadForm.getFileName();
+        FileResource fileResource = getById(downLoadForm.getId());
+        if(BeanUtil.isEmpty(fileResource)){
+            throw new RuntimeException("文件不存在");
+        }
+        String moduleName = fileResource.getModuleName();
+        String fileName = fileResource.getFileName();
         // 判断object是否存在
         if(objectExists(moduleName,fileName)){
             downloading(moduleName,fileName,response);
@@ -164,6 +168,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implem
                 .object(object)
                 .build()
         );
+        Headers headers = inputStream.headers();
+        String s = headers.get("ContentType");
         // 获取响应的输出流
         OutputStream outputStream = response.getOutputStream();
         // TODO 设置响应头
