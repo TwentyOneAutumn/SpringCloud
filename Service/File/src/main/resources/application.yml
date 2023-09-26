@@ -32,6 +32,11 @@ mybatis-plus:
       logic-not-delete-value: 0 # 全局非逻辑删除状态值
   type-handlers-package: com.core.handle # 处理器扫描
 
+minio:
+  endpoint: http://${ip}:9000
+  accessKey: root
+  secretKey: 2762581@com
+
 seata:
   enabled: true # 启用 Seata
   application-id: ${spring.application.name} # 应用程序ID
@@ -55,8 +60,3 @@ seata:
       data-id: ${seata.dataId}
   enable-auto-data-source-proxy: true # 启用自动数据源代理
   data-source-proxy-mode: AT # 数据源代理模式
-
-minio:
-  endpoint: http://124.221.27.253:9000
-  accessKey: root
-  secretKey: 2762581@com
