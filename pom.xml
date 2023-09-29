@@ -13,26 +13,27 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- 定义当前项目版本坐标 -->
-    <groupId>com.demo.SpringCloudDemo</groupId>
-    <artifactId>SpringCloudDemo</artifactId>
+    <groupId>com.spring.cloud</groupId>
+    <artifactId>spring-cloud</artifactId>
     <version>1.0</version>
     <!-- 打包方式 -->
     <packaging>pom</packaging>
 
     <!-- 聚合模块 -->
     <modules>
-        <module>Feign</module>
-        <module>Gateway</module>
-        <module>Elasticsearch</module>
-        <module>TestApp</module>
-        <module>Service</module>
-        <module>Common</module>
-        <module>Security</module>
-        <module>MessageQueue</module>
+        <module>feign</module>
+        <module>gateway</module>
+        <module>elasticsearch</module>
+        <module>test-app</module>
+        <module>service</module>
+        <module>common</module>
+        <module>security</module>
+        <module>message-queue</module>
 <!--        <module>Generator</module>-->
-        <module>Config</module>
-        <module>DataBaseConfig</module>
-        <module>Seata</module>
+        <module>config</module>
+        <module>database-config</module>
+        <module>seata</module>
+        <module>job</module>
     </modules>
 
     <properties>
@@ -60,6 +61,8 @@
         <PageHelper.version>1.4.6</PageHelper.version>
         <Sentinel.version>1.8.6</Sentinel.version>
         <NacosClient.version>2.2.2</NacosClient.version>
+        <SpringCloudStarter.version>4.0.0</SpringCloudStarter.version>
+        <SpringCloudSentinel.version>2021.1</SpringCloudSentinel.version>
     </properties>
 
     <dependencyManagement>
@@ -84,7 +87,7 @@
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${SpringBoot.version}</version>
                 <type>pom</type>
-                <scope>import</scope>
+                <scope>compile</scope>
             </dependency>
 
             <!-- springCloud父依赖 -->
@@ -93,7 +96,7 @@
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${SpringCloud.version}</version>
                 <type>pom</type>
-                <scope>import</scope>
+                <scope>compile</scope>
             </dependency>
 
             <!-- SpringCloudAlibaba父依赖 -->
@@ -102,7 +105,7 @@
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
                 <version>${AlibabaCloud.version}</version>
                 <type>pom</type>
-                <scope>import</scope>
+                <scope>compile</scope>
             </dependency>
 
 
@@ -338,6 +341,32 @@
                 <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
                 <version>${Sentinel.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-bootstrap</artifactId>
+                <version>${SpringCloudStarter.version}</version>
+            </dependency>
+            <!-- Sentinel依赖 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+                <version>${SpringCloudSentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-websocket</artifactId>
+                <version>${SpringBoot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+                <version>${SpringCloudStarter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+                <version>${SpringCloudStarter.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -362,7 +391,6 @@
             <artifactId>spring-boot-dependencies</artifactId>
             <version>${SpringBoot.version}</version>
             <type>pom</type>
-            <scope>import</scope>
         </dependency>
 
         <!-- springCloud父依赖 -->
@@ -371,7 +399,6 @@
             <artifactId>spring-cloud-dependencies</artifactId>
             <version>${SpringCloud.version}</version>
             <type>pom</type>
-            <scope>import</scope>
         </dependency>
 
         <!-- SpringCloudAlibaba父依赖 -->
@@ -380,7 +407,6 @@
             <artifactId>spring-cloud-alibaba-dependencies</artifactId>
             <version>${AlibabaCloud.version}</version>
             <type>pom</type>
-            <scope>import</scope>
         </dependency>
     </dependencies>
 

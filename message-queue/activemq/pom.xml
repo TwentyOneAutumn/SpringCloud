@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>com.message.queue</groupId>
+        <artifactId>message-queue</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.activemq</groupId>
+    <artifactId>activemq</artifactId>
+    <version>1.0</version>
+    <name>activemq</name>
+    <description>activemq</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <modules>
+        <module>activemq-config</module>
+        <module>activemq-publisher</module>
+        <module>activemq-consumer</module>
+    </modules>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+
+        <!-- Common模块 -->
+        <dependency>
+            <groupId>com.common</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <!-- DataBase依赖 -->
+                    <groupId>com.database.config</groupId>
+                    <artifactId>database-config</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 配置模块-->
+        <dependency>
+            <groupId>com.config</groupId>
+            <artifactId>config</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- 继承父工程 -->
+    <parent>
+        <groupId>com.spring.cloud</groupId>
+        <artifactId>spring-cloud</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.service</groupId>
+    <artifactId>service</artifactId>
+    <version>1.0</version>
+    <name>service</name>
+    <description>service</description>
+    <packaging>pom</packaging>
+
+    <!-- 聚合模块 -->
+    <modules>
+        <module>basic</module>
+        <module>file</module>
+        <module>websocket</module>
+    </modules>
+    <dependencies>
+
+        <!-- Nacos注册发现依赖 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba.nacos</groupId>
+                    <artifactId>nacos-client</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+
+        <!-- Common模块 -->
+        <dependency>
+            <groupId>com.common</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- 配置模块-->
+        <dependency>
+            <groupId>com.config</groupId>
+            <artifactId>config</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- SentinelWeb依赖 -->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-web-servlet</artifactId>
+        </dependency>
+    </dependencies>
+</project>
