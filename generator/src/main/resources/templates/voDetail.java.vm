@@ -1,0 +1,31 @@
+package ${package.Entity}.vo;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+/**
+ * ${table.entityName} 详情接口响应参数封装类
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${table.entityName}DetailVo {
+
+#foreach($field in ${table.fields})
+    #if(${field.name} != 'is_deleted' && ${field.name} != 'create_time' && ${field.name} != 'update_time')
+    /**
+     * ${field.comment}
+     */
+    #if(${field.propertyType} == 'LocalDateTime')
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    #elseif(${field.propertyType} == 'LocalDate')
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    #end
+    private ${field.propertyType} ${field.propertyName};
+    #end
+#end
+}

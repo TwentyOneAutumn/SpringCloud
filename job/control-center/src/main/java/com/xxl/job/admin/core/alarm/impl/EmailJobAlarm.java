@@ -85,7 +85,7 @@ public class EmailJobAlarm implements JobAlarm {
     }
 
     /**
-     * load email job alarm template
+     * load email job alarm templates
      *
      * @return
      */

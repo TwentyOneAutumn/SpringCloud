@@ -69,7 +69,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public AjaxResult toAdd(SysMenuAddDto dto) {
         SysMenu pojo = BeanUtil.toBean(dto, SysMenu.class);
         boolean save = save(pojo);
-        return save ? AjaxResult.success() : AjaxResult.error();
+        return Build.ajax(save);
     }
 
 

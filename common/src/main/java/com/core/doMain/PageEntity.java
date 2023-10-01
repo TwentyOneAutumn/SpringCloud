@@ -1,7 +1,6 @@
 package com.core.doMain;
 
 import lombok.Data;
-
 import javax.validation.constraints.NotNull;
 
 /**
@@ -15,12 +14,12 @@ public class PageEntity {
      * 页数
      */
     @NotNull(message = "pageNum参数不能为空")
-    private Integer pageNum;
+    private Integer pageNum = 1;
 
 
     /**
      * 页码
      */
     @NotNull(message = "pageSize参数不能为空")
-    private Integer pageSize;
+    private Integer pageSize = 10;
 }

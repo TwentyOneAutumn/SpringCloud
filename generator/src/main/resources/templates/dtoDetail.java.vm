@@ -1,0 +1,51 @@
+package ${package.Entity}.dto;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
+
+/**
+ * ${table.entityName} 详情接口参数封装类
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${table.entityName}DetailDto {
+
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})
+    /**
+    * ${field.comment}
+    */
+    #if(${field.propertyType} == 'String')
+    @NotBlank(message = "${field.propertyName}参数不能为空")
+    #elseif(${field.propertyType} == 'Integer')
+    @NotNull(message = "${field.propertyName}参数不能为空")
+    #end
+    private ${field.propertyType} ${field.propertyName};
+#else
+    #if(${field.name} != 'is_deleted' && ${field.name} != 'create_time' && ${field.name} != 'update_time')
+    /**
+    * ${field.comment}
+    */
+    #if(${field.propertyType} == 'LocalDateTime' || ${field.propertyType} == 'LocalDate')
+    @NotNull(message = "${field.propertyName}参数不能为空")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Date ${field.propertyName};
+    #else
+    #if(${field.propertyType} == 'String')
+    @NotBlank(message = "${field.propertyName}参数不能为空")
+    #else
+    @NotNull(message = "${field.propertyName}参数不能为空")
+    #end
+    private ${field.propertyType} ${field.propertyName};
+    #end
+    #end
+#end
+#end
+}
