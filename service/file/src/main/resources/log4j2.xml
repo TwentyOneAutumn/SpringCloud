@@ -68,7 +68,7 @@
         </logger>
 
         <!-- 建立一个默认的root的logger -->
-        <root level="DEBUG">
+        <root level="INFO">
             <!-- 控制台输出日志 -->
             <appender-ref ref="Console"/>
         </root>

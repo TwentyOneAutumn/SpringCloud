@@ -28,8 +28,8 @@ xxl:
       address:
       ip:
       port: 9999 # 注册端口
-#      logpath: /Users/maplej/App/JavaProject/SpringCloud/xxl-job/xxl-job-executor/logs
-#      logretentiondays: 30
+      logpath: /Users/maplej/App/JavaProject/SpringCloud/xxl-job/xxl-job-executor/logs
+      logretentiondays: 30
 
 mybatis-plus:
   mapper-locations: classpath:/Mapper/*Mapper.xml

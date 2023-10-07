@@ -61,8 +61,7 @@
         <PageHelper.version>1.4.6</PageHelper.version>
         <Sentinel.version>1.8.6</Sentinel.version>
         <NacosClient.version>2.2.2</NacosClient.version>
-        <SpringCloudStarter.version>4.0.0</SpringCloudStarter.version>
-        <SpringCloudSentinel.version>2021.1</SpringCloudSentinel.version>
+        <SpringCloudStarter.version>3.1.1</SpringCloudStarter.version>
     </properties>
 
     <dependencyManagement>
@@ -107,7 +106,6 @@
                 <type>pom</type>
                 <scope>compile</scope>
             </dependency>
-
 
             <!-- Web依赖 -->
             <dependency>
@@ -316,52 +314,62 @@
                 <artifactId>sentinel-core</artifactId>
                 <version>${Sentinel.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>sentinel-transport-simple-http</artifactId>
                 <version>${Sentinel.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>sentinel-web-servlet</artifactId>
                 <version>${Sentinel.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>sentinel-spring-webmvc-adapter</artifactId>
                 <version>${Sentinel.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>sentinel-spring-webflux-adapter</artifactId>
                 <version>${Sentinel.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
                 <version>${Sentinel.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-bootstrap</artifactId>
                 <version>${SpringCloudStarter.version}</version>
             </dependency>
+
             <!-- Sentinel依赖 -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-                <version>${SpringCloudSentinel.version}</version>
+                <version>${AlibabaCloud.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-websocket</artifactId>
                 <version>${SpringBoot.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-loadbalancer</artifactId>
                 <version>${SpringCloudStarter.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-stream-kafka</artifactId>
@@ -396,18 +404,17 @@
         <!-- springCloud父依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-dependencies</artifactId>
-            <version>${SpringCloud.version}</version>
+            <artifactId>spring-cloud-starter</artifactId>
+            <version>${SpringCloudStarter.version}</version>
             <type>pom</type>
         </dependency>
 
         <!-- SpringCloudAlibaba父依赖 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+            <artifactId>spring-cloud-alibaba-starters</artifactId>
             <version>${AlibabaCloud.version}</version>
             <type>pom</type>
         </dependency>
     </dependencies>
-
 </project>

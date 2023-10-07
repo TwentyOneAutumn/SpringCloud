@@ -10,11 +10,3 @@ mysql:
     url: jdbc:mysql://${ip}:3306/file??serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 2762581@com
-
-seata:
-  namespace: 38efd505-cc1a-4ffa-b1fb-d8aa0982e8b2
-  group: SEATA_GROUP
-  txServiceGroup: tx_group
-  dataId: seataServer.properties
-
-

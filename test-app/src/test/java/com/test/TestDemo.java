@@ -14,7 +14,6 @@ public class TestDemo {
     @Test
     @Transactional
     public void test() throws Exception {
-        String xxx = File.separator + "java" + File.separator + "parentPackage";
-        System.out.println(xxx);
+
     }
 }

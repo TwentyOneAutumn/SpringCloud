@@ -2,7 +2,7 @@
 <configuration status="WARN" monitorInterval="30">
     <!--  先定义项目名称  -->
     <Properties>
-        <Property name="ServiceName">generator</Property>
+        <Property name="ServiceName">Generator</Property>
     </Properties>
 
     <!-- 先定义所有的appender(附加器)-->

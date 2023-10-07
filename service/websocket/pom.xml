@@ -26,12 +26,6 @@
                 <groupId>com.common</groupId>
                 <artifactId>common</artifactId>
                 <version>1.0</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.database.config</groupId>
-                        <artifactId>database-config</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>

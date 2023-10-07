@@ -2,11 +2,14 @@ package com.core.handle;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDateTime;
 
 /**
  * 设置字段填充策略
  */
+@Component
 public class TimeHandler implements MetaObjectHandler {
 
     /**

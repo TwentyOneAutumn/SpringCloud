@@ -2,4 +2,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.core.handle.GlobalExceptionHandler,\
   com.core.config.CommonConfig,\
   com.core.aspect.NotNullArgsAspect,\
-  com.core.utils.SpringUtil
+  com.core.utils.SpringUtil,\
+  com.core.handle.TimeHandler

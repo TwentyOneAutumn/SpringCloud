@@ -3,6 +3,8 @@ server:
   servlet:
     context-path: /file
 spring:
+  profiles:
+    active: dev
   servlet:
     multipart:
       enabled: true # 是否支持多文件上传

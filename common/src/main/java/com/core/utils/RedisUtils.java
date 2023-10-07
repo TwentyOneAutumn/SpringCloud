@@ -5,7 +5,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 //import com.Core.Lock.RedisCacheLock;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.core.enums.RedisTableName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,9 +18,6 @@ public class RedisUtils {
 
     @Autowired
     RedisTemplate<String, Object> redisClient;
-
-//    @Autowired
-//    RedisCacheLock redisCacheLock;
 
     /**
      * 清空Redis缓存
@@ -70,17 +66,6 @@ public class RedisUtils {
             redisClient.opsForHash().putAll(tableName,map);
         }catch (Exception e){
             throw new RuntimeException("刷新缓存异常");
-        }
-    }
-
-    /**
-     * 刷新所有缓存
-     */
-    public void refreshAllCache(){
-        clear();
-        // 初始化缓存
-        for (String tableName : RedisTableName.TABLE_NAME_ARR) {
-            refreshTableCache(tableName);
         }
     }
 

@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.basic.api.factory.*
+  com.basic.api.factory.UserFallbackFactory
 
 
