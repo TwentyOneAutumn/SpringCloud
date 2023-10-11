@@ -1,6 +1,7 @@
 package com.kafka.publisher.controller;
 
 import com.core.doMain.AjaxResult;
+import com.core.doMain.Build;
 import config.doMain.MessageInfo;
 import config.enums.TopicEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,6 @@ public class KafkaSendMsgController {
         // Message<String> message = MessageBuilder.withPayload("这是一条消息").build();
         // boolean send = streamBridge.send(TopicEnum.SUPER_STAR, message);
         boolean send = streamBridge.send(TopicEnum.SUPER_STAR, message);
-        return send ? AjaxResult.success("消息发送成功") : AjaxResult.error("消息发送失败");
+        return Build.ajax(send,send ? "消息发送成功" : "消息发送失败");
     }
 }

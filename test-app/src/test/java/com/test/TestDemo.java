@@ -1,21 +1,16 @@
 package com.test;
 
 import cn.hutool.core.thread.ExecutorBuilder;
-import com.core.doMain.Build;
 import com.core.doMain.CallableEntity;
-import com.core.doMain.CallableUtil;
-import com.core.doMain.Row;
+import com.core.utils.CallableUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 

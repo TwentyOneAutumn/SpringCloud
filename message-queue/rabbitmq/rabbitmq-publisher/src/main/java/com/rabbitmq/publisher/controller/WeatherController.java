@@ -1,6 +1,7 @@
 package com.rabbitmq.publisher.controller;
 
 import com.core.doMain.AjaxResult;
+import com.core.doMain.Build;
 import com.rabbitmq.doMain.MessageInfo;
 import com.rabbitmq.enums.ExchangeEnum;
 import com.rabbitmq.enums.RoutingKey;
@@ -28,7 +29,7 @@ public class WeatherController {
     @PostMapping("/fanout")
     public AjaxResult fanoutWeather(@Valid @RequestBody MessageInfo messageInfo){
         rabbitTemplate.convertAndSend(ExchangeEnum.WEATHER_FANOUT_EXCHANGE, messageInfo);
-        return AjaxResult.success();
+        return Build.ajax(true);
     }
 
     /**
@@ -39,7 +40,7 @@ public class WeatherController {
     @PostMapping("/direct")
     public AjaxResult directWeather(@Valid @RequestBody MessageInfo messageInfo){
         rabbitTemplate.convertAndSend(ExchangeEnum.WEATHER_DIRECT_EXCHANGE, RoutingKey.WEATHER_KEY, messageInfo);
-        return AjaxResult.success();
+        return Build.ajax(true);
     }
 
     /**
@@ -50,7 +51,7 @@ public class WeatherController {
     @PostMapping("/topic")
     public AjaxResult topicWeather(@Valid @RequestBody MessageInfo messageInfo){
         rabbitTemplate.convertAndSend(ExchangeEnum.WEATHER_TOPIC_EXCHANGE, RoutingKey.WEATHER_KEY, messageInfo);
-        return AjaxResult.success();
+        return Build.ajax(true);
     }
 
     /**
@@ -65,6 +66,6 @@ public class WeatherController {
             headers.put("weatherHeader","context");
             return msg;
         });
-        return AjaxResult.success();
+        return Build.ajax(true);
     }
 }

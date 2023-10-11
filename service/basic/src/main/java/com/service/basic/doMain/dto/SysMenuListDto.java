@@ -2,12 +2,13 @@ package com.service.basic.doMain.dto;
 
 import com.core.doMain.PageEntity;
 import lombok.Data;
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 /**
  * 菜单列表Dto
  */
 @Data
-public class SysMenuListDto extends PageEntity implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class SysMenuListDto extends PageEntity {
 
 }

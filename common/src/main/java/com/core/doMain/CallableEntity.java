@@ -31,17 +31,8 @@ public class CallableEntity<T> {
      */
     private Exception exception;
 
-    public CallableEntity(String name, T returnValue, long executionTime, boolean isError) {
-        this.name = name;
-        this.returnValue = returnValue;
-        this.executionTime = executionTime;
-        this.isError = isError;
-    }
-
-    public CallableEntity(String name, long executionTime, boolean isError, Exception exception) {
+    public CallableEntity(String name, long executionTime) {
         this.name = name;
         this.executionTime = executionTime;
-        this.isError = isError;
-        this.exception = exception;
     }
 }

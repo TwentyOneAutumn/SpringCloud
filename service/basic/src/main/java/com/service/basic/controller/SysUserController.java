@@ -35,7 +35,7 @@ public class SysUserController {
         UploadForm uploadForm = new UploadForm();
         Row<FileResource> upload = remoteFileService.upload(uploadForm);
         System.out.println(upload);
-        return AjaxResult.success();
+        return Build.ajax(true);
     }
 
 
