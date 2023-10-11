@@ -67,7 +67,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public AjaxResult toAdd(SysRoleAddDto dto) {
         SysRole pojo = BeanUtil.toBean(dto, SysRole.class);
         boolean save = save(pojo);
-        return save ? AjaxResult.success() : AjaxResult.error();
+        return Build.ajax(save);
     }
 
 
@@ -83,7 +83,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         }
         SysRole pojo = BeanUtil.toBean(dto, SysRole.class);
         boolean update = updateById(pojo);
-        return update ? AjaxResult.success() : AjaxResult.error();
+        return Build.ajax(update);
     }
 
 
@@ -99,6 +99,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             throw new RuntimeException("数据不存在");
         }
         boolean remove = removeById(id);
-        return remove ? AjaxResult.success() : AjaxResult.error();
+        return Build.ajax(remove);
     }
 }

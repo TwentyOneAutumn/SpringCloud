@@ -84,7 +84,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         }
         SysMenu pojo = BeanUtil.toBean(dto, SysMenu.class);
         boolean update = updateById(pojo);
-        return update ? AjaxResult.success() : AjaxResult.error();
+        return Build.ajax(update);
     }
 
 
@@ -100,6 +100,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             throw new RuntimeException("数据不存在");
         }
         boolean remove = removeById(id);
-        return remove ? AjaxResult.success() : AjaxResult.error();
+        return Build.ajax(remove);
     }
 }

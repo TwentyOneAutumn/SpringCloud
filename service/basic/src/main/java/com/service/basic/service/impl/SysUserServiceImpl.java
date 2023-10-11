@@ -133,7 +133,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         SysUser pojo = BeanUtil.toBean(dto, SysUser.class);
         boolean update = updateById(pojo);
-        return update ? AjaxResult.success() : AjaxResult.error();
+        return update ? Build.ajax(true) : Build.ajax(false);
     }
 
 
@@ -149,7 +149,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new RuntimeException("数据不存在");
         }
         boolean remove = removeById(id);
-        return remove ? AjaxResult.success() : AjaxResult.error();
+        return remove ? Build.ajax(true) : Build.ajax(false);
     }
 
 

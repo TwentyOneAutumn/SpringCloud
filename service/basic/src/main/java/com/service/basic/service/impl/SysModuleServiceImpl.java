@@ -69,7 +69,7 @@ public class SysModuleServiceImpl extends ServiceImpl<SysModuleMapper, SysModule
     public AjaxResult toAdd(SysModuleAddDto dto) {
         SysModule pojo = BeanUtil.toBean(dto, SysModule.class);
         boolean save = save(pojo);
-        return save ? AjaxResult.success() : AjaxResult.error();
+        return Build.ajax(save);
     }
 
 
@@ -85,7 +85,7 @@ public class SysModuleServiceImpl extends ServiceImpl<SysModuleMapper, SysModule
         }
         SysModule pojo = BeanUtil.toBean(dto, SysModule.class);
         boolean update = updateById(pojo);
-        return update ? AjaxResult.success() : AjaxResult.error();
+        return Build.ajax(update);
     }
 
 
@@ -101,6 +101,6 @@ public class SysModuleServiceImpl extends ServiceImpl<SysModuleMapper, SysModule
             throw new RuntimeException("数据不存在");
         }
         boolean remove = removeById(id);
-        return remove ? AjaxResult.success() : AjaxResult.error();
+        return Build.ajax(remove);
     }
 }
