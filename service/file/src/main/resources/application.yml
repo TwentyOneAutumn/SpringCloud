@@ -11,7 +11,6 @@ spring:
       max-file-size: 50MB # 最大允许的单个文件大小
       max-request-size: 50MB # 最大允许的请求总大小
       file-size-threshold: 50MB # 设置在内存中允许的文件大小阈值,如果文件大小超过该阈值,将被写入磁盘临时文件
-
   application:
     name: file # 服务名称
   datasource:
@@ -19,46 +18,9 @@ spring:
     url: ${mysql.file.url}
     username: ${mysql.file.username}
     password: ${mysql.file.password}
-
-mybatis-plus:
-  mapper-locations: classpath:/mapper/*Mapper.xml
-  configuration:
-    call-setters-on-nulls: false   # 当查询到的字段为空是,是否调用set方法对属性进行Null值的初始化
-    local-cache-scope: STATEMENT  # 默认为session级别缓存,STATEMENT:关闭一级缓存
-    cache-enabled: false   #是否开启二级缓存,默认为true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 打印SQL
-  global-config:  # 全局配置
-    banner: false   # 是否控制台输出 MybatisPlus的LOGO
-    db-config:
-      logic-delete-value: 1 # 全局逻辑删除状态值
-      logic-not-delete-value: 0 # 全局非逻辑删除状态值
-  type-handlers-package: com.core.handle # 处理器扫描
-
 minio:
   endpoint: http://${ip}:9000
   accessKey: root
   secretKey: 2762581@com
-
 seata:
-  enabled: true # 启用 Seata
-  application-id: ${spring.application.name} # 应用程序ID
-  tx-service-group: ${seata.txServiceGroup} # 事务分组
-  service:
-    vgroup-mapping:
-      tx_group: default # 服务:事务组 映射
-  registry:
-    type: nacos # 注册中心类型
-    nacos:
-      server-addr: ${spring.cloud.nacos.discovery.server-addr} # Nacos 服务器地址
-      application: seata-server
-      group: ${seata.group}
-      namespace: ${seata.namespace}
-  config:
-    type: nacos # 配置中心类型，这里使用 Nacos
-    nacos:
-      server-addr: ${spring.cloud.nacos.discovery.server-addr} # Nacos 服务器地址
-      group: ${seata.group} # Nacos 配置分组
-      namespace: ${seata.namespace} # Nacos 命名空间
-      data-id: ${seata.dataId}
-  enable-auto-data-source-proxy: true # 启用自动数据源代理
-  data-source-proxy-mode: AT # 数据源代理模式
+  application-id: ${spring.application.name}

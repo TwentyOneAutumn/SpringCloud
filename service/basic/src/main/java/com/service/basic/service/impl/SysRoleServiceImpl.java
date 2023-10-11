@@ -35,7 +35,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      */
     @Override
     public TableInfo<SysRoleListVo> toList(SysRoleListDto dto) {
-        Page<Object> page = PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
+        Page<Object> page = PageEntity.build(dto);
         List<SysRole> list = list(new LambdaQueryWrapper<SysRole>());
         List<SysRoleListVo> voList = BeanUtil.copyToList(list, SysRoleListVo.class);
         return Build.table(page,voList);

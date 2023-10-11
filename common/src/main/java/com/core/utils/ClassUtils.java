@@ -71,7 +71,7 @@ public class ClassUtils {
                 Arrays.stream(methods).forEach(method -> {
                     MethodMapping methodMapping = method.getAnnotation(MethodMapping.class);
                     if(BeanUtil.isNotEmpty(methodMapping) && methodMapping.value().equals(url)){
-                        atomicReference.set(new MapEntry<>(clazz, method));
+                        atomicReference.set(MapEntry.create(clazz, method));
                     }
                 });
             }
@@ -243,7 +243,7 @@ public class ClassUtils {
                             // 如果匹配则获取当前字段类型
                             Class<?> type = field.getType();
                             // 添加映射到Map
-                            parameterMap.put(parameterName, new MapEntry<>(request.getParameter(parameterName), type));
+                            parameterMap.put(parameterName, MapEntry.create(request.getParameter(parameterName), type));
                         }
                     }
                 }
@@ -332,7 +332,7 @@ public class ClassUtils {
                     // 泛型转换
                     Map<String, Object> map = Arrays.stream(parameterStrArr).map(parameter -> {
                         String[] split = parameter.split(":");
-                        return new MapEntry<String, Object>(split[0], split[1]);
+                        return MapEntry.create(split[0], split[1]);
                     }).collect(Collectors.toMap(MapEntry::getKey, MapEntry::getValue));
                     argList.add(map);
                 }else {
@@ -423,7 +423,7 @@ public class ClassUtils {
                     // 泛型转换
                     Map<String, Object> map = Arrays.stream(parameterStrArr).map(parameter -> {
                         String[] split = parameter.split(":");
-                        return new MapEntry<String, Object>(split[0], split[1]);
+                        return MapEntry.create(split[0], split[1]);
                     }).collect(Collectors.toMap(MapEntry::getKey, MapEntry::getValue));
                     json.append(name,map);
                 }else {

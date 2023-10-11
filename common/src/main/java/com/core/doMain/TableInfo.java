@@ -1,10 +1,8 @@
 package com.core.doMain;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -13,8 +11,6 @@ import java.util.Collection;
  * @param <T> 集合数据类型
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class TableInfo<T> implements Serializable {
     /**
      * 记录数
@@ -36,17 +32,43 @@ public class TableInfo<T> implements Serializable {
      */
     private Collection<T> collection;
 
-    public TableInfo(Collection<T> collection){
+    protected TableInfo(Collection<T> collection){
         this.total = CollUtil.isNotEmpty(collection) ? collection.size() : 0;
         this.code = HttpStatus.SUCCESS;
         this.msg = "操作成功";
         this.collection = collection;
     }
 
-    public TableInfo(int total,Collection<T> collection){
+    protected TableInfo(int total,Collection<T> collection){
         this.total = total;
         this.code = HttpStatus.SUCCESS;
         this.msg = "操作成功";
         this.collection = collection;
+    }
+
+    public TableInfo(int total, int code, String msg, Collection<T> collection) {
+        this.total = total;
+        this.code = code;
+        this.msg = msg;
+        this.collection = collection;
+    }
+
+    /**
+     * 是否成功
+     * @param tableInfo 数据对象
+     * @return true:成功 false:失败
+     */
+    public static <T> boolean isSuccess(TableInfo<T> tableInfo){
+        return BeanUtil.isNotEmpty(tableInfo) && tableInfo.getCode() > 199 && tableInfo.getCode() < 300 && CollUtil.isNotEmpty(tableInfo.getCollection());
+    }
+
+
+    /**
+     * 是否失败
+     * @param tableInfo 数据对象
+     * @return true:失败 false:成功
+     */
+    public static <T> boolean isError(TableInfo<T> tableInfo){
+        return !isSuccess(tableInfo);
     }
 }

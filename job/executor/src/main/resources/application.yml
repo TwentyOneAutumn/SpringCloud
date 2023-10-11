@@ -6,8 +6,7 @@ server:
 
 # log config
 logging:
-  config:
-    classpath: log4j2.xml
+  config: classpath:log4j2.xml
 spring:
   main:
     banner-mode: off
@@ -28,7 +27,7 @@ xxl:
       address:
       ip:
       port: 9999 # 注册端口
-      logpath: /Users/maplej/App/JavaProject/SpringCloud/xxl-job/xxl-job-executor/logs
+      logpath: /Users/maplej/App/JavaProject/SpringCloud/job/logs
       logretentiondays: 30
 
 mybatis-plus:

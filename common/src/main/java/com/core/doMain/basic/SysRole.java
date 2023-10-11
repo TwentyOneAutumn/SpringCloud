@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 角色表实体类
  */
@@ -16,7 +18,7 @@ import lombok.NoArgsConstructor;
 @TableName("sys_role")
 @EqualsAndHashCode(callSuper = true)
 @KeySequence("KeyGenerator")
-public class SysRole extends TimeEntity {
+public class SysRole extends TimeEntity implements Serializable {
 
 
     /**

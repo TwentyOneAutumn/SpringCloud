@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -17,7 +19,7 @@ import java.util.Date;
 @TableName("sys_user")
 @EqualsAndHashCode(callSuper = true)
 @KeySequence("KeyGenerator")
-public class SysUser extends TimeEntity {
+public class SysUser extends TimeEntity implements Serializable {
 
     /**
      * 主键ID

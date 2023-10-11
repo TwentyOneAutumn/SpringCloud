@@ -10,13 +10,15 @@ import java.util.Map;
  * @param <V> 值泛型
  */
 @Data
-@AllArgsConstructor
 public class MapEntry<K,V> implements Map.Entry<K,V>{
 
     /**
      * 私有化构造方法
      */
-    private MapEntry(){}
+    private MapEntry(K key, V value){
+        this.key = key;
+        this.value = value;
+    }
 
     /**
      * 键
@@ -27,7 +29,6 @@ public class MapEntry<K,V> implements Map.Entry<K,V>{
      * 值
      */
     private V value;
-
 
     @Override
     public K getKey() {
@@ -43,5 +44,15 @@ public class MapEntry<K,V> implements Map.Entry<K,V>{
     public V setValue(V value) {
         this.value = value;
         return this.value;
+    }
+
+    /**
+     * 静态构建方法
+     * @param key 键
+     * @param value 值
+     * @return MapEntry
+     */
+    public static <K,V> MapEntry<K,V> create(K key, V value){
+        return new MapEntry<>(key,value);
     }
 }

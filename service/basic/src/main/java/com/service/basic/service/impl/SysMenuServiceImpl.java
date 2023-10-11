@@ -15,7 +15,6 @@ import com.service.basic.service.ISysMenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 /**
@@ -37,7 +36,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     @Override
     public TableInfo<SysMenuListVo> toList(SysMenuListDto dto) {
-        Page<Object> page = PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
+        Page<Object> page = PageEntity.build(dto);
         List<SysMenu> list = list(new LambdaQueryWrapper<SysMenu>());
         List<SysMenuListVo> voList = BeanUtil.copyToList(list, SysMenuListVo.class);
         return Build.table(page,voList);

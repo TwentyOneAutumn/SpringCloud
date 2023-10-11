@@ -1,10 +1,7 @@
 package com.core.doMain;
 
 import cn.hutool.core.bean.BeanUtil;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 
 /**
@@ -12,8 +9,6 @@ import java.io.Serializable;
  * @param <T> 集合数据类型
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Row<T> implements Serializable {
 
     /**
@@ -31,15 +26,22 @@ public class Row<T> implements Serializable {
      */
     private T row;
 
-    public Row(T row){
+
+    protected Row(int code, String msg, T row) {
+        this.code = code;
+        this.msg = msg;
+        this.row = row;
+    }
+
+    protected Row(T row){
         this.code = HttpStatus.SUCCESS;
         this.msg = "操作成功";
         this.row = row;
     }
 
 
-    public static  <T> Row<T> success(T row){
-        return new Row<T>(HttpStatus.SUCCESS, "操作成功", row);
+    protected static  <T> Row<T> success(T row){
+        return new Row<>(HttpStatus.SUCCESS, "操作成功", row);
     }
 
 
@@ -50,7 +52,7 @@ public class Row<T> implements Serializable {
      * @return true:成功 false:失败
      */
     public static <T> boolean isSuccess(Row<T> row){
-        return !BeanUtil.isEmpty(row) && row.getCode() == 200;
+        return BeanUtil.isNotEmpty(row) && row.getCode() > 199 && row.getCode() < 300 && BeanUtil.isNotEmpty(row.getRow());
     }
 
 
@@ -61,6 +63,6 @@ public class Row<T> implements Serializable {
      * @return true:失败 false:成功
      */
     public static <T> boolean isError(Row<T> row){
-        return BeanUtil.isEmpty(row) || row.getCode() != 200;
+        return !isSuccess(row);
     }
 }

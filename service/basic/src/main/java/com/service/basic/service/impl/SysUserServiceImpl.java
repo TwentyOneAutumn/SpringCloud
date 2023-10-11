@@ -62,7 +62,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public TableInfo<SysUserListVo> toList(SysUserListDto dto) {
-        Page<Object> page = PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
+        Page<Object> page = PageEntity.build(dto);
         List<SysUser> list = list();
         List<SysUserListVo> voList = BeanUtil.copyToList(list, SysUserListVo.class);
         return Build.table(page,voList);

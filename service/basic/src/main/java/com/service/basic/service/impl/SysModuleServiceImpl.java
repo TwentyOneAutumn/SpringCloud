@@ -37,7 +37,7 @@ public class SysModuleServiceImpl extends ServiceImpl<SysModuleMapper, SysModule
      */
     @Override
     public TableInfo<SysModuleListVo> toList(SysModuleListDto dto) {
-        Page<Object> page = PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
+        Page<Object> page = PageEntity.build(dto);
         List<SysModule> list = list(new LambdaQueryWrapper<SysModule>());
         List<SysModuleListVo> voList = BeanUtil.copyToList(list, SysModuleListVo.class);
         return Build.table(page,voList);
