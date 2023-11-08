@@ -6,22 +6,16 @@
 
 ![Kubernetes 组件](../Img/kubernetes/components-of-kubernetes.svg)
 
-------
-
 ### 控制平面组件（Control Plane Components）
 
 > 控制平面组件会为集群做出全局决策，比如资源的调度。 以及检测和响应集群事件，例如当不满足部署的 `replicas` 字段时， 要启动新的 [Pod](https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/)
 >
-
-------
 
 #### kube-apiserve
 
 > API Server是 Kubernetes [控制平面](https://kubernetes.io/zh-cn/docs/reference/glossary/?all=true#term-control-plane)的组件， 该组件负责公开了 Kubernetes API（`Rest风格`），负责处理接受请求的工作， API Server是 Kubernetes 控制平面的前端 
 >
 > Kubernetes API 服务器的主要实现是 [kube-apiserver](https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-apiserver/)，`kube-apiserver`设计上考虑了水平扩缩，也就是说，它可通过部署多个实例来进行扩缩， 你可以运行 `kube-apiserver` 的多个实例，并在这些实例之间平衡流量
-
-------
 
 #### etcd
 
@@ -31,15 +25,11 @@
 >
 > 你可以在[官方文档](https://etcd.io/docs/)中找到有关 etcd 的深入知识
 
-------
-
 #### kube-scheduler
 
 > `kube-scheduler` 是[控制平面](https://kubernetes.io/zh-cn/docs/reference/glossary/?all=true#term-control-plane)的组件， 负责监视新创建的、未指定运行[Node](https://kubernetes.io/zh-cn/docs/concepts/architecture/nodes/)的 [Pods](https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/)， 并选择节点来让 Pod 在上面运行
 >
 > 调度决策考虑的因素包括单个 Pod 及 Pods 集合的资源需求、软硬件及策略约束、 亲和性及反亲和性规范、数据位置、工作负载间的干扰及最后时限
-
-------
 
 #### kube-controller-manager
 
@@ -56,8 +46,6 @@
 
 以上并不是一个详尽的列表
 
-------
-
 #### cloud-controller-manager
 
 > 一个 Kubernetes [控制平面](https://kubernetes.io/zh-cn/docs/reference/glossary/?all=true#term-control-plane)组件， 嵌入了特定于云平台的控制逻辑。 云控制器管理器（Cloud Controller Manager）允许你将你的集群连接到云提供商的 API 之上， 并将与该云平台交互的组件同与你的集群交互的组件分离开来
@@ -72,21 +60,15 @@
 - 路由控制器（Route Controller）：用于在底层云基础架构中设置路由
 - 服务控制器（Service Controller）：用于创建、更新和删除云提供商负载均衡器
 
-------
-
 ### Node 组件
 
 > 节点组件会在每个节点上运行，负责维护运行的 Pod 并提供 Kubernetes 运行环境
-
-------
 
 #### kubelet
 
 > `kubelet` 会在集群中每个[节点（node）](https://kubernetes.io/zh-cn/docs/concepts/architecture/nodes/)上运行，，，， 它保证[容器（containers）](https://kubernetes.io/zh-cn/docs/concepts/overview/what-is-kubernetes/#why-containers)都运行在 [Pod](https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/) 中
 >
 > kubelet 接收一组通过各类机制提供给它的 PodSpecs， 确保这些 PodSpecs 中描述的容器处于运行状态且健康，kubelet 不会管理不是由 Kubernetes 创建的容器
-
-------
 
 #### kube-proxy
 
@@ -96,91 +78,8 @@
 >
 > 如果操作系统提供了可用的数据包过滤层，则 kube-proxy 会通过它来实现网络规则， 否则，kube-proxy 仅做流量转发
 
-------
-
 #### 容器运行时（Container Runtime）
 
 > 容器运行环境是负责运行容器的软件
 >
 > Kubernetes 支持许多容器运行环境，例如 [containerd](https://containerd.io/docs/)、 [CRI-O](https://cri-o.io/#what-is-cri-o) 以及 [Kubernetes CRI (容器运行环境接口)](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/container-runtime-interface.md) 的其他任何实现
-
-------
-
-### 配置文件类型
-
----
-
-#### kind
-
-| 类型          | 说明                                                         |
-| ------------- | ------------------------------------------------------------ |
-| `Deployment`  | 用于声明式地管理应用程序的部署，可以自动创建、更新和扩展副本集，一般用于创建无状态应用 |
-| `StatefulSet` |                                                              |
-| `Service`     |                                                              |
-| ``            |                                                              |
-| ``            |                                                              |
-| ``            |                                                              |
-| ``            |                                                              |
-| ``            |                                                              |
-| ``            |                                                              |
-
-------
-
-#### protocol
-
-| 类型            | 说明                          |
-| --------------- | ----------------------------- |
-| `TCP (default)` | 表示使用 TCP 协议进行网络通信 |
-| `UDP`           | 表示使用 UDP 协议进行网络通信 |
-
-------
-
-#### imagePullPolicy
-
-| 类型                     | 说明                                                         |
-| ------------------------ | ------------------------------------------------------------ |
-| `IfNotPresent (default)` | 优先使用本地镜像，只有当镜像在本地不存在时才会拉取           |
-| `Always`                 | 始终拉取最新版本的镜像，即使本地已经存在镜像，也会尝试拉取最新版本 |
-| `Never`                  | 仅使用本地镜像，如果镜像不存在于本地，则会启动失败           |
-
-------
-
-#### restartPolicy
-
-| 类型               | 说明                                                         |
-| ------------------ | ------------------------------------------------------------ |
-| `Always (default)` | 如果容器终止，无论是正常退出还是出现错误，Kubernetes 都会自动将容器重新启动 |
-| `OnFailure`        | 只有当容器终止状态为非零（即出现错误）时，Kubernetes 才会自动将容器重新启动，如果容器正常退出（退出状态为零），它将不会被自动重新启动 |
-
-------
-
-#### 探针
-
-| 类型             | 说明                                                         |
-| ---------------- | ------------------------------------------------------------ |
-| `livenessProbe`  | 用于确定容器是否仍在运行。当存活探针失败时，Kubernetes 将尝试重新启动容器。这对于检测应用程序或容器内部进程的崩溃或死锁非常有用 |
-| `readinessProbe` | 用于确定容器是否已准备好接受流量。当就绪探针失败时，Kubernetes 将停止将流量路由到该容器，直到就绪探针再次成功，这对于确保应用程序在接收流量之前已经初始化或准备好非常有用 |
-| `StartupProbe`   | 用于确定容器是否已成功启动。与就绪探针不同，它仅在容器启动时运行一次，如果启动探针失败，Kubernetes 可以尝试重新启动容器 |
-
-------
-
-#### xxx
-
-| 类型 | 说明 |
-| ---- | ---- |
-|      |      |
-|      |      |
-|      |      |
-
-------
-
-#### xxx
-
-| 类型 | 说明 |
-| ---- | ---- |
-|      |      |
-|      |      |
-|      |      |
-
-------
-

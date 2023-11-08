@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
-import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.builder.*;
 import com.baomidou.mybatisplus.generator.config.converts.TypeConverts;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
@@ -27,8 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.sql.DataSource;
 import javax.validation.Valid;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -48,12 +49,10 @@ public class GeneratorController {
                 .globalConfig(builder -> builder
                         // 设置作者
                         .author(generatorCode.getAuthor())
-                        // 开启Swagger
-//                        .enableSwagger()
                         // 设置注释日期格式
-                        .commentDate(generatorCode::getCommentDate)
+                        .commentDate(() -> new SimpleDateFormat(generatorCode.getCommentDate()).format(new Date()))
                         // 指定文件输出目录
-                        .outputDir(generatorCode.getOutputDir())
+                        .outputDir(generatorCode.getJavaOutputDir())
                         // 禁止打开输出目录
                         .disableOpenDir()
                         .build()
@@ -73,24 +72,46 @@ public class GeneratorController {
                         .serviceImpl("service.impl")
                         // 设置mapper包名
                         .mapper("mapper")
-                        // 设置xml包名
                         // 指定输出路径
-                        .pathInfo(Collections.singletonMap(OutputFile.xml, generatorCode.getOutputDir() + File.separator + "resources" + File.separator + "mapper"))
+                        .pathInfo(Collections.singletonMap(OutputFile.xml, generatorCode.getXmlPath()))
                         .build()
                 )
                 .strategyConfig(builder -> {
+                    // Controller配置
                     Controller.Builder controllerBuilder = builder.controllerBuilder();
+                    // 开启生成@RestController控制器
+                    controllerBuilder.enableRestStyle();
+                    // 覆盖已有文件
                     controllerBuilder.enableFileOverride();
+
+                    // Service配置
                     Service.Builder serviceBuilder = builder.serviceBuilder();
+                    // 覆盖已有文件
                     serviceBuilder.enableFileOverride();
+
+                    // Entity配置
                     Entity.Builder entityBuilder = builder.entityBuilder();
-                    entityBuilder.enableFileOverride()
-                            .disableSerialVersionUID()
-                            .logicDeleteColumnName("is_deleted")
-                            .logicDeletePropertyName("isDeleted")
-                            .idType(IdType.INPUT);
+                    // 覆盖已有文件
+                    entityBuilder.enableFileOverride();
+                    // 禁用生成serialVersionUID
+                    entityBuilder.disableSerialVersionUID();
+                    // 逻辑删除数据库字段名称
+                    entityBuilder.logicDeleteColumnName("is_deleted");
+                    // 逻辑删除实体属性名称
+                    entityBuilder.logicDeletePropertyName("isDeleted");
+                    // 指定生成的主键的ID类型
+                    entityBuilder.idType(IdType.INPUT);
+                    // 开启链式模型
+                    entityBuilder.enableChainModel();
+
+                    // Mapper配置
                     Mapper.Builder mapperBuilder = builder.mapperBuilder();
-                    mapperBuilder.mapperAnnotation(org.apache.ibatis.annotations.Mapper.class).enableFileOverride();
+                    // 标记 Mapper 注解
+                    mapperBuilder.mapperAnnotation(org.apache.ibatis.annotations.Mapper.class);
+                    // 覆盖已有文件
+                    mapperBuilder.enableFileOverride();
+
+                    // 生成代码的表名集合
                     builder.addInclude(generatorCode.getTableNameList()).build();
                 })
                 .injectionConfig(builder -> builder
@@ -102,6 +123,17 @@ public class GeneratorController {
                             objectMap.put("serviceNameLower", toClassLower(table.getServiceName().substring(1)));
                             objectMap.put("serviceImplNameLower", toClassLower(table.getServiceImplName()));
                             objectMap.put("controllerNameLower", toClassLower(table.getControllerName()));
+                            String entityPackage = generatorCode.getParentPackage() + "." + generatorCode.getModulePackage() + ".entity";
+                            objectMap.put("AjaxResultClassName", "AjaxResult");
+                            objectMap.put("BuildClassName", "Build");
+                            objectMap.put("HttpStatusClassName", "HttpStatus");
+                            objectMap.put("PageEntityClassName", "PageEntity");
+                            objectMap.put("RowClassName", "Row");
+                            objectMap.put("TableInfoClassName", "TableInfo");
+                            objectMap.put("TimeEntityClassName", "TimeEntity");
+
+                            objectMap.put("EntityPackage", entityPackage);
+
                             List<TableField> fields = table.getFields();
                             boolean isCreateTime = false;
                             boolean isUpdateTime = false;
@@ -110,30 +142,40 @@ public class GeneratorController {
                                     String keyIdName = field.getPropertyName();
                                     String keyIdNameCapital = StringUtils.capitalize(keyIdName);
                                     objectMap.put("keyIdNameCapital", keyIdNameCapital);
-                                }else {
-                                    if("create_time".equals(field.getName())){
+                                } else {
+                                    if ("create_time".equals(field.getName())) {
                                         isCreateTime = true;
-                                    }else if("update_time".equals(field.getName())){
+                                    } else if ("update_time".equals(field.getName())) {
                                         isUpdateTime = true;
                                     }
                                 }
                             }
                             objectMap.put("isExtendsTimeEntity", isCreateTime && isUpdateTime);
-                            if(isCreateTime && isUpdateTime){
+                            if (isCreateTime && isUpdateTime) {
                                 objectMap.put("timeEntityName", "TimeEntity");
                                 objectMap.put("timeEntityPackage", "com.core.doMain.TimeEntity");
                             }
                         }))
                         .customFile(new HashMap<String, String>() {{
-                            put("ListDto.java", "/templates/dtoList.java.vm");
-                            put("DetailDto.java", "/templates/dtoDetail.java.vm");
-                            put("AddDto.java", "/templates/dtoAdd.java.vm");
-                            put("EditDto.java", "/templates/dtoEdit.java.vm");
-                            put("DeleteDto.java", "/templates/dtoDelete.java.vm");
-                            put("ListVo.java", "/templates/voList.java.vm");
-                            put("DetailVo.java", "/templates/voDetail.java.vm");
-                        }})
-                        .build())
+                                    put("ListDto.java", "/templates/dtoList.java.vm");
+                                    put("DetailDto.java", "/templates/dtoDetail.java.vm");
+                                    put("AddDto.java", "/templates/dtoAdd.java.vm");
+                                    put("EditDto.java", "/templates/dtoEdit.java.vm");
+                                    put("DeleteDto.java", "/templates/dtoDelete.java.vm");
+                                    put("ListVo.java", "/templates/voList.java.vm");
+                                    put("DetailVo.java", "/templates/voDetail.java.vm");
+
+                                    put("AjaxResult.java", "/templates/AjaxResult.java.vm");
+                                    put("Build.java", "/templates/Build.java.vm");
+                                    put("HttpStatus.java", "/templates/HttpStatus.java.vm");
+                                    put("PageEntity.java", "/templates/PageEntity.java.vm");
+                                    put("Row.java", "/templates/Row.java.vm");
+                                    put("TableInfo.java", "/templates/TableInfo.java.vm");
+                                    put("TimeEntity.java", "/templates/TimeEntity.java.vm");
+                                }}.entrySet().stream().map(e -> new CustomFile.Builder().fileName(e.getKey()).templatePath(e.getValue()).enableFileOverride().build()).collect(Collectors.toList())
+                        )
+                        .build()
+                )
                 .templateEngine(
                         new VelocityTemplateEngine() {
                             @Override
@@ -155,13 +197,17 @@ public class GeneratorController {
                                     if (name.contains("Dto") && !name.contains("Vo")) {
                                         packageName = "dto";
                                     }
-                                    outputFile(new File(filePath + File.separator + "domain" + File.separator + packageName + File.separator + fileName), objectMap, file.getTemplatePath(), file.isFileOverride());
+                                    if (name.equals("AjaxResult.java") || name.equals("Build.java") || name.equals("HttpStatus.java") || name.equals("PageEntity.java") || name.equals("Row.java") || name.equals("TableInfo.java") || name.equals("TimeEntity.java")) {
+                                        outputFile(new File(filePath + File.separator + "entity" + File.separator + file.getFileName()), objectMap, file.getTemplatePath(), file.isFileOverride());
+                                    } else {
+                                        outputFile(new File(filePath + File.separator + "domain" + File.separator + packageName + File.separator + fileName), objectMap, file.getTemplatePath(), file.isFileOverride());
+                                    }
                                 });
                             }
                         }
                 )
                 .execute();
-        return Build.ajax(true, "代码生成完毕,路径为:" + generatorCode.getPath());
+        return Build.ajax(true, "代码生成完毕,路径为:" + generatorCode.getBasicPath());
     }
 
     public String toClassLower(String className) {

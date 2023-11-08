@@ -1,5 +1,6 @@
 package ${package.ServiceImpl};
 
+import ${EntityPackage}.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import ${package.Entity}.${table.entityName};
 import ${package.Mapper}.${table.mapperName};
@@ -41,7 +42,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         List<${table.entityName}> list = list();
         // 泛型转换
         List<${table.entityName}ListVo> voList = BeanUtil.copyToList(list,${table.entityName}ListVo.class);
-        return Build.table(page,voList);;
+        return Build.table(page,voList);
     }
 
     /**

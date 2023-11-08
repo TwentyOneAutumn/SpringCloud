@@ -11,20 +11,17 @@ import com.github.pagehelper.Page;
 @Data
 public class PageEntity {
 
-
     /**
      * 页数
      */
     @NotNull(message = "pageNum参数不能为空")
     private Integer pageNum = 1;
 
-
     /**
      * 页码
      */
     @NotNull(message = "pageSize参数不能为空")
     private Integer pageSize = 10;
-
 
     /**
      * 构建分页信息

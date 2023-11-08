@@ -1,26 +1,3 @@
-server:
-  port: 8803
-  servlet:
-    context-path: /file
 spring:
-  profiles:
-    active: dev
-  servlet:
-    multipart:
-      enabled: true # 是否支持多文件上传
-      max-file-size: 50MB # 最大允许的单个文件大小
-      max-request-size: 50MB # 最大允许的请求总大小
-      file-size-threshold: 50MB # 设置在内存中允许的文件大小阈值,如果文件大小超过该阈值,将被写入磁盘临时文件
   application:
-    name: file # 服务名称
-  datasource:
-    driver-class-name: ${mysql.file.driver}
-    url: ${mysql.file.url}
-    username: ${mysql.file.username}
-    password: ${mysql.file.password}
-minio:
-  endpoint: http://${ip}:9000
-  accessKey: root
-  secretKey: 2762581@com
-seata:
-  application-id: ${spring.application.name}
+    name: file

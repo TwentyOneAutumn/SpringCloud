@@ -3,9 +3,10 @@ package com.core.doMain.basic;
 import com.baomidou.mybatisplus.annotation.*;
 import com.core.doMain.TimeEntity;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+
 
 /**
  * 菜单表实体类

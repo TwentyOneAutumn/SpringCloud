@@ -3,14 +3,13 @@ package ${package.Entity}.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import com.core.doMain.PageEntity;
+import ${EntityPackage}.PageEntity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 import lombok.EqualsAndHashCode;
-import com.core.doMain.TimeEntity;
 
 /**
  * ${table.entityName} 列表接口参数封装类

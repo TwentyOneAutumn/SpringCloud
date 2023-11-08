@@ -7,10 +7,20 @@ spring:
     allow-bean-definition-overriding: true
   cloud:
     nacos:
+      username: nacos
+      password: nacos
       discovery:
+        namespace: 1
         server-addr: ${ip}:8848
-        username: nacos
-        password: nacos
+      config:
+        server-addr: ${ip}:8848
+        file-extension: yaml
+        namespace: 1
+        shared-configs:
+          - dataId: basic.yaml
+            refresh: true
+          - dataId: file.yaml
+            refresh: true
   redis:
     host: ${ip}
     port: 6379
@@ -44,7 +54,7 @@ mybatis-plus:
       logic-not-delete-value: 0 # 全局非逻辑删除状态值
   type-handlers-package: com.core.handle # 处理器扫描
 
-
+# Seata
 seata:
   enabled: true # 启用 Seata
   tx-service-group: ${seata.txServiceGroup} # 事务分组

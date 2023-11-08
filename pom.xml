@@ -34,6 +34,7 @@
         <module>database-config</module>
         <module>seata</module>
         <module>job</module>
+        <module>flink-cdc</module>
     </modules>
 
     <properties>
@@ -54,6 +55,7 @@
         <Gateway.version>3.1.1</Gateway.version>
         <MybatisPlus.version>3.5.2</MybatisPlus.version>
         <Validation.version>2.0.2</Validation.version>
+        <Validator.version>6.2.0.Final</Validator.version>
         <ApacheCommons.version>1.15</ApacheCommons.version>
         <JWT.version>0.11.2</JWT.version>
         <Slf4j.version>1.7.30</Slf4j.version>
@@ -162,6 +164,19 @@
                 </exclusions>
             </dependency>
 
+            <!-- Nacos注册发现依赖 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                <version>${AlibabaCloud.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.alibaba.nacos</groupId>
+                        <artifactId>nacos-client</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
             <!-- Nacos配置管理依赖 -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
@@ -258,6 +273,13 @@
                 <groupId>jakarta.validation</groupId>
                 <artifactId>jakarta.validation-api</artifactId>
                 <version>${Validation.version}</version>
+            </dependency>
+
+            <!-- 校验 -->
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${Validator.version}</version>
             </dependency>
 
             <!-- Apache Commons -->

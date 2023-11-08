@@ -43,7 +43,7 @@
        logstash-appender:
          destination: 127.0.0.1:4560
        kafka-appender:
-         bootstrap-servers: 124.221.27.253:9092
+         bootstrap-servers: 127.0.0.1:9092
          topic: seataLog
    console:
      user:
@@ -53,18 +53,18 @@
      config: # 配置中心
        type: nacos
        nacos:
-         server-addr: 124.221.27.253:8848 # Nacos地址
+         server-addr: <nacos地址>:<nacos端口> # Nacos地址
          group: SEATA_GROUP # 分组
-         namespace: 38efd505-cc1a-4ffa-b1fb-d8aa0982e8b2 # 命名空间
+         namespace: <命名空间ID> # 命名空间
          username: nacos
          password: nacos
          data-id: SeataConfig.yaml
      registry: # 注册中心
        type: nacos
        nacos:
-         server-addr: 124.221.27.253:8848
+         server-addr: <nacos地址>:<nacos端口>
          group: SEATA_GROUP # 分组
-         namespace: 38efd505-cc1a-4ffa-b1fb-d8aa0982e8b2 # 命名空间
+         namespace: <命名空间ID> # 命名空间
          username: nacos
          password: nacos
      store: # 存储方式
@@ -73,9 +73,9 @@
          datasource: druid
          dbType: mysql
          driverClassName: com.mysql.cj.jdbc.Driver
-         url: jdbc:mysql://124.221.27.253:3306/seata?useUnicode=true&characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
-         user: root
-         password: 2762581@com
+         url: jdbc:mysql://<MySQL-IP>:3306/seata?useUnicode=true&characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
+         user: <MySQL用户名>
+         password: <MySQL密码>
          minConn: 5
          maxConn: 100
          globalTable: global_table
@@ -273,9 +273,9 @@
             datasource: druid # 数据源类型，druid
             dbType: mysql # 数据库类型，mysql
             driverClassName: com.mysql.cj.jdbc.Driver # 数据库驱动类名
-            url: jdbc:mysql://124.221.27.253:3306/seata?useUnicode=true&characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false # 数据库连接URL
-            user: root # 数据库用户名
-            password: 2762581@com # 数据库密码
+            url: jdbc:mysql://<MySQLIP>:3306/seata?useUnicode=true&characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false # 数据库连接URL
+            user: <MySQLIP> # 数据库用户名
+            password: <MySQL密码> # 数据库密码
             minConn: 5 # 最小连接数
             maxConn: 30 # 最大连接数
             globalTable: global_table # 全局事务表名
@@ -333,6 +333,8 @@
    --restart=always \
    seataio/seata-server:1.6.0
    ```
+
+   
 
 8. 集群启动
 

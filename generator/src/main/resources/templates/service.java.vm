@@ -1,5 +1,6 @@
 package ${package.Service};
 
+import ${EntityPackage}.*;
 import ${package.Entity}.${table.entityName};
 import ${superServiceClassPackage};
 import ${package.Entity}.dto.*;

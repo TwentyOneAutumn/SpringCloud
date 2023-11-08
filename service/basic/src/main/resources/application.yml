@@ -1,14 +1,3 @@
-server:
-  port: 8802
-  servlet:
-    context-path: /basic
 spring:
-  profiles:
-    active: dev
   application:
-    name: basic # 服务名称
-  datasource:
-    driver-class-name: ${mysql.basic.driver}
-    url: ${mysql.basic.url}
-    username: ${mysql.basic.username}
-    password: ${mysql.basic.password}
+    name: basic

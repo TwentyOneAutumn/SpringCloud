@@ -17,3 +17,5 @@
 3. 将下载的中文包App.zip解压，并Copy到resource文件夹下
 
 4. 重启Postman
+
+https://dl.pstmn.io/download/version/9.12.2/osx_arm64

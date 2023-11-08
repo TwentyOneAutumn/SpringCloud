@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 
-
 /**
  * ${table.entityName} 新增接口参数封装类
  */

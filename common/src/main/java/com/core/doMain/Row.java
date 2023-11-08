@@ -26,7 +26,6 @@ public class Row<T> implements Serializable {
      */
     private T row;
 
-
     protected Row(int code, String msg, T row) {
         this.code = code;
         this.msg = msg;
@@ -38,7 +37,6 @@ public class Row<T> implements Serializable {
         this.msg = "操作成功";
         this.row = row;
     }
-
 
     protected static  <T> Row<T> success(T row){
         return new Row<>(HttpStatus.SUCCESS, "操作成功", row);
