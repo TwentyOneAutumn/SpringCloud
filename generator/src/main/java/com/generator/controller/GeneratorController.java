@@ -133,7 +133,7 @@ public class GeneratorController {
 
                     if(CollUtil.isNotEmpty(includeTableNameList)){
                         // 要生成代码的表名集合
-                        builder.addExclude();
+                        builder.addInclude();
                     }
                     if(CollUtil.isNotEmpty(excludeTableNameList)){
                         // 排除在外的表名集合
