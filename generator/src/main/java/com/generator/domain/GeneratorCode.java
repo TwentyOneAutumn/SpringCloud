@@ -14,10 +14,14 @@ import java.util.List;
 public class GeneratorCode {
 
     /**
-     * 表名集合
+     * 表名集合,如果为空则默认为库中所有表生成代码
      */
-    @NotEmpty(message = "tableNameList参数不能为空")
-    private List<String> tableNameList;
+    private List<String> includeTableNameList;
+
+    /**
+     * 排除表名集合,不会为被排除的表生成代码
+     */
+    private List<String> excludeTableNameList;
 
     /**
      * 作者

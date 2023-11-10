@@ -1,5 +1,6 @@
 package com.generator.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -15,6 +16,7 @@ import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import com.generator.domain.AjaxResult;
 import com.generator.domain.Build;
 import com.generator.domain.GeneratorCode;
+import com.generator.mapper.TableMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,9 @@ public class GeneratorController {
 
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private TableMapper tableMapper;
 
     @PostMapping("/code")
     public AjaxResult generatingCode(@Valid @RequestBody GeneratorCode generatorCode) {
@@ -111,8 +116,29 @@ public class GeneratorController {
                     // 覆盖已有文件
                     mapperBuilder.enableFileOverride();
 
-                    // 生成代码的表名集合
-                    builder.addInclude(generatorCode.getTableNameList()).build();
+
+                    List<String> includeTableNameList = generatorCode.getIncludeTableNameList();
+                    List<String> excludeTableNameList = generatorCode.getExcludeTableNameList();
+                    if(CollUtil.isEmpty(includeTableNameList)){
+                        // 获取数据库名称
+                        String databaseName;
+                        try {
+                            databaseName = dataSource.getConnection().getMetaData().getDatabaseProductName();
+                        } catch (Exception e) {
+                            throw new RuntimeException("获取数据库名称异常");
+                        }
+                        // 获取库中所有表名
+                        includeTableNameList = tableMapper.getTableNameAll(databaseName);
+                    }
+
+                    if(CollUtil.isNotEmpty(includeTableNameList)){
+                        // 要生成代码的表名集合
+                        builder.addExclude();
+                    }
+                    if(CollUtil.isNotEmpty(excludeTableNameList)){
+                        // 排除在外的表名集合
+                        builder.addExclude();
+                    }
                 })
                 .injectionConfig(builder -> builder
                         .beforeOutputFile(((tableInfo, objectMap) -> {

@@ -64,6 +64,7 @@
         <Sentinel.version>1.8.6</Sentinel.version>
         <NacosClient.version>2.2.2</NacosClient.version>
         <SpringCloudStarter.version>3.1.1</SpringCloudStarter.version>
+        <OrgJson.version>20231013</OrgJson.version>
     </properties>
 
     <dependencyManagement>
@@ -396,6 +397,12 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-stream-kafka</artifactId>
                 <version>${SpringCloudStarter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${OrgJson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
