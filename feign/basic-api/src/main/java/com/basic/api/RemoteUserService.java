@@ -2,6 +2,7 @@ package com.basic.api;
 
 import com.basic.api.doMain.UserInfo;
 import com.basic.api.factory.UserFallbackFactory;
+import com.core.doMain.AjaxResult;
 import com.core.doMain.Row;
 import com.core.doMain.basic.SysUser;
 import com.core.enums.ServiceName;
@@ -27,5 +28,5 @@ public interface RemoteUserService {
      * @return Boolean
      */
     @PostMapping("/user/check")
-    Row<Boolean> checkUser(@RequestBody SysUser user);
+    AjaxResult checkUser(@RequestBody SysUser user);
 }

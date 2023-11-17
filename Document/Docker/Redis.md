@@ -10,24 +10,6 @@
 
 1. 单机启动
 
-   ```shell
-   docker run -d \
-   -p 6379:6379 \
-   -v /home/redis/config/:/home/redis/config
-   -v /home/redis/data/:/home/redis/data
-   --name redis-master \
-   --restart=always \ 
-   redis:7.0 \
-   redis-server /home/redis/config/redis.conf \
-   --port 6379 \
-   --bind 0.0.0.0 \
-   --protected-mode no \
-   --requirepass root \
-   --masterauth root \
-   --dir /home/redis/data \
-   --appendfilename RedisMasterAof.aof
-   ```
-
 1. 集群启动
 
    ```shell

@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.basic.api.RemoteUserService;
 import com.basic.api.doMain.UserInfo;
+import com.core.doMain.AjaxResult;
 import com.core.doMain.Row;
 import com.core.doMain.basic.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +55,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * @throws UsernameNotFoundException 如果找不到用户则抛出异常
      */
     private void checkUser(SysUser user) throws UsernameNotFoundException{
-        Row<Boolean> check = remoteUserService.checkUser(user);
-        if(Row.isError(check)){
+        AjaxResult check = remoteUserService.checkUser(user);
+        if(AjaxResult.isError(check)){
             isError("当前用户不存在");
         }
     }

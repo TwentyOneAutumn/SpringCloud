@@ -2,6 +2,7 @@ package com.basic.api.factory;
 
 import com.basic.api.RemoteUserService;
 import com.basic.api.doMain.UserInfo;
+import com.core.doMain.AjaxResult;
 import com.core.doMain.Build;
 import com.core.doMain.Row;
 import com.core.doMain.basic.SysUser;
@@ -18,8 +19,8 @@ public class UserFallbackFactory implements FallbackFactory<RemoteUserService> {
             }
 
             @Override
-            public Row<Boolean> checkUser(SysUser user) {
-                return Build.row(false,"调用基础模块checkUser接口异常");
+            public AjaxResult checkUser(SysUser user) {
+                return Build.ajax(false,"调用基础模块checkUser接口异常");
             }
         };
     }

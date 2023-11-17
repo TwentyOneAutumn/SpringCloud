@@ -1,28 +1,18 @@
 package com.database.multiDataSource;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.sql.DataSource;
 
 /**
  * 数据源模版类
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DataSourceTemplate {
-
-    /**
-     * 数据源名称
-     */
-    private String dataSourceName;
-
-    /**
-     * 包扫描路径
-     */
-    private String mapperScanPackage;
-
-    /**
-     * XML资源路径
-     */
-    private String resourcesPath;
 
     /**
      * 驱动
@@ -45,40 +35,12 @@ public class DataSourceTemplate {
     private String password;
 
     /**
-     * 数据源
+     * 包扫描
      */
-    private DataSource dataSource;
+    private String mapperScan;
 
-//    private DataSourceTemplate(String dataSourceName, String mapperScanPackage, String resourcesPath) {
-//        this.dataSourceName = dataSourceName;
-//        this.mapperScanPackage = mapperScanPackage;
-//        this.resourcesPath = resourcesPath;
-//    }
-//
-//    private DataSourceTemplate(String dataSourceName, String mapperScanPackage) {
-//        this.dataSourceName = dataSourceName;
-//        this.mapperScanPackage = mapperScanPackage;
-//    }
-//
-//    public static DataSourceTemplate create(String mapperScanPackage, String resourcesPath){
-//        if(StrUtil.isEmpty(mapperScanPackage)){
-//            throw new IllegalStateException("MapperScanPackage Bean cannot be null");
-//        }
-//        return new DataSourceTemplate(createDataSourceName(), mapperScanPackage, resourcesPath);
-//    }
-//
-//    public static DataSourceTemplate create(String mapperScanPackage){
-//        if(StrUtil.isEmpty(mapperScanPackage)){
-//            throw new IllegalStateException("MapperScanPackage Bean cannot be null");
-//        }
-//        return new DataSourceTemplate(createDataSourceName(), mapperScanPackage);
-//    }
-//
-//    /**
-//     * 获取DataSource名称
-//     * @return DataSource名称
-//     */
-//    public static String createDataSourceName(){
-//        return "DataSource" + new Date().getTime();
-//    }
+    /**
+     * xml包扫描
+     */
+    private String xmlScan;
 }

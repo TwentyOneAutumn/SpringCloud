@@ -51,7 +51,7 @@ public class AjaxResult implements Serializable {
      * @param ajaxResult 数据对象
      * @return true:成功 false:失败
      */
-    protected static boolean isSuccess(AjaxResult ajaxResult){
+    public static boolean isSuccess(AjaxResult ajaxResult){
         return BeanUtil.isNotEmpty(ajaxResult) && ajaxResult.getCode() > 199 && ajaxResult.getCode() < 300;
     }
 
@@ -61,7 +61,7 @@ public class AjaxResult implements Serializable {
      * @param ajaxResult 数据对象
      * @return true:失败 false:成功
      */
-    protected static boolean isError(AjaxResult ajaxResult){
+    public static boolean isError(AjaxResult ajaxResult){
         return !isSuccess(ajaxResult);
     }
 }

@@ -8,6 +8,7 @@ import com.service.file.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import javax.validation.Valid;
 
 /**
@@ -20,6 +21,10 @@ public class FileController {
     @Autowired
     private IFileService fileService;
 
+    @Autowired
+    private DataSource dataSource;
+
+
     /**
      * 上传文件
      * @param uploadForm 文件对象
@@ -27,6 +32,7 @@ public class FileController {
      */
     @PostMapping("/uploading")
     public Row<FileResource> uploading(@Valid @ModelAttribute UploadForm uploadForm) throws Exception {
+        System.out.println(dataSource);
         return fileService.uploading(uploadForm);
     }
 

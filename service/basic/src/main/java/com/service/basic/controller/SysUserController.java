@@ -39,7 +39,6 @@ public class SysUserController {
     }
 
 
-
     /**
      * 列表
      * @param dto 数据对象
@@ -112,18 +111,7 @@ public class SysUserController {
      * @return Boolean
      */
     @PostMapping("/check")
-    Row<Boolean> checkUser(@RequestBody SysUser user){
-        return sysUserService.checkUser(user);
-    }
-
-
-    /**
-     * 获取Token
-     * @param user 数据对象
-     * @return Boolean
-     */
-    @PostMapping("/token")
-    Row<Boolean> toToken(@RequestBody SysUser user){
+    AjaxResult checkUser(@RequestBody SysUser user){
         return sysUserService.checkUser(user);
     }
 }

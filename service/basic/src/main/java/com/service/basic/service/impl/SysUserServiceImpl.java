@@ -133,7 +133,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         SysUser pojo = BeanUtil.toBean(dto, SysUser.class);
         boolean update = updateById(pojo);
-        return update ? Build.ajax(true) : Build.ajax(false);
+        return Build.ajax(update);
     }
 
 
@@ -149,7 +149,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new RuntimeException("数据不存在");
         }
         boolean remove = removeById(id);
-        return remove ? Build.ajax(true) : Build.ajax(false);
+        return Build.ajax(remove);
     }
 
 
@@ -162,6 +162,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public Row<UserInfo> getUserInfo(SysUser user) {
         UserInfo userInfo = new UserInfo();
         // 获取用户信息
+//        user = getById(user);
         String userCode = user.getUserCode();
         SysUser sysUser = getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUserCode,userCode)
@@ -205,10 +206,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return Boolean
      */
     @Override
-    public Row<Boolean> checkUser(SysUser user) {
+    public AjaxResult checkUser(SysUser user) {
         long count = count(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUserCode, user.getUserCode())
         );
-        return Build.row(count == 1);
+        return Build.ajax(count == 1);
     }
 }

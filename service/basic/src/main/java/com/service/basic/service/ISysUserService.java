@@ -65,5 +65,5 @@ public interface ISysUserService extends IService<SysUser> {
      * @param user 数据对象
      * @return Boolean
      */
-    Row<Boolean> checkUser(SysUser user);
+    AjaxResult checkUser(SysUser user);
 }

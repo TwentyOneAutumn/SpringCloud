@@ -4,6 +4,7 @@ public class PermitUrl {
     public static final String[] UrlArr = {
             "/token/get",
             "/user/info",
-            "/user/check"
+            "/user/check",
+            "/user/add"
     };
 }
