@@ -41,7 +41,7 @@ feign:
 
 # MybaticPlus
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/*Mapper.xml
+  mapper-locations: classpath:/mapper/*Mapper.xml
   configuration:
     call-setters-on-nulls: false   # 当查询到的字段为空是,是否调用set方法对属性进行Null值的初始化
     local-cache-scope: STATEMENT  # 默认为session级别缓存,STATEMENT:关闭一级缓存

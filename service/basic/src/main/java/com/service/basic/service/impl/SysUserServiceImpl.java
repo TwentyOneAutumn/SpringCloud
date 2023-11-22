@@ -9,10 +9,8 @@ import com.basic.api.doMain.UserInfo;
 import com.core.doMain.*;
 import com.core.doMain.basic.*;
 import com.core.utils.StreamUtils;
-import com.security.config.UserDetailsImpl;
-import com.service.basic.doMain.dto.*;
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
+import com.service.basic.doMain.dto.*;
 import com.service.basic.doMain.vo.SysUserAddVo;
 import com.service.basic.doMain.vo.SysUserDetailVo;
 import com.service.basic.doMain.vo.SysUserListVo;
@@ -20,10 +18,9 @@ import com.service.basic.mapper.SysUserMapper;
 import com.service.basic.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -162,7 +159,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public Row<UserInfo> getUserInfo(SysUser user) {
         UserInfo userInfo = new UserInfo();
         // 获取用户信息
-//        user = getById(user);
         String userCode = user.getUserCode();
         SysUser sysUser = getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUserCode,userCode)
