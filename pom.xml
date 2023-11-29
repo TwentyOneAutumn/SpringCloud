@@ -65,6 +65,7 @@
         <NacosClient.version>2.2.2</NacosClient.version>
         <SpringCloudStarter.version>3.1.1</SpringCloudStarter.version>
         <OrgJson.version>20231013</OrgJson.version>
+        <JacksonDatebind.version>2.16.0</JacksonDatebind.version>
     </properties>
 
     <dependencyManagement>
@@ -267,6 +268,13 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${FastJson.version}</version>
+            </dependency>
+
+            <!-- jackson依赖 -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${JacksonDatebind.version}</version>
             </dependency>
 
             <!-- Java Validation -->
