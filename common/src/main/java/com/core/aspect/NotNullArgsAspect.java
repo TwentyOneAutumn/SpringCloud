@@ -14,7 +14,7 @@ import java.lang.reflect.Parameter;
 @Component
 public class NotNullArgsAspect {
 
-    @Pointcut("@within(com.core.Interface.NotNullArgs) || @annotation(com.core.Interface.NotNullArgs) || execution(* *(.., @com.core.Interface.NotNullArgs (*), ..))")
+    @Pointcut("@within(com.core.interfaces.NotNullArgs) || @annotation(com.core.interfaces.NotNullArgs) || execution(* *(.., @com.core.interfaces.NotNullArgs (*), ..))")
     public void notNullArgs(){}
 
     /**

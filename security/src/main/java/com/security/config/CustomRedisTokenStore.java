@@ -2,7 +2,7 @@ package com.security.config;
 
 import cn.hutool.core.collection.CollUtil;
 import com.core.utils.StrUtils;
-import com.core.utils.ThreadUtils;
+import com.core.utils.ThreadCache;
 import com.security.enums.RedisTokenKey;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.JdkSeriali
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStoreSerializationStrategy;
 import org.springframework.stereotype.Component;
+
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -67,7 +68,8 @@ public class CustomRedisTokenStore extends RedisTokenStore {
         Map<String, String> map = new LinkedHashMap<>();
         OAuth2Request oAuth2Request = authentication.getOAuth2Request();
         String userName = authentication.getName();
-        String ip = ThreadUtils.get("ip",String.class);
+        Map<String,String> cacheMap = ThreadCache.getCache(Map.class);
+        String ip = cacheMap.get("ip");
         String clientId = oAuth2Request.getClientId();
         map.put(RedisTokenKey.USER_NAME,userName);
         map.put(RedisTokenKey.CLIENT_ID,clientId);

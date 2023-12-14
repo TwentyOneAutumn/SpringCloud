@@ -95,7 +95,7 @@
 | cronjob             | 创建具有指定名称的定时作业（CronJob）                        |
 | deployment          | 创建具有指定名称的部署（Deployment）                         |
 | ingress             | 创建具有指定名称的入口（Ingress）                            |
-| job                 | 创建具有指定名称的作业（Job）                                |
+| jobEntity                 | 创建具有指定名称的作业（Job）                                |
 | namespace           | 创建具有指定名称的命名空间（Namespace）                      |
 | poddisruptionbudget | 创建具有指定名称的Pod中断预算（PodDisruptionBudget）         |
 | priorityclass       | 创建具有指定名称的优先级类别（PriorityClass）                |

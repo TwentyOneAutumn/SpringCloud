@@ -14,7 +14,7 @@
     <artifactId>seata</artifactId>
     <version>1.0</version>
     <name>seata</name>
-    <description>seata</description>
+    <description>seata配置模块</description>
 
     <dependencies>
         <dependency>

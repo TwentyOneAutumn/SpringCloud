@@ -72,7 +72,7 @@ public class XxlJobConfig {
      *         </dependency>
      *
      *      2、配置文件，或者容器启动变量
-     *          spring.cloud.inetutils.preferred-networks: 'xxx.xxx.xxx.'
+     *          spring.cloud.inetutils.preferred-networks: 'interfaces.interfaces.interfaces.'
      *
      *      3、获取IP
      *          String ip_ = inetUtils.findFirstNonLoopbackHostInfo().getIpAddress();

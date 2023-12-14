@@ -1,7 +1,6 @@
 package com.security.authentication.annotation;
 
 import com.security.authentication.config.AuthenticationPostProcessorConfig;
-import com.security.authentication.config.ValidationFilterConfig;
 import org.springframework.context.annotation.Import;
 import java.lang.annotation.*;
 
@@ -11,7 +10,7 @@ import java.lang.annotation.*;
 @Documented
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Import({AuthenticationPostProcessorConfig.class, ValidationFilterConfig.class})
+@Import({AuthenticationPostProcessorConfig.class})
 public @interface EnableAuthenticationPostProcessor {
 
 }

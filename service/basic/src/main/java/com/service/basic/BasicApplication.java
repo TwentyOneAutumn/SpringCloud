@@ -1,7 +1,6 @@
 package com.service.basic;
 
-import com.alibaba.nacos.api.config.ConfigType;
-import com.alibaba.nacos.api.config.annotation.NacosConfigListener;
+import com.database.multiDataSource.EnableMultiDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Slf4j
 //@EnableScheduling
 //@EnableAuthenticationPostProcessor
+@EnableMultiDataSource
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @EnableTransactionManagement

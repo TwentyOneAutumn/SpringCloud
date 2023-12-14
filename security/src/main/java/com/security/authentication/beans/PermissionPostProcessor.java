@@ -1,8 +1,9 @@
 package com.security.authentication.beans;
 
 import cn.hutool.core.collection.CollUtil;
-import com.security.authentication.Interface.AuthenticationAware;
-import com.security.authentication.Interface.AuthenticationPostProcessor;
+import com.security.authentication.exceptions.PermissionVerifyException;
+import com.security.authentication.interfaces.AuthenticationAware;
+import com.security.authentication.interfaces.AuthenticationPostProcessor;
 import lombok.Data;
 import org.springframework.security.core.Authentication;
 import java.util.List;

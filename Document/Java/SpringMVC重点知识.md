@@ -345,7 +345,7 @@ public HandlerExceptionResolver handlerExceptionResolver() {
     /*
       request 请求对象
       response 响应对象
-      handler 处理器对象
+      execute 处理器对象
       ex 异常对象
      */
     return (HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) -> {

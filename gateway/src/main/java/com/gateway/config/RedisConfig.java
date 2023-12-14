@@ -12,19 +12,21 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-/**
- * Redis 配置类
- */
 @Configuration
 public class RedisConfig {
 
+    /**
+     * RedisTemplate
+     * @param factory Redis连接工厂对象
+     * @return RedisTemplate
+     */
     @Bean
-    public RedisTemplate<String, Object> redisClient(RedisConnectionFactory factory) {
-        // 创建RedisTemplate<String, Object>对象
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
+        // 创建RedisTemplate对象
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         // 配置连接工厂
         redisTemplate.setConnectionFactory(factory);
-        // 定义Jackson2JsonRedisSerializer序列化对象
+        // 定义Jackson2JsonRedisSerializer
         Jackson2JsonRedisSerializer<Object> jacksonSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         ObjectMapper objectMapper = new ObjectMapper();
         // 指定要序列化的域，field,get和set,以及修饰符范围，ANY是都有包括private和public
@@ -33,14 +35,10 @@ public class RedisConfig {
         objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
         jacksonSerializer.setObjectMapper(objectMapper);
         StringRedisSerializer stringSerial = new StringRedisSerializer();
-        // redis key 序列化方式使用stringSerial
+        // 设置RedisKey的列化方式:StringRedisSerializer
         redisTemplate.setKeySerializer(stringSerial);
-        // redis value 序列化方式使用jackson
+        // 设置RedisValue的列化方式:Jackson2JsonRedisSerializer
         redisTemplate.setValueSerializer(jacksonSerializer);
-        // redis hash key 序列化方式使用stringSerial
-        redisTemplate.setHashKeySerializer(stringSerial);
-        // redis hash value 序列化方式使用jackson
-        redisTemplate.setHashValueSerializer(jacksonSerializer);
         // 初始化
         redisTemplate.afterPropertiesSet();
         return redisTemplate;

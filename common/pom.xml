@@ -15,7 +15,7 @@
     <artifactId>common</artifactId>
     <version>1.0</version>
     <name>common</name>
-    <description>common</description>
+    <description>公共模块</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -33,7 +33,7 @@
         <!-- DataBase依赖 -->
         <dependency>
             <groupId>com.database.config</groupId>
-            <artifactId>database-config</artifactId>
+            <artifactId>database</artifactId>
             <version>1.0</version>
         </dependency>
 

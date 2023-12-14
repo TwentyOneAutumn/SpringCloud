@@ -17,16 +17,16 @@ import java.util.concurrent.atomic.AtomicReference;
 public class RedisUtils {
 
     @Autowired
-    RedisTemplate<String, Object> redisClient;
+    RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 清空Redis缓存
      */
     public void clear(){
         // 清除Redis中所有缓存
-        Set<String> keySet = redisClient.keys("*");
+        Set<String> keySet = redisTemplate.keys("*");
         if(CollUtil.isNotEmpty(keySet)){
-            redisClient.delete(keySet);
+            redisTemplate.delete(keySet);
         }
     }
 
@@ -50,9 +50,9 @@ public class RedisUtils {
 //        }
 
         // 判断缓存是否存在
-        if(Boolean.TRUE.equals(redisClient.hasKey(tableName))){
+        if(Boolean.TRUE.equals(redisTemplate.hasKey(tableName))){
             // 清空表缓存
-            redisClient.delete(tableName);
+            redisTemplate.delete(tableName);
         }
         // TODO 获取最新表数据
         List<Object> list = null;
@@ -63,7 +63,7 @@ public class RedisUtils {
         list.forEach(pojo -> map.put(getIdValue(pojo,idName),pojo));
         try {
             // 添加Hash
-            redisClient.opsForHash().putAll(tableName,map);
+            redisTemplate.opsForHash().putAll(tableName,map);
         }catch (Exception e){
             throw new RuntimeException("刷新缓存异常");
         }
@@ -80,9 +80,9 @@ public class RedisUtils {
         // 获取缓存
         try {
             // 判断Key是否存在
-            if(Boolean.TRUE.equals(redisClient.hasKey(tableName))){
-                list = (List<T>) redisClient.opsForHash().values(tableName);
-                HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisClient.opsForHash();
+            if(Boolean.TRUE.equals(redisTemplate.hasKey(tableName))){
+                list = (List<T>) redisTemplate.opsForHash().values(tableName);
+                HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
             }else {
                 throw new RuntimeException();
             }
@@ -104,8 +104,8 @@ public class RedisUtils {
         // 获取缓存
         try {
             // 判断Key是否存在
-            if(redisClient.hasKey(tableName)){
-                idList.forEach(id -> list.add((T)redisClient.opsForHash().get(tableName, id)));
+            if(redisTemplate.hasKey(tableName)){
+                idList.forEach(id -> list.add((T) redisTemplate.opsForHash().get(tableName, id)));
             }else {
                 throw new RuntimeException();
             }
@@ -127,8 +127,8 @@ public class RedisUtils {
         // 获取缓存
         try {
             // 判断Key是否存在
-            if(redisClient.hasKey(tableName)){
-                row = (T) redisClient.opsForHash().get(tableName, id);
+            if(redisTemplate.hasKey(tableName)){
+                row = (T) redisTemplate.opsForHash().get(tableName, id);
             }else {
                 throw new RuntimeException();
             }

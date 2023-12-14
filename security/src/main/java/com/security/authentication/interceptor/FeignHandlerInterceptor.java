@@ -1,5 +1,6 @@
 package com.security.authentication.interceptor;
 
+import com.security.enums.FeignRequestHeader;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
@@ -8,12 +9,10 @@ import feign.RequestTemplate;
  */
 public class FeignHandlerInterceptor implements RequestInterceptor {
 
-    private final String FEIGN_REQUEST_HEADER = "FeignRequest";
-
     @Override
     public void apply(RequestTemplate template) {
-        if (!hasHeader(template, FEIGN_REQUEST_HEADER)) {
-            template.header(FEIGN_REQUEST_HEADER, FEIGN_REQUEST_HEADER);
+        if (!hasHeader(template, FeignRequestHeader.FEIGN_REQUEST_HEADER_KEY)) {
+            template.header(FeignRequestHeader.FEIGN_REQUEST_HEADER_KEY, FeignRequestHeader.FEIGN_REQUEST_HEADER_VALUE);
         }
     }
 

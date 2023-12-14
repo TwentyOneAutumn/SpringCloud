@@ -13,12 +13,7 @@
 
     <groupId>com.security</groupId>
     <artifactId>security</artifactId>
-    <version>1.0</version>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+    <description>security配置模块</description>
 
     <dependencies>
         <dependency>
@@ -32,7 +27,6 @@
             <artifactId>spring-security-oauth2</artifactId>
             <version>2.5.2.RELEASE</version>
         </dependency>
-
 
         <!-- Common模块 -->
         <dependency>

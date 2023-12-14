@@ -28,10 +28,10 @@
         <module>service</module>
         <module>common</module>
         <module>security</module>
-        <module>message-queue</module>
+        <module>mq</module>
         <module>generator</module>
         <module>config</module>
-        <module>database-config</module>
+        <module>database</module>
         <module>seata</module>
         <module>job</module>
         <module>flink-cdc</module>
@@ -65,7 +65,9 @@
         <NacosClient.version>2.2.2</NacosClient.version>
         <SpringCloudStarter.version>3.1.1</SpringCloudStarter.version>
         <OrgJson.version>20231013</OrgJson.version>
-        <JacksonDatebind.version>2.16.0</JacksonDatebind.version>
+        <Jackson.version>2.16.0</Jackson.version>
+<!--        <Snakeyaml.version>2.0</Snakeyaml.version>-->
+        <Okhttp.version>4.12.0</Okhttp.version>
     </properties>
 
     <dependencyManagement>
@@ -274,7 +276,13 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${JacksonDatebind.version}</version>
+                <version>${Jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${Jackson.version}</version>
             </dependency>
 
             <!-- Java Validation -->
@@ -412,6 +420,18 @@
                 <artifactId>json</artifactId>
                 <version>${OrgJson.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${Okhttp.version}</version>
+            </dependency>
+
+<!--            <dependency>-->
+<!--                <groupId>org.yaml</groupId>-->
+<!--                <artifactId>snakeyaml</artifactId>-->
+<!--                <version>${Snakeyaml.version}</version>-->
+<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 

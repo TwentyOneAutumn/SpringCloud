@@ -14,7 +14,7 @@
     <artifactId>file-api</artifactId>
     <version>1.0</version>
     <name>file-api</name>
-    <description>file-api</description>
+    <description>file模块Feign接口聚合模块</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

@@ -15,7 +15,7 @@
     <artifactId>service</artifactId>
     <version>1.0</version>
     <name>service</name>
-    <description>service</description>
+    <description>service服务聚合模块</description>
     <packaging>pom</packaging>
 
     <!-- 聚合模块 -->

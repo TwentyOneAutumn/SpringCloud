@@ -15,12 +15,9 @@
 	<artifactId>file</artifactId>
 	<version>1.0</version>
 	<name>file</name>
-	<description>file</description>
-
-
+	<description>文件服务模块</description>
 
 	<dependencies>
-
 		<!-- 安全模块 -->
 		<dependency>
 			<groupId>com.security</groupId>
@@ -52,4 +49,21 @@
 			<version>5.0.0-alpha.11</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.6.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

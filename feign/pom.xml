@@ -16,6 +16,7 @@
     <artifactId>feign</artifactId>
     <version>1.0</version>
     <name>feign</name>
+    <description>Feign接口聚合模块</description>
     <packaging>pom</packaging>
 
     <!-- 聚合模块 -->

@@ -15,7 +15,7 @@
     <artifactId>config</artifactId>
     <version>1.0</version>
     <name>config</name>
-    <description>config</description>
+    <description>配置模块</description>
     <packaging>jar</packaging>
 
     <dependencies>

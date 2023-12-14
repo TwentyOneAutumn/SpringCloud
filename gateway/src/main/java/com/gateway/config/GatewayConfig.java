@@ -59,7 +59,7 @@
 //    @Bean
 //    @Order(-1)
 //    public SentinelBlockExceptionHandler sentinelBlockExceptionHandler() {
-//        // Register the block exception handler for Spring WebFlux.
+//        // Register the block exception execute for Spring WebFlux.
 //        return new SentinelBlockExceptionHandler(viewResolvers, serverCodecConfigurer);
 //    }
 //
@@ -73,7 +73,7 @@
 //    @Bean
 //    @Order(Ordered.HIGHEST_PRECEDENCE)
 //    public SentinelGatewayBlockExceptionHandler sentinelGatewayBlockExceptionHandler() {
-//        // Register the block exception handler for Spring Cloud Gateway.
+//        // Register the block exception execute for Spring Cloud Gateway.
 //        return new SentinelGatewayBlockExceptionHandler(viewResolvers, serverCodecConfigurer);
 //    }
 //

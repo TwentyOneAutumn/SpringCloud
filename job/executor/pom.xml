@@ -11,7 +11,7 @@
     <artifactId>executor</artifactId>
     <packaging>jar</packaging>
     <name>executor</name>
-    <description>executor</description>
+    <description>xxl-job执行器模块</description>
 
     <dependencies>
         <dependency>
@@ -23,7 +23,6 @@
 
     <build>
         <plugins>
-            <!-- spring-boot-maven-plugin (提供了直接运行项目的插件：如果是通过parent方式继承spring-boot-starter-parent则不用此插件) -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -38,6 +37,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

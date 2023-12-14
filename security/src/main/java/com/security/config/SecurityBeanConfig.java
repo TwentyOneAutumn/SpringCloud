@@ -4,7 +4,7 @@ import cn.hutool.core.codec.Base64;
 import com.core.doMain.Build;
 import com.core.utils.ResponseUtils;
 import com.core.utils.StrUtils;
-import com.core.utils.ThreadUtils;
+import com.core.utils.ThreadCache;
 import com.security.enums.ClientsSql;
 import com.security.enums.RedisTokenKey;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -27,7 +27,6 @@ import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeSe
 import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionManager;
 
 import javax.sql.DataSource;
@@ -135,7 +134,8 @@ public class SecurityBeanConfig {
                 Map<String, String> map = new LinkedHashMap<>();
                 OAuth2Request oAuth2Request = authentication.getOAuth2Request();
                 String userName = authentication.getName();
-                String ip = ThreadUtils.get("ip",String.class);
+                Map<String,String> cacheMap = ThreadCache.getCache(Map.class);
+                String ip = cacheMap.get("ip");
                 String clientId = oAuth2Request.getClientId();
                 map.put(RedisTokenKey.USER_NAME,userName);
                 map.put(RedisTokenKey.CLIENT_ID,clientId);

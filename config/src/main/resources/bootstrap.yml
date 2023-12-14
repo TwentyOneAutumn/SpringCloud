@@ -11,9 +11,9 @@ spring:
       password: nacos
       discovery:
         namespace: 1
-        server-addr: ${ip}:8848
+        server-addr: 124.221.27.253:8848
       config:
-        server-addr: ${ip}:8848
+        server-addr: 124.221.27.253:8848
         file-extension: yaml
         namespace: 1
         shared-configs:

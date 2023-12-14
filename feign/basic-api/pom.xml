@@ -14,7 +14,7 @@
     <artifactId>basic-api</artifactId>
     <version>1.0</version>
     <name>basic-api</name>
-    <description>basic-api</description>
+    <description>basic模块Feign接口聚合模块</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

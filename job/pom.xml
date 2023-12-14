@@ -14,7 +14,7 @@
 	<version>1.0</version>
 	<packaging>pom</packaging>
 	<name>job</name>
-	<description>job</description>
+	<description>xxl-job聚合模块</description>
 
 	<modules>
 		<module>control-center</module>
@@ -22,7 +22,7 @@
     </modules>
 
 	<dependencies>
-		<!-- xxl-job-core -->
+		<!-- xxl-jobEntity-core -->
 		<dependency>
 			<groupId>com.xuxueli</groupId>
 			<artifactId>xxl-job-core</artifactId>
@@ -34,6 +34,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
@@ -41,64 +42,4 @@
 			<type>pom</type>
 		</dependency>
 	</dependencies>
-
-	<profiles>
-
-		<profile>
-			<id>release</id>
-			<build>
-				<plugins>
-					<!-- Source -->
-<!--					<plugin>-->
-<!--						<groupId>org.apache.maven.plugins</groupId>-->
-<!--						<artifactId>maven-source-plugin</artifactId>-->
-<!--						<version>${maven-source-plugin.version}</version>-->
-<!--						<executions>-->
-<!--							<execution>-->
-<!--								<phase>package</phase>-->
-<!--								<goals>-->
-<!--									<goal>jar-no-fork</goal>-->
-<!--								</goals>-->
-<!--							</execution>-->
-<!--						</executions>-->
-<!--					</plugin>-->
-					<!-- Javadoc -->
-<!--					<plugin>-->
-<!--						<groupId>org.apache.maven.plugins</groupId>-->
-<!--						<artifactId>maven-javadoc-plugin</artifactId>-->
-<!--						<version>${maven-javadoc-plugin.version}</version>-->
-<!--						<executions>-->
-<!--							<execution>-->
-<!--								<phase>package</phase>-->
-<!--								<goals>-->
-<!--									<goal>jar</goal>-->
-<!--								</goals>-->
-<!--								<configuration>-->
-<!--									<doclint>none</doclint>-->
-<!--								</configuration>-->
-<!--							</execution>-->
-<!--						</executions>-->
-<!--					</plugin>-->
-					<!-- GPG -->
-<!--                    <plugin>-->
-<!--                        <groupId>org.apache.maven.plugins</groupId>-->
-<!--                        <artifactId>maven-gpg-plugin</artifactId>-->
-<!--                        <version>${maven-gpg-plugin.version}</version>-->
-<!--						<configuration>-->
-<!--							<useAgent>false</useAgent>-->
-<!--						</configuration>-->
-<!--                        <executions>-->
-<!--                            <execution>-->
-<!--                                <phase>verify</phase>-->
-<!--                                <goals>-->
-<!--                                    <goal>sign</goal>-->
-<!--                                </goals>-->
-<!--                            </execution>-->
-<!--                        </executions>-->
-<!--                    </plugin>-->
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 </project>

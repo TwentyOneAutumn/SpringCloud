@@ -31,11 +31,11 @@
 //
 //        // Depending on your situation, you can choose to process the BlockException via
 //        // the BlockExceptionHandler or throw it directly, then handle it
-//        // in Spring web global exception handler.
+//        // in Spring web global exception execute.
 //
 //        // config.setBlockExceptionHandler((request, response, e) -> { throw e; });
 //
-//        // Use the default handler.
+//        // Use the default execute.
 //        config.setBlockExceptionHandler(new DefaultBlockExceptionHandler());
 //
 //        // Custom configuration if necessary

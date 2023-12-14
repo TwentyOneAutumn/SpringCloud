@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>com.message.queue</groupId>
+        <artifactId>mq</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 定义当前项目版本坐标 -->
+    <groupId>com.rabbitmq</groupId>
+    <artifactId>rabbitmq</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>rabbitmq</name>
+    <description>rabbitmq聚合模块</description>
+    <modules>
+        <module>rabbitmq-publisher</module>
+        <module>rabbitmq-consumer</module>
+        <module>rabbitmq-config</module>
+    </modules>
+
+    <dependencies>
+        <!-- Common模块 -->
+        <dependency>
+            <groupId>com.common</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- 配置模块-->
+        <dependency>
+            <groupId>com.config</groupId>
+            <artifactId>config</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- SpringAMQP依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+    </dependencies>
+</project>

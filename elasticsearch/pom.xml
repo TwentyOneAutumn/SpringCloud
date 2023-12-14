@@ -17,6 +17,7 @@
     <artifactId>elasticsearch</artifactId>
     <version>1.0</version>
     <name>elasticsearch</name>
+    <description>elasticsearch相关API模块</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -47,4 +48,20 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.6.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

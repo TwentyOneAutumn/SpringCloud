@@ -1,6 +1,6 @@
 package com.core.config;
 
-import com.core.Interface.NotNullArgs;
+import com.core.interfaces.NotNullArgs;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

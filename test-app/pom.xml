@@ -52,7 +52,7 @@
 
         <dependency>
             <groupId>com.database.config</groupId>
-            <artifactId>database-config</artifactId>
+            <artifactId>database</artifactId>
             <version>1.0</version>
         </dependency>
 
@@ -67,5 +67,5 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-    </dependencies>
+       </dependencies>
 </project>

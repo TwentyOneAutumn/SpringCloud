@@ -19,7 +19,3 @@ spring:
           uri: lb://file
           predicates:
             - Path=/file/**
-    sentinel:
-      eager: true
-      transport:
-        dashboard: ${sentinel.dashboard.url}

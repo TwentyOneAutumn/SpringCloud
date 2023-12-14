@@ -18,6 +18,7 @@
     <artifactId>gateway</artifactId>
     <version>1.0</version>
     <name>gateway</name>
+    <description>gateway网关模块</description>
 
     <dependencies>
         <!-- Gateway网关依赖 -->
@@ -49,6 +50,17 @@
             <groupId>com.config</groupId>
             <artifactId>config</artifactId>
             <version>1.0</version>
+        </dependency>
+
+        <!-- jackson依赖 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
         </dependency>
 
         <!--        &lt;!&ndash; Sentinel依赖 &ndash;&gt;-->
