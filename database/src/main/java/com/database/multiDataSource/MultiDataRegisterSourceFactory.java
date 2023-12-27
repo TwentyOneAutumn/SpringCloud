@@ -16,57 +16,30 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.data.transaction.ChainedTransactionManager;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.*;
+import java.util.stream.Collectors;
 
+/**
+ * 多数据源注册工厂类
+ */
 @Configuration
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPostProcessor {
-
-    /**
-     * DataSourceConfig对象属性driverClassName
-     */
-    private final String driverClassName = "driverClassName";
-
-    /**
-     * DataSourceConfig对象属性jdbcUrl
-     */
-    private final String jdbcUrl = "jdbcUrl";
-
-    /**
-     * DataSourceConfig对象属性username
-     */
-    private final String username = "username";
-
-    /**
-     * DataSourceConfig对象属性password
-     */
-    private final String password = "password";
-
-    /**
-     * MapperScannerConfigurer对象属性basePackage
-     */
-    private final String basePackage = "basePackage";
-
-    /**
-     * MapperScannerConfigurer对象属性sqlSessionFactoryBeanName
-     */
-    private final String sqlSessionFactoryBeanName = "sqlSessionFactoryBeanName";
-
-    /**
-     * MapperScannerConfigurer对象属性sqlSessionTemplateBeanName
-     */
-    private final String sqlSessionTemplateBeanName = "sqlSessionTemplateBeanName";
-
-    /**
-     * DataSourceConfig对象后缀名
-     */
-    private final String DataSourceConfigSuffix = "DataSourceConfig";
 
     /**
      * DataSource对象后缀名
@@ -88,14 +61,28 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
      */
     private final String MapperScannerConfigurerSuffix = "MapperScannerConfigurer";
 
+    /**
+     * 缓存BeanDefinitionRegistry
+     */
     private BeanDefinitionRegistry registry;
-
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+        // 获取BeanDefinitionRegistry
         this.registry = registry;
     }
 
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        // 注册多数剧院相关Bean
+        registerBean(beanFactory,analysisConfig());
+    }
+
+    /**
+     * 注册多数据源相关Bean
+     * @param beanFactory bean工厂对象
+     * @param dataSourceTemplateMap 数据源模版集合
+     */
     public void registerBean(ConfigurableListableBeanFactory beanFactory,Map<String, DataSourceTemplate> dataSourceTemplateMap){
         // 循环注册Bean
         dataSourceTemplateMap.forEach((name,dataSourceTemplate) -> {
@@ -106,6 +93,13 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
         });
     }
 
+    /**
+     * 注册DataSource Bean
+     * @param beanFactory bean工厂对象
+     * @param name 数据源名称
+     * @param dataSourceTemplate 数据源模版对象
+     * @return DataSource
+     */
     public DataSource registerDataSourceBean(ConfigurableListableBeanFactory beanFactory,String name,DataSourceTemplate dataSourceTemplate){
         String dataSourceName = name + DataSourceSuffix;
         DataSource dataSource = DataSourceBuilder.create()
@@ -118,6 +112,14 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
         return dataSource;
     }
 
+    /**
+     * 注册SqlSessionFactory Bean
+     * @param beanFactory bean工厂对象
+     * @param name 数据源名称
+     * @param dataSourceTemplate 数据源模版对象
+     * @param dataSource 数据源对象
+     * @return SqlSessionFactory
+     */
     @SneakyThrows
     public SqlSessionFactory registerSqlSessionFactoryBean(ConfigurableListableBeanFactory beanFactory, String name, DataSourceTemplate dataSourceTemplate, DataSource dataSource){
         String sqlSessionFactoryBeanName = name + SqlSessionFactorySuffix;
@@ -136,12 +138,24 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
         return sessionFactory;
     }
 
+    /**
+     * 注册SqlSessionTemplate Bean
+     * @param beanFactory bean工厂对象
+     * @param name 数据源名称
+     * @param sqlSessionFactory SqlSessionFactory对象
+     */
     public void registerSqlSessionTemplateBean(ConfigurableListableBeanFactory beanFactory,String name,SqlSessionFactory sqlSessionFactory){
         String sqlSessionTemplateBeanName = name + SqlSessionTemplateSuffix;
         SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
         beanFactory.registerSingleton(sqlSessionTemplateBeanName,sqlSessionTemplate);
     }
 
+    /**
+     * 注册MapperScannerConfigurer Bean
+     * @param beanFactory bean工厂对象
+     * @param name 数据源名称
+     * @param dataSourceTemplate 数据源模版对象
+     */
     public void registerMapperScannerConfigurerBean(ConfigurableListableBeanFactory beanFactory,String name,DataSourceTemplate dataSourceTemplate){
         String mapperScannerConfigurerBeanName = name + MapperScannerConfigurerSuffix;
         String sqlSessionFactoryBeanName = name + SqlSessionFactorySuffix;
@@ -154,6 +168,10 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
         beanFactory.registerSingleton(mapperScannerConfigurerBeanName,mapperScannerConfigurer);
     }
 
+    /**
+     * 获取多数据源配置
+     * @return Map
+     */
     @SneakyThrows
     public Map<String,DataSourceTemplate> analysisConfig(){
         Map<String,DataSourceTemplate> dataSourceMap = new HashMap<>();
@@ -236,6 +254,11 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
         return dataSourceMap;
     }
 
+    /**
+     * 解析配置,提取数据源模版
+     * @param properties 配置对象
+     * @return Map
+     */
     public Map<String,DataSourceTemplate> analysisProperties(Properties properties){
         Map<String,DataSourceTemplate> map = new HashMap<>();
         int index = 0;
@@ -285,8 +308,14 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
         return map;
     }
 
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        registerBean(beanFactory,analysisConfig());
+    /**
+     * 注册多数据联合事务管理器覆盖默认事务管理器
+     * @param dataSourceList 数据源集合
+     * @return PlatformTransactionManager
+     */
+    @Bean
+    @Order(Ordered.LOWEST_PRECEDENCE)
+    public PlatformTransactionManager platformTransactionManager(List<DataSource> dataSourceList){
+        return new ChainedTransactionManager(dataSourceList.stream().map(DataSourceTransactionManager::new).collect(Collectors.toList()).toArray(new DataSourceTransactionManager[]{}));
     }
 }
