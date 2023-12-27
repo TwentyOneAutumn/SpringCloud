@@ -3,6 +3,7 @@ package com.service.basic.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.api.doMain.UserInfo;
@@ -157,9 +158,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public Row<UserInfo> getUserInfo(SysUser user) {
+        log.info("---执行---");
         UserInfo userInfo = new UserInfo();
         // 获取用户信息
         String userCode = user.getUserCode();
+        if(BeanUtil.isEmpty(user) || StrUtil.isEmpty(userCode)){
+            return Build.row(false);
+        }
         SysUser sysUser = getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUserCode,userCode)
         );

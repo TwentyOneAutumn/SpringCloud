@@ -1,5 +1,7 @@
 package com.database.multiDataSource;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -16,19 +18,8 @@ import java.util.stream.Collectors;
  * 多数据源配置类，负责加载创建一系列多数据依赖对象
  */
 @Configuration
-public class MultiDataSourceConfig{
-
-
-    /**
-     * 注册MultiDataSourceFactory，添加数据源模版缓存，方便后续注册组件调用
-     * @param dataSourceList 数据源对象集合
-     * @return MultiDataSourceFactory
-     */
-//    @Bean
-//    @Order(Ordered.LOWEST_PRECEDENCE)
-//    public MultiDataSourceFactory multiDataSourceFactory(){
-//        return new MultiDataSourceFactory();
-//    }
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
+public class TransactionManagerConfig {
 
     /**
      * 注册多数据联合事务管理器覆盖默认事务管理器

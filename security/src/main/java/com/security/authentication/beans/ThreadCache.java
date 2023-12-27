@@ -1,4 +1,4 @@
-package com.core.utils;
+package com.security.authentication.beans;
 
 import cn.hutool.core.bean.BeanUtil;
 

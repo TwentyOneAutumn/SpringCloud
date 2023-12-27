@@ -2,34 +2,28 @@ package com.database.multiDataSource;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import lombok.SneakyThrows;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.ibatis.mapping.Environment;
-import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
-import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+import javax.sql.DataSource;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Configuration
 public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPostProcessor {
@@ -94,94 +88,70 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
      */
     private final String MapperScannerConfigurerSuffix = "MapperScannerConfigurer";
 
+    private BeanDefinitionRegistry registry;
+
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        registerBean(registry,analysisConfig());
+        this.registry = registry;
     }
 
-    public void registerBean(BeanDefinitionRegistry registry,Map<String, DataSourceTemplate> dataSourceTemplateMap){
+    public void registerBean(ConfigurableListableBeanFactory beanFactory,Map<String, DataSourceTemplate> dataSourceTemplateMap){
         // 循环注册Bean
         dataSourceTemplateMap.forEach((name,dataSourceTemplate) -> {
-            String dataSourceName = registerDataSourceBean(registry, name, dataSourceTemplate);
-            String sqlSessionFactoryName = registerSqlSessionFactoryBean(registry, name, dataSourceTemplate, dataSourceName);
-            String sqlSessionTemplateBeanName = registerSqlSessionTemplateBean(registry, name, sqlSessionFactoryName);
-            registerMapperScannerConfigurerBean(registry,name,dataSourceTemplate,sqlSessionFactoryName,sqlSessionTemplateBeanName);
+            DataSource dataSource = registerDataSourceBean(beanFactory, name, dataSourceTemplate);
+            SqlSessionFactory sqlSessionFactory = registerSqlSessionFactoryBean(beanFactory, name, dataSourceTemplate, dataSource);
+            registerSqlSessionTemplateBean(beanFactory, name, sqlSessionFactory);
+            registerMapperScannerConfigurerBean(beanFactory,name,dataSourceTemplate);
         });
     }
 
-    public String registerDataSourceBean(BeanDefinitionRegistry registry,String name,DataSourceTemplate dataSourceTemplate){
-        String configName = name + DataSourceConfigSuffix;
+    public DataSource registerDataSourceBean(ConfigurableListableBeanFactory beanFactory,String name,DataSourceTemplate dataSourceTemplate){
         String dataSourceName = name + DataSourceSuffix;
-        BeanDefinitionBuilder configBuilder = BeanDefinitionBuilder.genericBeanDefinition(HikariConfig.class);
-        configBuilder.addPropertyValue(driverClassName,dataSourceTemplate.getDriverClassName())
-                .addPropertyValue(jdbcUrl,dataSourceTemplate.getUrl())
-                .addPropertyValue(username,dataSourceTemplate.getUsername())
-                .addPropertyValue(password,dataSourceTemplate.getPassword());
-        registry.registerBeanDefinition(configName,configBuilder.getBeanDefinition());
-
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(HikariDataSource.class);
-        builder.addConstructorArgReference(configName);
-        registry.registerBeanDefinition(dataSourceName,builder.getBeanDefinition());
-        return dataSourceName;
+        DataSource dataSource = DataSourceBuilder.create()
+                .driverClassName(dataSourceTemplate.getDriverClassName())
+                .url(dataSourceTemplate.getUrl())
+                .username(dataSourceTemplate.getUsername())
+                .password(dataSourceTemplate.getPassword())
+                .build();
+        beanFactory.registerSingleton(dataSourceName,dataSource);
+        return dataSource;
     }
 
     @SneakyThrows
-    public String registerSqlSessionFactoryBean(BeanDefinitionRegistry registry, String name, DataSourceTemplate dataSourceTemplate, String dataSourceName){
-        String sqlSessionFactoryName = name + SqlSessionFactorySuffix;
-        String environmentName = name + "Environment";
-        String mybatisConfigurationName = name + "MybatisConfiguration";
+    public SqlSessionFactory registerSqlSessionFactoryBean(ConfigurableListableBeanFactory beanFactory, String name, DataSourceTemplate dataSourceTemplate, DataSource dataSource){
+        String sqlSessionFactoryBeanName = name + SqlSessionFactorySuffix;
         MybatisSqlSessionFactoryBean factory = new MybatisSqlSessionFactoryBean();
-//        factory.setGlobalConfig();
         GlobalConfig globalConfig = new GlobalConfig();
+        globalConfig.setBanner(false);
+        factory.setGlobalConfig(globalConfig);
         // 设置XML映射扫描
         String xmlScan = dataSourceTemplate.getXmlScan();
         if(StrUtil.isNotEmpty(xmlScan)){
-//            factory.setGlobalConfig();
             factory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:" + xmlScan));
         }
-
-        BeanDefinitionBuilder environmentBuilder = BeanDefinitionBuilder.genericBeanDefinition(Environment.class);
-        environmentBuilder.addConstructorArgValue(environmentName)
-                .addConstructorArgValue(new SpringManagedTransactionFactory())
-                .addConstructorArgReference(dataSourceName);
-        registry.registerBeanDefinition(environmentName,environmentBuilder.getBeanDefinition());
-
-        BeanDefinitionBuilder mybatisConfigurationBuilder = BeanDefinitionBuilder.genericBeanDefinition(MybatisConfiguration.class);
-        mybatisConfigurationBuilder.addConstructorArgReference(environmentName)
-                .addPropertyValue("logImpl",org.apache.ibatis.logging.stdout.StdOutImpl.class)
-//                .addPropertyValue("globalConfig",new GlobalConfig().setBanner(false))
-                .addPropertyValue("databaseId",dataSourceName);
-        if(StrUtil.isNotEmpty(xmlScan)){
-            Resource[] resources = new PathMatchingResourcePatternResolver().getResources("classpath:" + xmlScan);
-            mybatisConfigurationBuilder.addPropertyValue("loadedResources",Arrays.stream(resources).map(Resource::toString).collect(Collectors.toSet()));
-        }
-        registry.registerBeanDefinition(mybatisConfigurationName,mybatisConfigurationBuilder.getBeanDefinition());
-
-
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(DefaultSqlSessionFactory.class);
-        builder.addConstructorArgReference(mybatisConfigurationName);
-        registry.registerBeanDefinition(sqlSessionFactoryName,builder.getBeanDefinition());
-        return sqlSessionFactoryName;
+        factory.setDataSource(dataSource);
+        SqlSessionFactory sessionFactory = factory.getObject();
+        beanFactory.registerSingleton(sqlSessionFactoryBeanName,sessionFactory);
+        return sessionFactory;
     }
 
-    public String registerSqlSessionTemplateBean(BeanDefinitionRegistry registry,String name,String sqlSessionFactoryName){
-        String sqlSessionTemplateName = name + SqlSessionTemplateSuffix;
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(SqlSessionTemplate.class);
-        builder.addConstructorArgReference(sqlSessionFactoryName);
-        registry.registerBeanDefinition(sqlSessionTemplateName,builder.getBeanDefinition());
-        return sqlSessionTemplateName;
+    public void registerSqlSessionTemplateBean(ConfigurableListableBeanFactory beanFactory,String name,SqlSessionFactory sqlSessionFactory){
+        String sqlSessionTemplateBeanName = name + SqlSessionTemplateSuffix;
+        SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
+        beanFactory.registerSingleton(sqlSessionTemplateBeanName,sqlSessionTemplate);
     }
 
-    public void registerMapperScannerConfigurerBean(BeanDefinitionRegistry registry,String name,DataSourceTemplate dataSourceTemplate,String sqlSessionFactoryBeanName,String sqlSessionTemplateBeanName){
-        String mapperScannerConfigurerName = name + MapperScannerConfigurerSuffix;
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(MapperScannerConfigurer.class);
-        builder.addPropertyValue(basePackage,dataSourceTemplate.getMapperScan())
-                .addPropertyValue("processPropertyPlaceHolders",true)
-                .addPropertyValue("beanName",mapperScannerConfigurerName)
-                .addPropertyValue(this.sqlSessionFactoryBeanName,sqlSessionFactoryBeanName)
-                .addPropertyValue(this.sqlSessionTemplateBeanName,sqlSessionTemplateBeanName);
-        registry.registerBeanDefinition(mapperScannerConfigurerName,builder.getBeanDefinition());
+    public void registerMapperScannerConfigurerBean(ConfigurableListableBeanFactory beanFactory,String name,DataSourceTemplate dataSourceTemplate){
+        String mapperScannerConfigurerBeanName = name + MapperScannerConfigurerSuffix;
+        String sqlSessionFactoryBeanName = name + SqlSessionFactorySuffix;
+        String sqlSessionTemplateBeanName = name + SqlSessionTemplateSuffix;
+        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+        mapperScannerConfigurer.setSqlSessionFactoryBeanName(sqlSessionFactoryBeanName);
+        mapperScannerConfigurer.setSqlSessionTemplateBeanName(sqlSessionTemplateBeanName);
+        mapperScannerConfigurer.setBasePackage(dataSourceTemplate.getMapperScan());
+        mapperScannerConfigurer.postProcessBeanDefinitionRegistry(this.registry);
+        beanFactory.registerSingleton(mapperScannerConfigurerBeanName,mapperScannerConfigurer);
     }
 
     @SneakyThrows
@@ -317,6 +287,6 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-
+        registerBean(beanFactory,analysisConfig());
     }
 }

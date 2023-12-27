@@ -4,7 +4,7 @@ import cn.hutool.core.codec.Base64;
 import com.core.doMain.Build;
 import com.core.utils.ResponseUtils;
 import com.core.utils.StrUtils;
-import com.core.utils.ThreadCache;
+import com.security.authentication.beans.ThreadCache;
 import com.security.enums.ClientsSql;
 import com.security.enums.RedisTokenKey;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -7,14 +7,18 @@ spring:
     name: gateway # 服务名称
   cloud:
     gateway:
-      httpclient:
-        connect-timeout: 1000
-        response-timeout: 5s
+      filter:
+        retry:
+          enabled: true # 是否启用重试过滤器
+          interval: 3 # 重试间隔时间(单位:秒)
+          retries: 3 # 最大重试次数
       routes:
         - id: basic
           uri: lb://basic
           predicates:
             - Path=/basic/**
+          filters:
+            - name: Retry
         - id: file
           uri: lb://file
           predicates:

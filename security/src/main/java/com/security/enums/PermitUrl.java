@@ -8,6 +8,7 @@ public class PermitUrl {
             "/token/get",
             "/user/info",
             "/user/check",
-            "/user/add"
+            "/user/add",
+            "/user/test"
     };
 }

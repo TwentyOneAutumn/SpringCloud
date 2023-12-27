@@ -2,7 +2,7 @@ package com.security.authentication.aspect;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import com.core.utils.ThreadCache;
+import com.security.authentication.beans.ThreadCache;
 import com.security.authentication.beans.AuthenticationCache;
 import com.security.authentication.beans.PermissionPostProcessor;
 import com.security.authentication.exceptions.PermissionVerifyException;

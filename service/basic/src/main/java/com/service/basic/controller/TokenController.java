@@ -3,7 +3,7 @@ package com.service.basic.controller;
 import com.core.doMain.Build;
 import com.core.utils.IPUtil;
 import com.core.utils.ResponseUtils;
-import com.core.utils.ThreadCache;
+import com.security.authentication.beans.ThreadCache;
 import com.service.basic.doMain.dto.TokenDto;
 import com.service.basic.doMain.vo.TokenVo;
 import lombok.extern.slf4j.Slf4j;

@@ -1,10 +1,11 @@
 package com.service.basic.controller;
 
 import com.basic.api.doMain.UserInfo;
-import com.core.doMain.*;
+import com.core.doMain.AjaxResult;
+import com.core.doMain.Build;
+import com.core.doMain.Row;
+import com.core.doMain.TableInfo;
 import com.core.doMain.basic.SysUser;
-import com.core.doMain.file.FileResource;
-import com.core.doMain.file.UploadForm;
 import com.file.api.RemoteFileService;
 import com.service.basic.doMain.dto.*;
 import com.service.basic.doMain.vo.SysUserAddVo;
@@ -14,6 +15,7 @@ import com.service.basic.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 /**
@@ -29,15 +31,6 @@ public class SysUserController {
 
     @Autowired
     private RemoteFileService remoteFileService;
-
-    @GetMapping("/test")
-    public AjaxResult toTest(){
-        UploadForm uploadForm = new UploadForm();
-        Row<FileResource> upload = remoteFileService.upload(uploadForm);
-        System.out.println(upload);
-        return Build.ajax(true);
-    }
-
 
     /**
      * 列表

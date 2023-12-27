@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Documented
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Import({MultiDataRegisterSourceFactory.class,MultiDataSourceConfig.class})
+@Import({MultiDataRegisterSourceFactory.class, TransactionManagerConfig.class})
 public @interface EnableMultiDataSource {
 
 }

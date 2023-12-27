@@ -34,7 +34,6 @@
         <module>database</module>
         <module>seata</module>
         <module>job</module>
-        <module>flink-cdc</module>
     </modules>
 
     <properties>
@@ -117,6 +116,12 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${SpringBoot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
                 <version>${SpringBoot.version}</version>
             </dependency>
 

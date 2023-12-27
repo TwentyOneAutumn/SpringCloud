@@ -21,10 +21,6 @@ spring:
             refresh: true
           - dataId: file.yaml
             refresh: true
-  redis:
-    host: ${ip}
-    port: 6379
-#    password: root
 
 # ClientDetailsService
 client-details:
@@ -77,3 +73,9 @@ seata:
       data-id: ${seata.dataId}
   enable-auto-data-source-proxy: true # 启用自动数据源代理
   data-source-proxy-mode: AT # 数据源代理模式
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh

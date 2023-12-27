@@ -2,7 +2,7 @@ package com.security.config;
 
 import cn.hutool.core.collection.CollUtil;
 import com.core.utils.StrUtils;
-import com.core.utils.ThreadCache;
+import com.security.authentication.beans.ThreadCache;
 import com.security.enums.RedisTokenKey;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

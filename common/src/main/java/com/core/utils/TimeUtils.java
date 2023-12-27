@@ -1,7 +1,9 @@
 package com.core.utils;
 
+import cn.hutool.core.collection.CollUtil;
 import com.core.enums.CompareType;
 import com.core.enums.TimeUnit;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -10,6 +12,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.Temporal;
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 时间工具类
@@ -17,30 +22,30 @@ import java.util.Date;
 public class TimeUtils {
 
     /**
-     * 将Date转换为LocalDateTime，时区为系统默认时区
+     * 将Date转换为LocalDateTime，时区为默认为中国上海时区
      * @param time Date对象
      * @return LocalDateTime
      */
     public static LocalDateTime toLocalDateTime(Date time){
-        return time.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return time.toInstant().atZone(ZoneId.of("CTT")).toLocalDateTime();
     }
 
     /**
-     * 将日期字符串转换为LocalDateTime，时区为系统默认时区
+     * 将日期字符串转换为LocalDateTime，时区为默认为中国上海时区
      * @param time 时间字符串
      * @return LocalDateTime
      */
     public static LocalDateTime toLocalDateTime(String time) throws ParseException {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time).toInstant().atZone(ZoneId.of("CTT")).toLocalDateTime();
     }
 
     /**
-     * 将日期字符串转换为LocalDate，时区为系统默认时区
+     * 将日期字符串转换为LocalDate，时区为默认为中国上海时区
      * @param time 时间字符串
      * @return LocalDate
      */
     public static LocalDate toLocalDate(String time) throws ParseException {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time).toInstant().atZone(ZoneId.of("CTT")).toLocalDate();
     }
 
     /**
@@ -272,4 +277,35 @@ public class TimeUtils {
     public static LocalDateTime figureUpSecond(LocalDateTime time,long millis){
         return time.plusSeconds(millis);
     }
+
+//    public static Map<LocalDateTime,LocalDateTime> calculateTotalDuration(Map<LocalDateTime,LocalDateTime> timeMap){
+//        if(CollUtil.isEmpty(timeMap)){
+//            return timeMap;
+//        }
+//        Set<Map.Entry<LocalDateTime, LocalDateTime>> set = timeMap.entrySet();
+//        // 根据是否有重叠时间进行分组
+//        set.stream().collect(Collectors.partitioningBy(entry -> {
+//            set.stream().anyMatch()
+//        }));
+//    }
+//
+//    public static boolean isOverlap(Map.Entry<LocalDateTime, LocalDateTime> time,Map.Entry<LocalDateTime, LocalDateTime> checkTime){
+//        LocalDateTime startTime = time.getKey().withNano(0);
+//        LocalDateTime endTime = time.getValue().withNano(0);
+//        LocalDateTime checkStartTime = checkTime.getKey().withNano(0);
+//        LocalDateTime checkEndTime = checkTime.getValue().withNano(0);
+//        return startTime.isEqual(checkStartTime) || startTime.isEqual(checkEndTime) || endTime.equals(checkStartTime) || endTime.equals(checkEndTime) ||
+//                (startTime.isBefore(checkStartTime)  && endTime.isAfter(checkEndTime)) ||
+//                (checkStartTime.isBefore(startTime)  && checkEndTime.isAfter(endTime)) ||
+//                (startTime.isBefore(checkStartTime)  && endTime.isAfter(checkStartTime)) ||
+//    }
+
+//    public static <T extends Temporal> long calculateTotalDuration(Map<T,T> timeMap){
+//        if(CollUtil.){
+//
+//        }
+//        Set<Map.Entry<T, T>> set = timeMap.entrySet();
+//        // 根据是否有重叠时间进行分组
+//        set
+//    }
 }

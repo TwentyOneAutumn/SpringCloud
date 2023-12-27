@@ -1,21 +1,14 @@
 package com.core.handle;
 
-//import com.alibaba.csp.sentinel.slots.block.BlockException;
-//import com.alibaba.csp.sentinel.slots.block.authority.AuthorityException;
-//import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
-//import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
-//import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
-//import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
 import com.core.doMain.AjaxResult;
 import com.core.doMain.Build;
-import io.lettuce.core.RedisConnectionException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;

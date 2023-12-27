@@ -1,6 +1,6 @@
 package com.security.authentication.filter;
 
-import com.core.utils.ThreadCache;
+import com.security.authentication.beans.ThreadCache;
 import com.security.authentication.beans.AuthenticationCache;
 import lombok.Data;
 import org.springframework.core.Ordered;

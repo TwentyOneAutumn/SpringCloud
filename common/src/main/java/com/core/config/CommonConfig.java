@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 @ComponentScan(basePackages = {"com.core.config"})
-public class CommonConfig {
+public class CommonConfig{
 
     /**
      * 设置Feign的超时时间
@@ -21,5 +21,4 @@ public class CommonConfig {
         // readTimeout 读取超时时间
         return new Request.Options(5, TimeUnit.SECONDS,30,TimeUnit.SECONDS,true);
     }
-
 }

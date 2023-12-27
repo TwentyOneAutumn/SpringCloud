@@ -3,7 +3,7 @@ package com.security.authentication.filter;
 import cn.hutool.core.bean.BeanUtil;
 import com.core.doMain.Build;
 import com.core.utils.ResponseUtils;
-import com.core.utils.ThreadCache;
+import com.security.authentication.beans.ThreadCache;
 import com.security.authentication.beans.AuthenticationCache;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
