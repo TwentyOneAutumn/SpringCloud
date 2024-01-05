@@ -42,26 +42,6 @@ import java.util.stream.Collectors;
 public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPostProcessor {
 
     /**
-     * DataSource对象后缀名
-     */
-    private final String DataSourceSuffix = "DataSource";
-
-    /**
-     * SqlSessionFactory对象后缀名
-     */
-    private final String SqlSessionFactorySuffix = "SqlSessionFactory";
-
-    /**
-     * SqlSessionTemplate对象后缀名
-     */
-    private final String SqlSessionTemplateSuffix = "SqlSessionTemplate";
-
-    /**
-     * MapperScannerConfigurer对象后缀名
-     */
-    private final String MapperScannerConfigurerSuffix = "MapperScannerConfigurer";
-
-    /**
      * 缓存BeanDefinitionRegistry
      */
     private BeanDefinitionRegistry registry;
@@ -101,7 +81,7 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
      * @return DataSource
      */
     public DataSource registerDataSourceBean(ConfigurableListableBeanFactory beanFactory,String name,DataSourceTemplate dataSourceTemplate){
-        String dataSourceName = name + DataSourceSuffix;
+        String dataSourceName = MultiDataSourceSuffix.joinDataSourceSuffix(name);
         DataSource dataSource = DataSourceBuilder.create()
                 .driverClassName(dataSourceTemplate.getDriverClassName())
                 .url(dataSourceTemplate.getUrl())
@@ -122,7 +102,7 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
      */
     @SneakyThrows
     public SqlSessionFactory registerSqlSessionFactoryBean(ConfigurableListableBeanFactory beanFactory, String name, DataSourceTemplate dataSourceTemplate, DataSource dataSource){
-        String sqlSessionFactoryBeanName = name + SqlSessionFactorySuffix;
+        String sqlSessionFactoryBeanName = MultiDataSourceSuffix.joinSqlSessionFactorySuffix(name);
         MybatisSqlSessionFactoryBean factory = new MybatisSqlSessionFactoryBean();
         GlobalConfig globalConfig = new GlobalConfig();
         globalConfig.setBanner(false);
@@ -145,7 +125,7 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
      * @param sqlSessionFactory SqlSessionFactory对象
      */
     public void registerSqlSessionTemplateBean(ConfigurableListableBeanFactory beanFactory,String name,SqlSessionFactory sqlSessionFactory){
-        String sqlSessionTemplateBeanName = name + SqlSessionTemplateSuffix;
+        String sqlSessionTemplateBeanName = MultiDataSourceSuffix.joinSqlSessionTemplateSuffix(name);
         SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
         beanFactory.registerSingleton(sqlSessionTemplateBeanName,sqlSessionTemplate);
     }
@@ -157,9 +137,9 @@ public class MultiDataRegisterSourceFactory implements BeanDefinitionRegistryPos
      * @param dataSourceTemplate 数据源模版对象
      */
     public void registerMapperScannerConfigurerBean(ConfigurableListableBeanFactory beanFactory,String name,DataSourceTemplate dataSourceTemplate){
-        String mapperScannerConfigurerBeanName = name + MapperScannerConfigurerSuffix;
-        String sqlSessionFactoryBeanName = name + SqlSessionFactorySuffix;
-        String sqlSessionTemplateBeanName = name + SqlSessionTemplateSuffix;
+        String mapperScannerConfigurerBeanName = MultiDataSourceSuffix.joinMapperScannerConfigurerSuffix(name);
+        String sqlSessionFactoryBeanName = MultiDataSourceSuffix.joinSqlSessionFactorySuffix(name);
+        String sqlSessionTemplateBeanName = MultiDataSourceSuffix.joinSqlSessionTemplateSuffix(name);
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName(sqlSessionFactoryBeanName);
         mapperScannerConfigurer.setSqlSessionTemplateBeanName(sqlSessionTemplateBeanName);
