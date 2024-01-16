@@ -21,6 +21,8 @@ spring:
             refresh: true
           - dataId: file.yaml
             refresh: true
+  redis:
+    host: 124.221.27.253
 
 # ClientDetailsService
 client-details:

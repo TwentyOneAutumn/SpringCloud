@@ -5,68 +5,84 @@
 1. 拉取ElasticSearch镜像
 
    ```shell
-   docker pull elasticsearch:8.1.2
+   docker pull elasticsearch:8.11.3
    ```
 
 2. 创建网络
 
    ```shell
-   docker network create es-net
+   c
    ```
 
-3. 创建 elasticsearch.yml
-
-   ```yaml
-   cluster.name: "docker-cluster"
-   network.host: 0.0.0.0
-   
-   #----------------------- BEGIN SECURITY AUTO CONFIGURATION -----------------------
-   #
-   # The following settings, TLS certificates, and keys have been automatically      
-   # generated to configure Elasticsearch security features on 13-12-2022 00:39:46
-   #
-   # --------------------------------------------------------------------------------
-   
-   # Enable security features
-   xpack.security.enabled: true
-   xpack.security.audit.enabled: true
-   xpack.license.self_generated.type: basic
-   xpack.security.enrollment.enabled: true
-   
-   # Enable encryption for HTTP API client connections, such as Kibana, Logstash, and Agents
-   xpack.security.http.ssl:
-     enabled: false
-     keystore.path: certs/http.p12
-   
-   # Enable encryption and mutual authentication between cluster nodes
-   xpack.security.transport.ssl:
-     enabled: true
-     verification_mode: certificate
-     keystore.path: certs/transport.p12
-     truststore.path: certs/transport.p12
-   #----------------------- END SECURITY AUTO CONFIGURATION -------------------------
-   ```
-
-4. 运行ES容器
+3. 运行ES容器
 
    ```shell
-   docker run -it \
-   -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
-   -e "discovery.type=single-node" 
+   docker run -d -it \
+   -e "ES_JAVA_OPTS=-Xms1g -Xmx2g" \
+   -e "discovery.type=single-node" \
+   -e "ELASTIC_PASSWORD=elastic" \
+   -e "KIBANA_PASSWORD=kibana" \
    --privileged \
-   --net es-net 
+   --net es-net \
    -p 9200:9200 \
    -p 9300:9300 \
-   -v /home/es/config/:/usr/share/elasticsearch/config/
    --name es \
-   --restart=always \
-   elasticsearch:8.1.2
+   elasticsearch:8.11.3
    ```
 
-5. 查看Log
+4. 复制容器中配置
 
-6. 将容器中配置文件Copy出来
+   ```shell
+   docker cp es:/usr/share/elasticsearch/config ./
+   ```
 
-7. 修改配置文件为以下内容
+5. 修改配置文件elasticsearch.yml
 
-8. 
+   ```shell
+   xpack.security.enabled: false
+   ```
+
+6. 删除旧容器
+
+   ```shell
+   docker stop es && docker rm es
+   ```
+
+7. 重新启动容器
+
+   ```shell
+   docker run -d -it \
+   -e "ES_JAVA_OPTS=-Xms1g -Xmx2g" \
+   -e "discovery.type=single-node" \
+   -e "ELASTIC_PASSWORD=elastic" \
+   -e "KIBANA_PASSWORD=kibana" \
+   --privileged \
+   --net es-net \
+   -p 9200:9200 \
+   -p 9300:9300 \
+   -v /root/es/config:/usr/share/elasticsearch/config \
+   --name es \
+   elasticsearch:8.11.3
+   ```
+
+8. 访问 http://ip:9200
+
+   ```json
+   {
+     "name" : "9393485e5d28",
+     "cluster_name" : "docker-cluster",
+     "cluster_uuid" : "Fv9oWWCHRBWrjArBHWfrVA",
+     "version" : {
+       "number" : "8.11.3",
+       "build_flavor" : "default",
+       "build_type" : "docker",
+       "build_hash" : "64cf052f3b56b1fd4449f5454cb88aca7e739d9a",
+       "build_date" : "2023-12-08T11:33:53.634979452Z",
+       "build_snapshot" : false,
+       "lucene_version" : "9.8.0",
+       "minimum_wire_compatibility_version" : "7.17.0",
+       "minimum_index_compatibility_version" : "7.0.0"
+     },
+     "tagline" : "You Know, for Search"
+   }
+   ```

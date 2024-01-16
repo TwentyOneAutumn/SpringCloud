@@ -4,7 +4,6 @@
     <Properties>
         <Property name="ServiceName">Basic</Property>
     </Properties>
-
     <!-- 先定义所有的appender(附加器)-->
     <appenders>
         <!-- 输出控制台Log配置 -->
@@ -50,12 +49,16 @@
             <!-- 默认同一文件夹下最多7个文件 -->
             <DefaultRolloverStrategy max="7"/>
         </RollingFile>
+
+        <!-- Logstash日志输入Log文件配置 -->
+        <Socket name="LogstashSocket" host="10.211.55.55" port="6399" protocol="TCP">
+            <!-- 设置日志格式 -->
+            <PatternLayout pattern="%d %p %c{1.} [%t] %m%n"/>
+        </Socket>
     </appenders>
 
     <!-- 然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
     <loggers>
-<!--        <logger name="org.springframework" level="OFF"/>-->
-<!--        <logger name="com.github.pagehelper" level="OFF"/>-->
 
         <logger name="ConsoleLogger" level="INFO">
             <appender-ref ref="Console"/>
@@ -71,10 +74,16 @@
             <appender-ref ref="RollingErrorFile"/>
         </logger>
 
+        <!-- 使用 LogstashSocket appender 记录 INFO 级别的日志 -->
+        <logger name="LogstashSocketLogger" level="INFO">
+            <appender-ref ref="LogstashSocket"/>
+        </logger>
+
         <!-- 建立一个默认的root的logger -->
         <root level="INFO">
             <!-- 控制台输出日志 -->
             <appender-ref ref="Console"/>
+            <appender-ref ref="LogstashSocket"/>
         </root>
     </loggers>
 </configuration>
