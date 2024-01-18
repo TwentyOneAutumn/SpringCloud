@@ -23,7 +23,7 @@ public class UploadForm {
     private String moduleName;
 
     /**
-     * 所属模块
+     * 文件
      */
     @NotNull(message = "上传文件不能为空")
     private MultipartFile file;

@@ -7,8 +7,8 @@ spring:
     allow-bean-definition-overriding: true
   cloud:
     nacos:
-      username: nacos
-      password: nacos
+#      username: nacos
+#      password: nacos
       discovery:
         namespace: 1
         server-addr: 124.221.27.253:8848
@@ -75,9 +75,3 @@ seata:
       data-id: ${seata.dataId}
   enable-auto-data-source-proxy: true # 启用自动数据源代理
   data-source-proxy-mode: AT # 数据源代理模式
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: refresh

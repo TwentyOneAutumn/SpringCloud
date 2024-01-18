@@ -13,15 +13,14 @@ import com.security.utils.SecurityUtils;
 import com.service.file.mapper.FileMapper;
 import com.service.file.service.IFileService;
 import io.minio.*;
-import io.minio.messages.Item;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.Headers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
+import java.nio.file.NoSuchFileException;
 import java.time.LocalDateTime;
 
 /**
@@ -111,26 +110,18 @@ public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implem
      * @return 是否存在
      * @throws Exception 异常
      */
-    public boolean objectExists(String bucket, String object) throws Exception {
-        // 判断该桶是否存在
-        boolean exists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
-        if(!exists){
+    public boolean objectExists(String bucket, String object) {
+        try {
+            // 获取object元数据
+            minioClient.statObject(StatObjectArgs.builder()
+                    .bucket(bucket)
+                    .object(object)
+                    .build()
+            );
+        }catch (Exception ex){
             return false;
         }
-        Iterable<Result<Item>> results = minioClient.listObjects(ListObjectsArgs.builder()
-                .bucket(bucket)
-                .build()
-        );
-        boolean objectExists = false;
-        for (Result<Item> result : results) {
-            Item item = result.get();
-            String s = item.objectName();
-            if (result.get().objectName().equals(object)) {
-                objectExists = true;
-                break;
-            }
-        }
-        return objectExists;
+        return true;
     }
 
     /**
@@ -164,17 +155,18 @@ public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implem
      * @throws Exception 异常
      */
     public void downloading(String bucket, String object, HttpServletResponse response) throws Exception {
+        // 判空
+        if(!objectExists(bucket,object)){
+            throw new NoSuchFileException("目标文件不存在");
+        }
         GetObjectResponse inputStream = minioClient.getObject(GetObjectArgs.builder()
                 .bucket(bucket)
                 .object(object)
                 .build()
         );
-        Headers headers = inputStream.headers();
-        String s = headers.get("ContentType");
         // 获取响应的输出流
         OutputStream outputStream = response.getOutputStream();
         // TODO 设置响应头
-
         // 读取输入流中的数据并写入响应输出流
         byte[] buffer = new byte[4096];
         int bytesRead;

@@ -5,12 +5,8 @@ import com.core.doMain.Row;
 import com.core.doMain.file.DownLoadForm;
 import com.core.doMain.file.FileResource;
 import com.core.doMain.file.UploadForm;
-import com.core.doMain.file.UploadsForm;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.util.List;
 
 /**
  * 文件Service
