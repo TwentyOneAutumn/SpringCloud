@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.core.doMain.Row;
 import com.core.doMain.file.DownLoadForm;
 import com.core.doMain.file.FileResource;
-import com.core.doMain.file.UploadForm;
+import com.core.doMain.file.MultipleFileUploadForm;
+import com.core.doMain.file.SingleFileUploadForm;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 文件Service
@@ -16,10 +18,18 @@ public interface IFileService extends IService<FileResource> {
     /**
      * 上传文件
      *
-     * @param uploadForm 文件对象
+     * @param singleFileUploadForm 文件对象
      * @return Row
      */
-    Row<FileResource> uploading(UploadForm uploadForm) throws Exception;
+    Row<FileResource> singleFileUploading(SingleFileUploadForm singleFileUploadForm) throws Exception;
+
+    /**
+     * 多文件上传
+     *
+     * @param multipleFileUploadForm 文件对象
+     * @return Row
+     */
+    Row<List<FileResource>> multipleFileUploading(MultipleFileUploadForm multipleFileUploadForm) throws Exception;
 
     /**
      * 下载文件
@@ -27,4 +37,5 @@ public interface IFileService extends IService<FileResource> {
      * @param response 响应对象
      */
     void downloading(DownLoadForm downLoadForm, HttpServletResponse response) throws Exception;
+
 }

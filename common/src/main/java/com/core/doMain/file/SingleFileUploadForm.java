@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UploadForm {
+public class SingleFileUploadForm {
 
     /**
      * 所属模块

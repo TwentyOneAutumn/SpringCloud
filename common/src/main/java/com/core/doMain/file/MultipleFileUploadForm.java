@@ -15,13 +15,13 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UploadsForm {
+public class MultipleFileUploadForm {
 
     /**
      * 上传文件对象集合
      */
     @NotEmpty(message = "上传文件不能为空")
-    List<MultipartFile> fileList;
+    List<MultipartFile> file;
 
     /**
      * 所属模块

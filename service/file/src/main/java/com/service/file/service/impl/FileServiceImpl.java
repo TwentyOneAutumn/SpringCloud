@@ -8,20 +8,21 @@ import com.core.doMain.Build;
 import com.core.doMain.Row;
 import com.core.doMain.file.DownLoadForm;
 import com.core.doMain.file.FileResource;
-import com.core.doMain.file.UploadForm;
+import com.core.doMain.file.MultipleFileUploadForm;
+import com.core.doMain.file.SingleFileUploadForm;
 import com.security.utils.SecurityUtils;
+import com.service.file.config.MinioUtils;
 import com.service.file.mapper.FileMapper;
 import com.service.file.service.IFileService;
-import io.minio.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.OutputStream;
-import java.nio.file.NoSuchFileException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 文件ServiceImpl
@@ -30,22 +31,55 @@ import java.time.LocalDateTime;
 @Service
 public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implements IFileService {
 
+
     @Autowired
-    private MinioClient minioClient;
+    private MinioUtils minioUtils;
+
 
     /**
      * 上传文件
-     * @param uploadForm 文件对象
+     * @param singleFileUploadForm 文件对象
      * @return Row
      */
     @Override
-    public Row<FileResource> uploading(UploadForm uploadForm) throws Exception {
-        MultipartFile file = uploadForm.getFile();
-        String moduleName = uploadForm.getModuleName();
+    public Row<FileResource> singleFileUploading(SingleFileUploadForm singleFileUploadForm) throws Exception {
+        MultipartFile file = singleFileUploadForm.getFile();
+        String moduleName = singleFileUploadForm.getModuleName();
+        FileResource fileResource = uploading(file, moduleName);
+        return Build.row(fileResource);
+    }
+
+
+    /**
+     * 多文件上传
+     *
+     * @param multipleFileUploadForm 文件对象
+     * @return Row
+     */
+    @Override
+    public Row<List<FileResource>> multipleFileUploading(MultipleFileUploadForm multipleFileUploadForm) throws Exception {
+        List<MultipartFile> fileList = multipleFileUploadForm.getFile();
+        String moduleName = multipleFileUploadForm.getModuleName();
+        List<FileResource> voList = new ArrayList<>();
+        for (MultipartFile file : fileList) {
+            FileResource fileResource = uploading(file, moduleName);
+            voList.add(fileResource);
+        }
+        return Build.row(voList);
+    }
+
+
+    /**
+     * 上传文件通用逻辑抽取
+     * @param file 文件对象
+     * @param moduleName 模块名称
+     * @return FileResource
+     */
+    public FileResource uploading(MultipartFile file, String moduleName) throws Exception {
         // 获取文件名称
         String fileName = file.getOriginalFilename();
         // 判断object是否存在
-        if(objectExists(moduleName,fileName)){
+        if(minioUtils.objectExists(moduleName,fileName)){
             // 获取文件信息
             FileResource fileResource = getOne(new LambdaQueryWrapper<FileResource>()
                     .eq(FileResource::getModuleName, moduleName)
@@ -57,7 +91,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implem
             boolean update = updateById(fileResource);
             if(update){
                 uploading(file,moduleName);
-                return Build.row(fileResource);
+                return fileResource;
             }else {
                 throw new RuntimeException("更新文件信息失败");
             }
@@ -66,21 +100,22 @@ public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implem
             fileResource.setModuleName(moduleName);
             fileResource.setFileName(fileName);
             // 文件后缀
-            if(StrUtil.isNotBlank(fileName) && fileName.contains(".")){
+            if (StrUtil.isNotBlank(fileName) && fileName.contains(".")) {
                 String[] split = fileName.split("\\.");
                 fileResource.setFilePostfix(split[1]);
             }
             fileResource.setUploadUserId(SecurityUtils.getUser().getUserId());
             fileResource.setUploadTime(LocalDateTime.now());
             boolean save = save(fileResource);
-            if(save){
-                uploading(file,moduleName);
-                return Build.row(fileResource);
+            if (save) {
+                minioUtils.uploading(file, moduleName);
+                return fileResource;
             } else {
                 throw new RuntimeException("新增文件信息失败");
             }
         }
     }
+
 
     /**
      * 下载文件
@@ -96,84 +131,10 @@ public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implem
         String moduleName = fileResource.getModuleName();
         String fileName = fileResource.getFileName();
         // 判断object是否存在
-        if(objectExists(moduleName,fileName)){
-            downloading(moduleName,fileName,response);
+        if(minioUtils.objectExists(moduleName,fileName)){
+            minioUtils.downloading(moduleName,fileName,response);
         } else {
             throw new RuntimeException("文件不存在");
         }
-    }
-
-    /**
-     * 判断object是否存在
-     * @param bucket 桶名称
-     * @param object 文件名称
-     * @return 是否存在
-     * @throws Exception 异常
-     */
-    public boolean objectExists(String bucket, String object) {
-        try {
-            // 获取object元数据
-            minioClient.statObject(StatObjectArgs.builder()
-                    .bucket(bucket)
-                    .object(object)
-                    .build()
-            );
-        }catch (Exception ex){
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 上传文件到Minio
-     * @param file 文件对象
-     * @param bucket 桶名称
-     * @throws Exception 异常
-     */
-    public void uploading(MultipartFile file,String bucket) throws Exception {
-        // 判断该桶是否存在
-        boolean exists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
-        if(!exists){
-            // 创建桶
-            minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
-        }
-        // 上传
-        minioClient.putObject(PutObjectArgs.builder()
-                .bucket(bucket)
-                .object(file.getOriginalFilename())
-                .stream(file.getInputStream(), file.getSize(),-1)
-                .contentType(file.getContentType())
-                .build()
-        );
-    }
-
-    /**
-     * 从Minio下载文件
-     * @param bucket 桶名称
-     * @param object 文件名称
-     * @param response 响应对象
-     * @throws Exception 异常
-     */
-    public void downloading(String bucket, String object, HttpServletResponse response) throws Exception {
-        // 判空
-        if(!objectExists(bucket,object)){
-            throw new NoSuchFileException("目标文件不存在");
-        }
-        GetObjectResponse inputStream = minioClient.getObject(GetObjectArgs.builder()
-                .bucket(bucket)
-                .object(object)
-                .build()
-        );
-        // 获取响应的输出流
-        OutputStream outputStream = response.getOutputStream();
-        // TODO 设置响应头
-        // 读取输入流中的数据并写入响应输出流
-        byte[] buffer = new byte[4096];
-        int bytesRead;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, bytesRead);
-        }
-        // 刷新输出流
-        outputStream.flush();
     }
 }

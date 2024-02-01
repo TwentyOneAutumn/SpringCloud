@@ -371,11 +371,12 @@ public HandlerExceptionResolver handlerExceptionResolver() {
 | @PutMapping           | 仅支持Put请求，一般用于更新操作                              |
 | @DeleteMapping        | 仅支持Delete请求，一般用于删除操作                           |
 | @PathVariable         | 加在方法参数上，用来获取Url中对应的参数，Value为占位符名称   |
-| @RequestParam         | 加在方法参数上，用来解决和映射Url请求参数与方法形参名称不一致的问题，一般用于获取Get请求中?之后的参数 |
-| @RequsetBody          | 加载类，方法，参数上，表示接收Json格式的数据，一边用于接收请求体body中的Json信息 |
+| @RequsetBody          | 作用于类，方法，参数上，表示接收Json格式的数据，一边用于接收请求体body中的Json信息 |
 | @ResponseBody         | 加在方法上，表示当前方法返回Json格式数据，加在类上表示影响本类所有方法 |
 | @RestController       | 相当于@Controller+@ResponseBody                              |
 | @ExceptionHandler     | 加在方法上，返回ModelAndView，发生异常触发此异常处理器       |
 | @ControllerAdvice     | 加在类上，定义全局异常处理器，类中定义ExceptionHandler       |
 | @RestControllerAdvice | 相当于@ControllerAdvice+@ResponseBody                        |
 | @CrossOrigin          | 支持请求跨域访问                                             |
+| @RequestParam         | 用于从请求中获取查询参数QueryParameters或表单数据            |
+| @RequestPart          | 用于处理请求的`multipart/form-data`类型的数据，通常用于文件上传 |

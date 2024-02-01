@@ -1,6 +1,7 @@
 package com.core.utils;
 
 import cn.hutool.core.collection.CollUtil;
+import com.core.doMain.MapEntry;
 import com.core.enums.CompareType;
 import com.core.enums.TimeUnit;
 
@@ -11,9 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.Temporal;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -278,34 +277,60 @@ public class TimeUtils {
         return time.plusSeconds(millis);
     }
 
-//    public static Map<LocalDateTime,LocalDateTime> calculateTotalDuration(Map<LocalDateTime,LocalDateTime> timeMap){
-//        if(CollUtil.isEmpty(timeMap)){
-//            return timeMap;
-//        }
-//        Set<Map.Entry<LocalDateTime, LocalDateTime>> set = timeMap.entrySet();
-//        // 根据是否有重叠时间进行分组
-//        set.stream().collect(Collectors.partitioningBy(entry -> {
-//            set.stream().anyMatch()
-//        }));
-//    }
-//
-//    public static boolean isOverlap(Map.Entry<LocalDateTime, LocalDateTime> time,Map.Entry<LocalDateTime, LocalDateTime> checkTime){
-//        LocalDateTime startTime = time.getKey().withNano(0);
-//        LocalDateTime endTime = time.getValue().withNano(0);
-//        LocalDateTime checkStartTime = checkTime.getKey().withNano(0);
-//        LocalDateTime checkEndTime = checkTime.getValue().withNano(0);
-//        return startTime.isEqual(checkStartTime) || startTime.isEqual(checkEndTime) || endTime.equals(checkStartTime) || endTime.equals(checkEndTime) ||
-//                (startTime.isBefore(checkStartTime)  && endTime.isAfter(checkEndTime)) ||
-//                (checkStartTime.isBefore(startTime)  && checkEndTime.isAfter(endTime)) ||
-//                (startTime.isBefore(checkStartTime)  && endTime.isAfter(checkStartTime)) ||
-//    }
+    /**
+     * 合并时间段
+     */
+    public static List<MapEntry<LocalDateTime,LocalDateTime>> mergeTime(List<MapEntry<LocalDateTime,LocalDateTime>> timeList){
+        // 储存需要删除的元素
+        List<MapEntry<LocalDateTime, LocalDateTime>> deletedTimePeriods = new ArrayList<>();
+        // 储存合并后的元素
+        LinkedList<MapEntry<LocalDateTime, LocalDateTime>> mergeTimePeriods = new LinkedList<>();
+        // 排序后得到时间段桶
+        LinkedList<MapEntry<LocalDateTime, LocalDateTime>> timePeriods = timeList.stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toCollection(LinkedList::new));
+        // 循环处理
+        while (CollUtil.isNotEmpty(timePeriods)){
+            // 删除时间段桶中的第一个元素
+            MapEntry<LocalDateTime, LocalDateTime> first = timePeriods.removeFirst();
+            // 是否运行循环标识
+            boolean isRun = true;
+            // 循环进行时间合并
+            while (isRun){
+                // 获取重复时间段中最大的结束时间
+                timePeriods.stream()
+                        // 过滤时间段桶中跟当前时间段重合的时间段
+                        .filter(timePeriod -> !first.getValue().isBefore(timePeriod.getKey()))
+                        // 添加元素到待删除时间段桶中
+                        .peek(deletedTimePeriods::add)
+                        // 获取结束时间
+                        .map(MapEntry::getValue)
+                        // 获取最大结束时间
+                        .max(LocalDateTime::compareTo)
+                        // 如果值不为空就设置结束时间
+                        .ifPresent(first::setValue);
+                // 判断待删除时间段桶中是否为空
+                if(isRun = CollUtil.isNotEmpty(deletedTimePeriods)){
+                    // 删除合并过的时间段
+                    timePeriods.removeAll(deletedTimePeriods);
+                    // 清除待删除时间段桶
+                    deletedTimePeriods.clear();
+                }
+            }
+            // 添加合并后的时间段
+            mergeTimePeriods.add(first);
+        }
+        // 返回合并后的时间段桶
+        return mergeTimePeriods;
+    }
 
-//    public static <T extends Temporal> long calculateTotalDuration(Map<T,T> timeMap){
-//        if(CollUtil.){
-//
-//        }
-//        Set<Map.Entry<T, T>> set = timeMap.entrySet();
-//        // 根据是否有重叠时间进行分组
-//        set
-//    }
+    /**
+     * 判断两段时间是否重合
+     * @return true:重合 false:不重合
+     */
+    public static boolean isOverlap(MapEntry<LocalDateTime,LocalDateTime> firstEntry,MapEntry<LocalDateTime,LocalDateTime> lastEntry){
+        LocalDateTime firstEntryKey = firstEntry.getKey();
+        LocalDateTime firstEntryValue = firstEntry.getValue();
+        LocalDateTime lastEntryKey = lastEntry.getKey();
+        LocalDateTime lastEntryValue = lastEntry.getValue();
+        return (!firstEntryKey.isAfter(lastEntryKey) && !firstEntryValue.isBefore(lastEntryValue)) || (!lastEntryKey.isAfter(firstEntryKey) &&  !lastEntryValue.isBefore(firstEntryValue)) || (firstEntryKey.isBefore(lastEntryKey) ? !firstEntryValue.isBefore(lastEntryKey) : !lastEntryValue.isBefore(firstEntryKey));
+    }
 }

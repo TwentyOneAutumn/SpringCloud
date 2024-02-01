@@ -1,7 +1,7 @@
 package com.core.doMain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+
 import java.util.Map;
 
 /**
