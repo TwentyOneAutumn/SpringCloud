@@ -1,0 +1,17 @@
+spring:
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        namespace: 2
+        server-addr: 124.221.27.253:8848
+        enabled: true
+      config:
+        server-addr: 124.221.27.253:8848
+        file-extension: yaml
+        namespace: 2
+        shared-configs:
+          - dataId: docker.yaml
+            refresh: true

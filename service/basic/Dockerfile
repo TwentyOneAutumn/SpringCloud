@@ -1,5 +1,5 @@
 # 基础镜像
-FROM adoptopenjdk:8u292-b10-jdk-hotspot
+FROM bitnami/java:1.8.402-7
 
 # 作者
 MAINTAINER MapleJ
@@ -11,8 +11,4 @@ COPY target/basic-1.0.jar basic-1.0.jar
 EXPOSE 8802
 
 # 定义启动命令
-ENTRYPOINT [
-    "java",
-    "-jar",
-    "basic-1.0.jar"
-]
+ENTRYPOINT ["java","-jar","basic-1.0.jar"]

@@ -2,6 +2,10 @@ server:
   port: 4399
 
 spring:
+  redis:
+    cluster:
+      nodes: 10.211.55.55:32182
+    password: 2762581
   main:
     banner-mode: off
     allow-bean-definition-overriding: true

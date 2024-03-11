@@ -34,6 +34,8 @@
         <module>database</module>
         <module>seata</module>
         <module>job</module>
+        <module>docker</module>
+        <module>design-pattern</module>
     </modules>
 
     <properties>
@@ -110,6 +112,22 @@
                 <version>${AlibabaCloud.version}</version>
                 <type>pom</type>
                 <scope>compile</scope>
+            </dependency>
+
+            <!-- springCloud父依赖 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter</artifactId>
+                <version>${SpringCloudStarter.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <!-- SpringCloudAlibaba父依赖 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-starters</artifactId>
+                <version>${AlibabaCloud.version}</version>
+                <type>pom</type>
             </dependency>
 
             <!-- Web依赖 -->
@@ -431,52 +449,6 @@
                 <artifactId>okhttp</artifactId>
                 <version>${Okhttp.version}</version>
             </dependency>
-
-<!--            <dependency>-->
-<!--                <groupId>org.yaml</groupId>-->
-<!--                <artifactId>snakeyaml</artifactId>-->
-<!--                <version>${Snakeyaml.version}</version>-->
-<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <!-- springBoot父依赖 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>${SpringBoot.version}</version>
-            <exclusions>
-                <!-- 移除自带的logback -->
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- springBoot父依赖 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-dependencies</artifactId>
-            <version>${SpringBoot.version}</version>
-            <type>pom</type>
-        </dependency>
-
-        <!-- springCloud父依赖 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter</artifactId>
-            <version>${SpringCloudStarter.version}</version>
-            <type>pom</type>
-        </dependency>
-
-        <!-- SpringCloudAlibaba父依赖 -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-alibaba-starters</artifactId>
-            <version>${AlibabaCloud.version}</version>
-            <type>pom</type>
-        </dependency>
-    </dependencies>
 </project>
