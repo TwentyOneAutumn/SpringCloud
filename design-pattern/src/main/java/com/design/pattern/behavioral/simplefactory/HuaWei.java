@@ -1,4 +1,4 @@
-package com.design.pattern.behavioral.factory.simplefactory;
+package com.design.pattern.behavioral.simplefactory;
 
 /**
  * 华为手机类
