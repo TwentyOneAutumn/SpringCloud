@@ -17,13 +17,6 @@
     <name>test-app</name>
     <description>test-app</description>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot.version>2.6.3</spring-boot.version>
-    </properties>
-
     <dependencies>
         <!-- Common模块 -->
         <dependency>
@@ -51,7 +44,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.database.config</groupId>
+            <groupId>com.database</groupId>
             <artifactId>database</artifactId>
             <version>1.0</version>
         </dependency>

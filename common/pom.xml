@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <!-- 继承父工程 -->
     <parent>
         <groupId>com.spring.cloud</groupId>
         <artifactId>spring-cloud</artifactId>
@@ -17,13 +17,7 @@
     <name>common</name>
     <description>公共模块</description>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-z
     <dependencies>
-
         <!-- Web依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -32,7 +26,7 @@ z
 
         <!-- DataBase依赖 -->
         <dependency>
-            <groupId>com.database.config</groupId>
+            <groupId>com.database</groupId>
             <artifactId>database</artifactId>
             <version>1.0</version>
         </dependency>
@@ -66,7 +60,7 @@ z
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
         </dependency>
-        
+
         <!-- Aop依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

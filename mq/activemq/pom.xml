@@ -43,7 +43,7 @@
             <exclusions>
                 <exclusion>
                     <!-- DataBase依赖 -->
-                    <groupId>com.database.config</groupId>
+                    <groupId>com.database</groupId>
                     <artifactId>database</artifactId>
                 </exclusion>
             </exclusions>

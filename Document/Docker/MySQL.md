@@ -18,9 +18,3 @@
    --restart=always \
    mysql:8.0.32
    ```
-
-
-
-
----
-
