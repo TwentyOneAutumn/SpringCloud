@@ -1054,7 +1054,39 @@ public Collection<V> values() {
 }
 ```
 
-mysql-connector-java
+#### isEmpty()
 
+```java
+/**
+ * Map是否等于空.
+ */
+public boolean isEmpty() {
+    return size == 0;
+}
+```
 
+#### clear()
+
+```java
+/**
+ * 从这个Map中移除所有的键值对.
+ * 调用此方法后Map将为空
+ */
+public void clear() {
+    // 声明一个Node类型的数组tab，用于存储Map的节点
+    Node<K,V>[] tab;
+    // 修改计数器加1，用于在并发环境下检测Map结构的变化
+    modCount++;
+    // 如果table不为null且size大于0，则执行清空操作
+    if ((tab = table) != null && size > 0) {
+        // 将size设置为0，表示清空Map
+        size = 0;
+        // 遍历数组tab
+        for (int i = 0; i < tab.length; ++i) {
+            // 将tab[i]置为null
+            tab[i] = null;
+        }
+    }
+}
+```
 

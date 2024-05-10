@@ -5,30 +5,59 @@ package com.design.pattern.behavioral.singleton;
  */
 public class Singleton {
 
-    /**
-     *
-     */
-    private static volatile Singleton instance;
 
     /**
-     * 私有构造方法
+     * 私有化构造方法
      */
-    private Singleton() {
-    }
+    private Singleton(){}
+
 
     /**
-     * 获取对象实例
-     * @return Singleton
+     * 懒汉单例模式
      */
-    public static Singleton getInstance() {
-        if (instance == null) {
-            synchronized (Singleton.class) {
-                if (instance == null) {
-                    instance = new Singleton();
+    static class LazySingleton {
+
+        /**
+         * 对象实例
+         */
+        private static volatile Singleton instance;
+
+
+        /**
+         * 获取对象实例
+         * @return Singleton
+         */
+        public static Singleton getInstance() {
+            // 双重锁定检查
+            if (instance == null) {
+                synchronized (Singleton.class) {
+                    if (instance == null) {
+                        instance = new Singleton();
+                    }
                 }
             }
+            return instance;
         }
-        return instance;
     }
 
+
+    /**
+     * 饿汉单例模式
+     */
+    static class EagerSingleton{
+
+        /**
+         * 对象实例
+         */
+        private static final Singleton instance = new Singleton();
+
+
+        /**
+         * 获取对象实例
+         * @return Singleton
+         */
+        public static Singleton getInstance(){
+            return instance;
+        }
+    }
 }

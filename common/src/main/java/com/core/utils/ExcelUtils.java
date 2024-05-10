@@ -7,11 +7,14 @@ import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import cn.hutool.poi.excel.StyleSet;
-import com.core.interfaces.ExcelDataFormat;
+import com.core.interfaces.ExcelDateFormat;
+import com.core.interfaces.ExcelWidth;
 import com.core.interfaces.Export;
 import com.core.interfaces.Import;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -19,7 +22,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Excel工具类
@@ -138,30 +143,56 @@ public class ExcelUtils {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
         response.setHeader("Content-Disposition","attachment;filename=" + fileName + ".xlsx");
 
+        // 设置标题行
         HashMap<String, String> map = new HashMap<>();
         Field[] fields = clazz.getDeclaredFields();
-        Arrays.stream(fields).forEach(field -> {
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
             field.setAccessible(true);
             // 获取字段的 @Export 注解
             Export export = field.getAnnotation(Export.class);
             // 有 @Export 注解
             if (BeanUtil.isNotEmpty(export)) {
+                // 添加标头映射
                 map.put(field.getName(),export.value());
             }
-        });
+
+            // 获取字段的 @ExcelWidth 注解
+            ExcelWidth excelWidth = field.getAnnotation(ExcelWidth.class);
+            if (BeanUtil.isNotEmpty(excelWidth)) {
+                int width = excelWidth.width();
+                // 设置列宽
+                writer.setColumnWidth(i,width);
+            }
+        }
         map.forEach(writer::addHeaderAlias);
 
-        // 设置时间格式
-        ExcelDataFormat excelDataFormat = clazz.getAnnotation(ExcelDataFormat.class);
-        if(BeanUtil.isNotEmpty(excelDataFormat)){
+        // 设置全局时间格式
+        ExcelDateFormat excelDateFormat = clazz.getAnnotation(ExcelDateFormat.class);
+        if(BeanUtil.isNotEmpty(excelDateFormat)){
             DataFormat dataFormat = writer.getWorkbook().createDataFormat();
-            short format = dataFormat.getFormat(excelDataFormat.format());
+            short format = dataFormat.getFormat(excelDateFormat.format());
             StyleSet styleSet = writer.getStyleSet();
-            styleSet.getCellStyleForDate()
-                    .setDataFormat(format);
+            styleSet.getCellStyleForDate().setDataFormat(format);
         }
         // 写入数据到流
         writer.write(list, true);
+        // 设置列的时间格式
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            field.setAccessible(true);
+            // 获取字段的 @ExcelDateFormat 注解
+            ExcelDateFormat formatAnnotation = field.getAnnotation(ExcelDateFormat.class);
+            // 有 @ExcelDateFormat 注解
+            if (BeanUtil.isNotEmpty(formatAnnotation)) {
+                DataFormat dataFormat = writer.getWorkbook().createDataFormat();
+                String format = formatAnnotation.format();
+                short index = dataFormat.getFormat(format);
+                CellStyle cellStyle = writer.getCellStyle();
+                cellStyle.setDataFormat(index);
+                writer.setColumnStyle(i,cellStyle);
+            }
+        }
         // 获取out流
         ServletOutputStream out = null;
         try {
