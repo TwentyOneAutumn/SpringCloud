@@ -50,11 +50,15 @@
             <DefaultRolloverStrategy max="7"/>
         </RollingFile>
 
-        <!-- Logstash日志输入Log文件配置 -->
-        <Socket name="LogstashSocket" host="10.211.55.55" port="6399" protocol="TCP">
-            <!-- 设置日志格式 -->
-            <PatternLayout pattern="%d %p %c{1.} [%t] %m%n"/>
-        </Socket>
+<!--        &lt;!&ndash; Logstash日志输入Log文件配置 &ndash;&gt;-->
+<!--        <Socket name="LogstashSocket" host="10.211.55.55" port="6399" protocol="TCP">-->
+<!--            &lt;!&ndash; 设置日志格式 &ndash;&gt;-->
+<!--            <PatternLayout pattern="%d %p %c{1.} [%t] %m%n"/>-->
+<!--        </Socket>-->
+
+        <GRPCLogClientAppender name="grpc-log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </GRPCLogClientAppender>
     </appenders>
 
     <!-- 然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
@@ -74,16 +78,22 @@
             <appender-ref ref="RollingErrorFile"/>
         </logger>
 
+<!--        &lt;!&ndash; 使用 LogstashSocket appender 记录 INFO 级别的日志 &ndash;&gt;-->
+<!--        <logger name="LogstashSocketLogger" level="INFO">-->
+<!--            <appender-ref ref="LogstashSocket"/>-->
+<!--        </logger>-->
+
         <!-- 使用 LogstashSocket appender 记录 INFO 级别的日志 -->
-        <logger name="LogstashSocketLogger" level="INFO">
-            <appender-ref ref="LogstashSocket"/>
+        <logger name="GRPCLogLogger" level="INFO">
+            <appender-ref ref="grpc-log"/>
         </logger>
 
         <!-- 建立一个默认的root的logger -->
         <root level="INFO">
             <!-- 控制台输出日志 -->
             <appender-ref ref="Console"/>
-            <appender-ref ref="LogstashSocket"/>
+<!--            <appender-ref ref="LogstashSocket"/>-->
+            <appender-ref ref="grpc-log"/>
         </root>
     </loggers>
 </configuration>

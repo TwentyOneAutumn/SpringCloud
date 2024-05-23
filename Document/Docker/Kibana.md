@@ -5,7 +5,7 @@
 1. 拉取Kibana镜像
 
    ```shell
-   docker pull docker.elastic.co/kibana/kibana:8.11.3
+   docker pull docker.elastic.co/kibana/kibana:8.13.3
    ```
 
 2. 启动Kibana
@@ -16,7 +16,7 @@
    -p 5601:5601 \
    --net es-net \
    -e "I18N_LOCALE=zh-CN" \
-   kibana:8.11.3
+   kibana:8.13.3
    ```
 
 3. 访问kibana http://ip:5601

@@ -22,7 +22,7 @@
 
 ### SpringMVC执行流程
 
-![SpringMVC执行流程图](.\img\SpringMVC执行流程图.png)
+![SpringMVC执行流程图](..\img\SpringMVC执行流程图.png)
 
 
 

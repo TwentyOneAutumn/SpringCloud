@@ -5,20 +5,20 @@
 1. 拉取ElasticSearch镜像
 
    ```shell
-   docker pull elasticsearch:8.11.3
+   docker pull elasticsearch:8.13.3
    ```
 
 2. 创建网络
 
    ```shell
-   c
+   docker network create es-net
    ```
 
 3. 运行ES容器
 
    ```shell
    docker run -d -it \
-   -e "ES_JAVA_OPTS=-Xms1g -Xmx2g" \
+   -e "ES_JAVA_OPTS=-Xms1g -Xmx1g" \
    -e "discovery.type=single-node" \
    -e "ELASTIC_PASSWORD=elastic" \
    -e "KIBANA_PASSWORD=kibana" \
@@ -27,7 +27,7 @@
    -p 9200:9200 \
    -p 9300:9300 \
    --name es \
-   elasticsearch:8.11.3
+   elasticsearch:8.13.3
    ```
 
 4. 复制容器中配置
@@ -52,7 +52,7 @@
 
    ```shell
    docker run -d -it \
-   -e "ES_JAVA_OPTS=-Xms1g -Xmx2g" \
+   -e "ES_JAVA_OPTS=-Xms1g -Xmx1g" \
    -e "discovery.type=single-node" \
    -e "ELASTIC_PASSWORD=elastic" \
    -e "KIBANA_PASSWORD=kibana" \
@@ -62,7 +62,7 @@
    -p 9300:9300 \
    -v /root/es/config:/usr/share/elasticsearch/config \
    --name es \
-   elasticsearch:8.11.3
+   elasticsearch:8.13.3
    ```
 
 8. 访问 http://ip:9200

@@ -5,7 +5,7 @@
 1. 拉取Nacos镜像
 
    ```shell
-   docker pull nacos/nacos-server:v2.2.2
+   docker pull nacos/nacos-server:v2.2.2-slim
    ```
 
 2. 初始化MySQL
@@ -317,7 +317,7 @@
    -p 9848:9848 \
    -p 9849:9849 \
    -e MODE=standalone \
-   -e MYSQL_SERVICE_HOST=124.221.27.253 \
+   -e MYSQL_SERVICE_HOST=10.211.55.12 \
    -e MYSQL_SERVICE_PORT=3306 \
    -e MYSQL_SERVICE_DB_NAME=nacos \
    -e MYSQL_SERVICE_USER=root \
@@ -325,7 +325,7 @@
    -e SPRING_DATASOURCE_PLATFORM=mysql \
    --restart=always \
    --name nacos \
-   nacos/nacos-server:v2.2.2
+   nacos/nacos-server:v2.2.2-slim
    ```
 
 3. 集群启动

@@ -10,6 +10,16 @@
 
 1. 单机启动
 
+   ```shell
+   docker run -d \
+   -p 6379:6379 \
+   --name redis \
+   --restart=always \ 
+   redis:7.0 \
+   redis-server \
+   
+   ```
+
 1. 集群启动
 
    ```shell

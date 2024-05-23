@@ -12,5 +12,6 @@ public class GatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(GatewayApplication.class, args);
         log.info("Gateway网关服务启动成功");
+//        org.apache.logging.log4j.core.async.DefaultAsyncWaitStrategyFactory
     }
 }

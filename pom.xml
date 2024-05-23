@@ -67,6 +67,9 @@
         <Jackson.version>2.16.0</Jackson.version>
         <!--        <Snakeyaml.version>2.0</Snakeyaml.version>-->
         <Okhttp.version>4.12.0</Okhttp.version>
+        <disruptor.version>3.4.2</disruptor.version>
+        <SkywalkingLog.version>8.7.0</SkywalkingLog.version>
+
     </properties>
 
     <dependencyManagement>
@@ -433,6 +436,12 @@
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>
                 <version>${Okhttp.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-logback-1.x</artifactId>
+                <version>${SkywalkingLog.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

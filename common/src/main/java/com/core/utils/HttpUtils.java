@@ -5,12 +5,50 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.Map;
 
 /**
  * Http请求工具类
  */
 public class HttpUtils {
+
+
+//    public static <T,E> T post(String url, Class<T> clazz,Map<String,String> headerMap,  Map<String, Object> formDataMap){
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        // 构建请求头
+//        HttpHeaders headers = new HttpHeaders();
+//        if(MapUtil.isEmpty(headerMap)){
+//            headerMap.forEach(headers::add);
+//        }
+//
+//        // 创建表单数据
+//        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+//        // 判空
+//        if(MapUtil.isNotEmpty(formDataMap)){
+//            formDataMap.forEach((key,value) -> {
+//                // 判断是否是文件
+//                if(value instanceof File || value instanceof MultipartFile){
+//                    formData.add(key, new FileSystemResource(file));
+//                }else {
+//
+//                }
+//            });
+//        }
+//        // 构建body
+//
+//
+//
+//
+//        // 封装请求头和表单数据
+//        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(formData, headers);
+//
+//        ResponseEntity<T> response = restTemplate.exchange(url, HttpMethod.POST,request,clazz);
+//        isSuccess(response.getStatusCodeValue());
+//        return response.getBody();
+//    }
+
 
     /**
      * 发送HttpGet请求
@@ -20,12 +58,24 @@ public class HttpUtils {
      * @param params 参数映射
      * @return 响应对象
      */
-    public static <T> T get(String url, Class<T> clazz, Map<String,Object> params){
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<T> response = restTemplate.getForEntity(url,clazz,params);
-        isSuccess(response.getStatusCodeValue());
-        return response.getBody();
-    }
+//    public static <T> T get(String url, Class<T> clazz,Map<String,String> headerMap, Map<String,Object> formParamMap){
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        // 创建请求头
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//
+//
+//        // 创建表单数据
+//        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+//
+//        // 封装请求头和表单数据
+//        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(formData, headers);
+
+//        ResponseEntity<T> response = restTemplate.getForEntity(url,clazz,params);
+//        isSuccess(response.getStatusCodeValue());
+//        return response.getBody();
+//    }
 
     /**
      * 发送HttpGet请求
