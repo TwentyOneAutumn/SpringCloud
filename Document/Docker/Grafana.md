@@ -26,24 +26,16 @@
 4. 编辑配置文件
 
    ```shell
-   # 进入配置目录
-   cd ./conf
-   
-   # 编辑配置文件
-   vim defaults.ini
-   
-   # 修改前
-   default_language = en-US
-   
-   # 修改后
-   default_language = zh-Hans
+   sed -i 's/default_language = en-US/default_language = zh-Hans/' ./conf/defaults.ini
    ```
 
 5. 重新运行容器
 
    ```shell
+   # 停止并删除旧容器
    docker stop grafana && docker rm grafana
    
+   # 运行新容器
    docker run -d \
    -p 3000:3000 \
    -e GF_SECURITY_ADMIN_USER=root \

@@ -33,13 +33,13 @@
 4. 复制容器中配置
 
    ```shell
-   docker cp es:/usr/share/elasticsearch/config ./
+   docker cp es:/usr/share/elasticsearch/config ./config
    ```
 
 5. 修改配置文件elasticsearch.yml
 
    ```shell
-   xpack.security.enabled: false
+   sed -i 's/xpack.security.enabled: true/xpack.security.enabled: false/' ./config/elasticsearch.yml
    ```
 
 6. 删除旧容器
@@ -60,7 +60,7 @@
    --net es-net \
    -p 9200:9200 \
    -p 9300:9300 \
-   -v /root/es/config:/usr/share/elasticsearch/config \
+   -v ./config:/usr/share/elasticsearch/config \
    --name es \
    elasticsearch:8.13.3
    ```

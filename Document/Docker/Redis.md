@@ -14,12 +14,11 @@
    docker run -d \
    -p 6379:6379 \
    --name redis \
-   --restart=always \ 
+   --restart=always \
    redis:7.0 \
-   redis-server \
-   
+   redis-server
    ```
-
+   
 1. 集群启动
 
    ```shell
