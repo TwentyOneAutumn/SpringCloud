@@ -25,7 +25,37 @@
 			<version>1.0</version>
 		</dependency>
 
-<!--		<dependency>-->
+
+		<!-- asynchronous loggers 异步日志需要用到-->
+		<dependency>
+			<groupId>com.lmax</groupId>
+			<artifactId>disruptor</artifactId>
+			<version>3.4.2</version>
+		</dependency>
+
+		<!-- Skywalking日志依赖 -->
+		<dependency>
+			<groupId>org.apache.skywalking</groupId>
+			<artifactId>apm-toolkit-log4j-2.x</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.skywalking</groupId>
+			<artifactId>apm-toolkit-trace</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.skywalking</groupId>
+			<artifactId>apm-toolkit-opentracing</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.skywalking</groupId>
+			<artifactId>apm-toolkit-micrometer-registry</artifactId>
+		</dependency>
+
+
+		<!--		<dependency>-->
 <!--			<groupId>com.seata</groupId>-->
 <!--			<artifactId>seata</artifactId>-->
 <!--			<version>1.0</version>-->

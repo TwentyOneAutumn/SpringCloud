@@ -1,5 +1,6 @@
 package com.service.file.controller;
 
+import com.core.doMain.Build;
 import com.core.doMain.Row;
 import com.core.doMain.file.DownLoadForm;
 import com.core.doMain.file.FileResource;
@@ -53,5 +54,10 @@ public class FileController {
     @PostMapping("/downloading")
     public void downloading(@Valid @RequestBody DownLoadForm downLoadForm, HttpServletResponse response) throws Exception {
         fileService.downloading(downLoadForm,response);
+    }
+
+    @GetMapping("/list")
+    public Row<List<FileResource>> toList(){
+        return Build.row(fileService.list());
     }
 }

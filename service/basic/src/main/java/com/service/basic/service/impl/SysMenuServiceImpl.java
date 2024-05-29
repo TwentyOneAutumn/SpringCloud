@@ -39,6 +39,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         Page<Object> page = PageEntity.build(dto);
         List<SysMenu> list = list(new LambdaQueryWrapper<SysMenu>());
         List<SysMenuListVo> voList = BeanUtil.copyToList(list, SysMenuListVo.class);
+        log.info(voList.toString());
         return Build.table(page,voList);
     }
 

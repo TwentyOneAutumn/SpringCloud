@@ -3,6 +3,7 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.security.config.UserDetailsServiceImpl,\
   com.security.config.ResourceServerConfigurer,\
   com.security.config.AuthorizationServerConfig,\
-  com.security.config.WebSecurityConfigurer
+  com.security.config.WebSecurityConfigurer,\
+  com.security.authentication.interceptor.FeignHandlerInterceptor
 
 

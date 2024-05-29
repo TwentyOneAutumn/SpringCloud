@@ -20,13 +20,11 @@
    docker run -d \
    -p 12800:12800 \
    -p 11800:11800 \
-   -p 1234:1234 \
+   -p 19090:9090 \
    -e SW_STORAGE=elasticsearch \
    -e SW_STORAGE_ES_CLUSTER_NODES=10.211.55.12:9200 \
    -e SW_ES_PASSWORD=elastic \
    -e SW_ES_USER=elastic \
-   -e SW_TELEMETRY=prometheus \
-   -e SW_TELEMETRY_PROMETHEUS_HOST=10.211.55.12 \
    -e TZ=Asia/Shanghai \
    --net skywalking-net \
    --privileged \

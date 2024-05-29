@@ -57,8 +57,9 @@
         <Validator.version>6.2.0.Final</Validator.version>
         <ApacheCommons.version>1.15</ApacheCommons.version>
         <JWT.version>0.11.2</JWT.version>
-        <Slf4j.version>1.7.30</Slf4j.version>
+        <Slf4j.version>2.0.12</Slf4j.version>
         <Log4j2.version>2.19.0</Log4j2.version>
+        <Log4jSlf4j2Impl.version>2.19.0</Log4jSlf4j2Impl.version>
         <PageHelper.version>1.4.6</PageHelper.version>
         <Sentinel.version>1.8.6</Sentinel.version>
         <NacosClient.version>2.2.2</NacosClient.version>
@@ -68,8 +69,7 @@
         <!--        <Snakeyaml.version>2.0</Snakeyaml.version>-->
         <Okhttp.version>4.12.0</Okhttp.version>
         <disruptor.version>3.4.2</disruptor.version>
-        <SkywalkingLog.version>8.7.0</SkywalkingLog.version>
-
+        <SkywalkingLog.version>9.0.0</SkywalkingLog.version>
     </properties>
 
     <dependencyManagement>
@@ -334,8 +334,8 @@
             <!-- log4j2和slf4j桥接依赖-->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-slf4j-impl</artifactId>
-                <version>${Log4j2.version}</version>
+                <artifactId>log4j-slf4j2-impl</artifactId>
+                <version>${Log4jSlf4j2Impl.version}</version>
             </dependency>
 
             <!-- log4j2依赖-->
@@ -349,6 +349,13 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
                 <version>${Log4j2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-bom</artifactId>
+                <version>${Log4j2.version}</version>
+                <type>pom</type>
             </dependency>
 
             <!-- PageHelper分页插件 -->
@@ -440,7 +447,25 @@
 
             <dependency>
                 <groupId>org.apache.skywalking</groupId>
-                <artifactId>apm-toolkit-logback-1.x</artifactId>
+                <artifactId>apm-toolkit-log4j-2.x</artifactId>
+                <version>${SkywalkingLog.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-trace</artifactId>
+                <version>${SkywalkingLog.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-opentracing</artifactId>
+                <version>${SkywalkingLog.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-micrometer-registry</artifactId>
                 <version>${SkywalkingLog.version}</version>
             </dependency>
         </dependencies>

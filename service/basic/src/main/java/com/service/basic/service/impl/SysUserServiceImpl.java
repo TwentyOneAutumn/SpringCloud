@@ -9,7 +9,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.api.doMain.UserInfo;
 import com.core.doMain.*;
 import com.core.doMain.basic.*;
+import com.core.doMain.file.FileResource;
 import com.core.utils.StreamUtils;
+import com.file.api.RemoteFileService;
 import com.github.pagehelper.Page;
 import com.service.basic.doMain.dto.*;
 import com.service.basic.doMain.vo.SysUserAddVo;
@@ -52,6 +54,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private RemoteFileService remoteFileService;
+
 
     /**
      * 列表
@@ -63,6 +68,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Page<Object> page = PageEntity.build(dto);
         List<SysUser> list = list();
         List<SysUserListVo> voList = BeanUtil.copyToList(list, SysUserListVo.class);
+        log.info("用户列表：{}",voList.toString());
+        Row<List<FileResource>> fileList = remoteFileService.toList();
+        log.info("文件列表：{}",fileList.toString());
         return Build.table(page,voList);
     }
 

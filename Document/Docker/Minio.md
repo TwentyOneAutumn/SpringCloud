@@ -3,7 +3,7 @@
 1. 拉取Minio镜像
 
    ```shell
-   docker pull bitnami/minio:2023
+   docker pull bitnami/minio:2024
    docker pull minio/minio:RELEASE.2023-09-04T19-57-37Z 
    ```
 
@@ -15,12 +15,10 @@
    -p 9001:9001 \
    -e MINIO_ROOT_USER=root \
    -e MINIO_ROOT_PASSWORD=2762581@com \
-   -e MINIO_DISTRIBUTED_MODE_ENABLED=yes \
-   -e MINIO_DISTRIBUTED_NODES=minio1,minio2,minio3,minio4 \
    --name minio \
-   bitnami/minio:2023
+   bitnami/minio:2024
    ```
-
+   
    ```shell
    docker run -d \
    -p 9000:9000 \
@@ -33,7 +31,7 @@
    --console-address ":9001" \
    http://minio/data
    ```
-
+   
 3. 集群部署（docker-compose.yml）
 
    ```yaml
