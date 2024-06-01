@@ -16,6 +16,7 @@
    -p 5601:5601 \
    --net es-net \
    -e "I18N_LOCALE=zh-CN" \
+   -v ./config:/usr/share/kibana/config \
    kibana:8.13.3
    ```
 

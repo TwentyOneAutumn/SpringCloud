@@ -1,5 +1,24 @@
 # Skywalking指标
 
+
+
+## Global Root 全局概览
+
+### Service
+
+| 指标             | 作用                        |
+| ---------------- | --------------------------- |
+| Service Groups   | 服务分组                    |
+| Service Names    | 服务名                      |
+| Load (calls/min) | 服务平均每分钟接受请求次数  |
+| Success Rate (%) | 服务平均成功率              |
+| Latency (ms)     | 服务平均响应延时，单位:毫秒 |
+| Apdex            | 服务评分                    |
+
+### Topology
+
+
+
 ## Global Overview 全局概览
 
 | 指标                                         | 作用                                  |

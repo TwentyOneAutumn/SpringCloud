@@ -51,10 +51,9 @@
             <DefaultRolloverStrategy max="7"/>
         </RollingFile>
 
-        <!-- Logstash日志输入Log文件配置 -->
-        <Socket name="LogstashSocket" host="10.211.55.55" port="6399" protocol="TCP">
+        <Socket name="LogstashSocket" host="10.211.55.12" port="6399" protocol="TCP">
             <!-- 设置日志格式 -->
-            <PatternLayout pattern="%d %p %c{1.} [%t] %m%n"/>
+            <JsonLayout compact="true" eventEol="true" />
         </Socket>
 
         <!-- Skywalking日志收集 -->
@@ -66,7 +65,7 @@
     <Loggers>
         <Root level="INFO">
             <AppenderRef ref="Console"/>
-<!--            <AppenderRef ref="LogstashSocket"/>-->
+            <AppenderRef ref="LogstashSocket"/>
 <!--            <AppenderRef ref="GRPC-LOG"/>-->
         </Root>
     </Loggers>
