@@ -17,7 +17,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param dto 数据对象
      * @return TableInfo
      */
-    TableInfo<SysUserListVo> toList(SysUserListDto dto);
+    TableInfo<SysUserListVo> toList(SysUserListDto dto) throws Exception;
 
 
     /**

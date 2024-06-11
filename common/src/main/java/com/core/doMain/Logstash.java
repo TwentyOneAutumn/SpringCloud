@@ -1,11 +1,14 @@
 package com.core.doMain;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.log.level.Level;
+import com.core.interfaces.Module;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
+import org.springframework.web.method.HandlerMethod;
 
 import java.util.Map;
 
@@ -19,29 +22,31 @@ public class Logstash {
     /**
      * 服务名称
      */
-    @NotBlank(message = "service参数不能为空")
     private String service;
 
 
     /**
      * 所属模块
      */
-    @NotBlank(message = "module参数不能为空")
     private String module;
 
 
     /**
      * 目标类
      */
-    @NotBlank(message = "className参数不能为空")
     private String className;
 
 
     /**
      * 目标方法
      */
-    @NotBlank(message = "methodName参数不能为空")
     private String methodName;
+
+
+    /**
+     * 行号
+     */
+    private Integer lineNumber;
 
 
     /**
@@ -63,18 +68,16 @@ public class Logstash {
     private String message;
 
 
-    private Logstash(){};
-
-
     /**
      * 打印log
      */
-    public static void log(String service,String module,String className,String methodName,Level level, String message){
+    public static void log(String service,String module,String className,String methodName,Integer lineNumber,Level level, String message){
         JSONObject json = new JSONObject();
         json.set("service",service);
         json.set("module",module);
         json.set("className",className);
         json.set("methodName",methodName);
+        json.set("lineNumber",lineNumber);
         json.set("level",level);
         json.set("message",message);
         switch (level){
@@ -170,6 +173,7 @@ public class Logstash {
         json.set("module",module);
         json.set("className",className);
         json.set("methodName",methodName);
+        json.set("lineNumber",methodName);
         json.set("level",level);
         json.set("message",message);
         switch (level){
@@ -194,5 +198,61 @@ public class Logstash {
                 break;
             }
         }
+    }
+
+
+    /**
+     * 提取信息并发送告警日志
+     */
+    public static void log(Exception ex, HandlerMethod handlerMethod, String applicationName){
+        String module = "";
+        // 获取方法所在的类
+        Class<?> beanType = handlerMethod.getBeanType();
+        // 获取类上的@Module注解
+        Module moduleAnnotation = beanType.getAnnotation(Module.class);
+        if(BeanUtil.isNotEmpty(moduleAnnotation)){
+            module = moduleAnnotation.value();
+        }
+        // 错误信息
+        String message = ex.getMessage();
+        // 获取栈信息
+        StackTraceElement[] stackTrace = ex.getStackTrace();
+        // 获取第一个
+        StackTraceElement element = stackTrace[0];
+        // 获取抛出异常的类名
+        String className = element.getClassName();
+        // 获取抛出异常的方法名
+        String methodName = element.getMethodName();
+        // 获取抛出异常的行号
+        int lineNumber = element.getLineNumber();
+        // 打印Log
+        Logstash.log(applicationName,module,className,methodName,lineNumber, Level.ERROR,message);
+    }
+
+
+    /**
+     * 提取信息并发送告警日志
+     */
+    public static void log(Exception ex, HandlerMethod handlerMethod, String applicationName, String message){
+        String module = "";
+        // 获取方法所在的类
+        Class<?> beanType = handlerMethod.getBeanType();
+        // 获取类上的@Module注解
+        Module moduleAnnotation = beanType.getAnnotation(Module.class);
+        if(BeanUtil.isNotEmpty(moduleAnnotation)){
+            module = moduleAnnotation.value();
+        }
+        // 获取栈信息
+        StackTraceElement[] stackTrace = ex.getStackTrace();
+        // 获取第一个
+        StackTraceElement element = stackTrace[0];
+        // 获取抛出异常的类名
+        String className = element.getClassName();
+        // 获取抛出异常的方法名
+        String methodName = element.getMethodName();
+        // 获取抛出异常的行号
+        int lineNumber = element.getLineNumber();
+        // 打印Log
+        Logstash.log(applicationName,module,className,methodName,lineNumber, Level.ERROR,message);
     }
 }

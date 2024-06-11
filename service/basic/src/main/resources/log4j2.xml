@@ -51,6 +51,7 @@
             <DefaultRolloverStrategy max="7"/>
         </RollingFile>
 
+        <!-- Logstash日志收集 -->
         <Socket name="LogstashSocket" host="10.211.55.12" port="6399" protocol="TCP">
             <!-- 设置日志格式 -->
             <JsonLayout compact="true" eventEol="true" />
@@ -66,7 +67,7 @@
         <Root level="INFO">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="LogstashSocket"/>
-<!--            <AppenderRef ref="GRPC-LOG"/>-->
+            <AppenderRef ref="GRPC-LOG"/>
         </Root>
     </Loggers>
 </configuration>

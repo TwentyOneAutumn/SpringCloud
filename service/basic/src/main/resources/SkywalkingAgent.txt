@@ -1,0 +1,1 @@
+-javaagent:/Users/maplej/Work/JavaProject/SpringCloud/skywalking-agent/skywalking-agent.jar=agent.service_name=dev::basic,agent.instance_name=localBasic

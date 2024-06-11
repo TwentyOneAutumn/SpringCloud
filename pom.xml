@@ -74,7 +74,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- springBoot父依赖 -->
+            <!-- SpringBoot 父依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
@@ -88,7 +88,7 @@
                 </exclusions>
             </dependency>
 
-            <!-- springBoot父依赖 -->
+            <!-- SpringBoot 版本依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -97,7 +97,7 @@
                 <scope>compile</scope>
             </dependency>
 
-            <!-- springCloud父依赖 -->
+            <!-- SpringCloud 父依赖 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -106,7 +106,7 @@
                 <scope>compile</scope>
             </dependency>
 
-            <!-- SpringCloudAlibaba父依赖 -->
+            <!-- SpringCloud Alibaba 父依赖 -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
@@ -115,7 +115,7 @@
                 <scope>compile</scope>
             </dependency>
 
-            <!-- springCloud父依赖 -->
+            <!-- springCloud 父依赖 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter</artifactId>
@@ -123,7 +123,7 @@
                 <type>pom</type>
             </dependency>
 
-            <!-- SpringCloudAlibaba父依赖 -->
+            <!-- SpringCloud Alibaba 父依赖 -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-starters</artifactId>
@@ -131,7 +131,7 @@
                 <type>pom</type>
             </dependency>
 
-            <!-- Web依赖 -->
+            <!-- SpringBoot Web 依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
@@ -144,7 +144,7 @@
                 <version>${SpringBoot.version}</version>
             </dependency>
 
-            <!-- SpringBootRedis依赖 -->
+            <!-- SpringBoot Redis 依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -158,14 +158,21 @@
                 <version>${AlibabaCloud.version}</version>
             </dependency>
 
-            <!-- SpringBoot集成MyBatisPlus -->
+            <!-- SpringBoot Validation 参数校验 依赖 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-validation</artifactId>
+                <version>${SpringBoot.version}</version>
+            </dependency>
+
+            <!-- SpringBoot MyBatisPlus -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${MybatisPlus.version}</version>
             </dependency>
 
-            <!-- SpringBootSecurity -->
+            <!-- SpringBoot Security -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
@@ -179,7 +186,7 @@
                 </exclusions>
             </dependency>
 
-            <!-- Nacos注册发现依赖 -->
+            <!-- Nacos 注册发现 依赖 -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -192,7 +199,7 @@
                 </exclusions>
             </dependency>
 
-            <!-- Nacos配置管理依赖 -->
+            <!-- Nacos 配置管理 依赖 -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
@@ -205,49 +212,49 @@
                 </exclusions>
             </dependency>
 
-            <!-- Nacos客户端依赖 -->
+            <!-- Nacos 客户端 依赖 -->
             <dependency>
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
                 <version>${NacosClient.version}</version>
             </dependency>
 
-            <!-- SpringAMQP依赖 -->
+            <!-- Spring AMQP 依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-amqp</artifactId>
                 <version>${SpringBoot.version}</version>
             </dependency>
 
-            <!-- ESClients依赖 -->
+            <!-- ESClients 依赖 -->
             <dependency>
                 <groupId>co.elastic.clients</groupId>
                 <artifactId>elasticsearch-java</artifactId>
                 <version>${ElasticSearch.version}</version>
             </dependency>
 
-            <!-- Gateway网关依赖 -->
+            <!-- SpringCloud Gateway 依赖 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-gateway</artifactId>
                 <version>${Gateway.version}</version>
             </dependency>
 
-            <!-- Feign依赖 -->
+            <!-- SpringCloud OpenFeign 依赖 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-openfeign</artifactId>
                 <version>${OpenFeign.version}</version>
             </dependency>
 
-            <!-- loadbalancer负载均衡依赖 -->
+            <!-- SpringCloud Loadbalancer 依赖 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-loadbalancer</artifactId>
                 <version>${Loadbalancer.version}</version>
             </dependency>
 
-            <!--  MySQL数据库依赖  -->
+            <!--  MySQL 数据库 依赖  -->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
@@ -255,35 +262,35 @@
                 <scope>runtime</scope>
             </dependency>
 
-            <!-- Lombok依赖 -->
+            <!-- Lombok 依赖 -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${Lombok.version}</version>
             </dependency>
 
-            <!-- Hutool工具包依赖 -->
+            <!-- Hutool 工具包 依赖 -->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${Hutool.version}</version>
             </dependency>
 
-            <!-- jakarta依赖 -->
+            <!-- jakarta 依赖 -->
             <dependency>
                 <groupId>jakarta.json</groupId>
                 <artifactId>jakarta.json-api</artifactId>
                 <version>${Jakarta.version}</version>
             </dependency>
 
-            <!-- fastjson依赖 -->
+            <!-- fastjson 依赖 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${FastJson.version}</version>
             </dependency>
 
-            <!-- jackson依赖 -->
+            <!-- jackson 依赖 -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>

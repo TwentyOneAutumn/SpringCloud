@@ -64,13 +64,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return TableInfo
      */
     @Override
-    public TableInfo<SysUserListVo> toList(SysUserListDto dto) {
+    public TableInfo<SysUserListVo> toList(SysUserListDto dto) throws Exception {
         Page<Object> page = PageEntity.build(dto);
         List<SysUser> list = list();
         List<SysUserListVo> voList = BeanUtil.copyToList(list, SysUserListVo.class);
-        log.info("用户列表：{}",voList.toString());
         Row<List<FileResource>> fileList = remoteFileService.toList();
-        log.info("文件列表：{}",fileList.toString());
+        Thread.sleep(3000);
         return Build.table(page,voList);
     }
 

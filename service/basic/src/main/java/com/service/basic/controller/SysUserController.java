@@ -2,7 +2,6 @@ package com.service.basic.controller;
 
 import com.basic.api.doMain.UserInfo;
 import com.core.doMain.AjaxResult;
-import com.core.doMain.Build;
 import com.core.doMain.Row;
 import com.core.doMain.TableInfo;
 import com.core.doMain.basic.SysUser;
@@ -38,7 +37,7 @@ public class SysUserController {
      * @return TableInfo
      */
     @GetMapping("/list")
-    public TableInfo<SysUserListVo> toList(@Valid SysUserListDto dto){
+    public TableInfo<SysUserListVo> toList(@Valid SysUserListDto dto) throws Exception {
         return sysUserService.toList(dto);
     }
 

@@ -14,9 +14,9 @@ spring:
         file-extension: yaml
         namespace: 1
         shared-configs:
-          - dataId: basic.yaml
+          - dataId: basic
             refresh: true
-          - dataId: file.yaml
+          - dataId: file
             refresh: true
   redis:
     host: 10.211.55.12

@@ -19,6 +19,6 @@ public class CommonConfig{
     public Request.Options options(){
         // connectTimeout 连接超时时间
         // readTimeout 读取超时时间
-        return new Request.Options(5, TimeUnit.SECONDS,30,TimeUnit.SECONDS,true);
+        return new Request.Options(30, TimeUnit.SECONDS,30,TimeUnit.SECONDS,true);
     }
 }
