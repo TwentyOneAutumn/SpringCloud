@@ -2,11 +2,11 @@
 <configuration status="WARN" monitorInterval="30">
     <!--  先定义项目名称  -->
     <Properties>
-        <Property name="ServiceName">Executor</Property>
+        <Property name="ServiceName">job-executor</Property>
     </Properties>
 
     <!-- 先定义所有的appender(附加器)-->
-    <appenders>
+    <Appenders>
         <!-- 输出控制台Log配置 -->
         <Console name="Console" target="SYSTEM_OUT">
             <Filters>
@@ -50,31 +50,24 @@
             <!-- 默认同一文件夹下最多7个文件 -->
             <DefaultRolloverStrategy max="7"/>
         </RollingFile>
-    </appenders>
 
-    <!-- 然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
-    <loggers>
-<!--        <logger name="org.springframework" level="OFF"/>-->
-<!--        <logger name="com.github.pagehelper" level="OFF"/>-->
+<!--        &lt;!&ndash; Logstash日志收集 &ndash;&gt;-->
+<!--        <Socket name="LogstashSocket" host="10.211.55.12" port="6399" protocol="TCP">-->
+<!--            &lt;!&ndash; 设置日志格式 &ndash;&gt;-->
+<!--            <JsonLayout compact="true" eventEol="true" />-->
+<!--        </Socket>-->
 
-        <logger name="ConsoleLogger" level="INFO">
-            <appender-ref ref="Console"/>
-        </logger>
+<!--        &lt;!&ndash; Skywalking日志收集 &ndash;&gt;-->
+<!--        <GRPCLogClientAppender name="GRPC-LOG">-->
+<!--            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+<!--        </GRPCLogClientAppender>-->
+    </Appenders>
 
-        <!-- 使用 RollingInfoFile appender 记录 INFO 级别的日志 -->
-        <logger name="InfoLogger" level="INFO">
-            <appender-ref ref="RollingInfoFile"/>
-        </logger>
-
-        <!-- 使用 RollingErrorFile appender 记录 ERROR 级别的日志 -->
-        <logger name="ErrorLogger" level="ERROR">
-            <appender-ref ref="RollingErrorFile"/>
-        </logger>
-
-        <!-- 建立一个默认的root的logger -->
-        <root level="INFO">
-            <!-- 控制台输出日志 -->
-            <appender-ref ref="Console"/>
-        </root>
-    </loggers>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+<!--            <AppenderRef ref="LogstashSocket"/>-->
+<!--            <AppenderRef ref="GRPC-LOG"/>-->
+        </Root>
+    </Loggers>
 </configuration>

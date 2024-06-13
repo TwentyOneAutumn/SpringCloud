@@ -70,11 +70,11 @@ docker-compose --version
    tar -xvf docker-26.0.0.tgz
    
    echo '将docker目录下所有文件复制到/usr/bin目录'
-   cp docker/* /usr/bin
+   
    
    echo '将docker.service 复制到/etc/systemd/system/目录'
    cp docker.service /etc/systemd/system/
-   
+   l
    echo '添加文件可执行权限'
    chmod +x /etc/systemd/system/docker.service
    

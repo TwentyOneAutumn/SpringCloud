@@ -11,12 +11,13 @@ spring:
   main:
     banner-mode: off
     allow-bean-definition-overriding: true
+  redis:
+    host: 10.211.55.12
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://124.221.27.253:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://10.211.55.12:3306/basic?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 2762581@com
-
 xxl:
   job:
     admin:

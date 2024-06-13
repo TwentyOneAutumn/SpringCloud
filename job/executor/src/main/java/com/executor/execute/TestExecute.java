@@ -1,22 +1,19 @@
 package com.executor.execute;
 
-import com.executor.config.JobHandler;
-import com.executor.service.ITestService;
+import com.executor.interfaces.Executor;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
-public class TestExecute extends JobHandler {
+public class TestExecute implements JobExecutor {
 
-    @Autowired
-    private ITestService testService;
 
-    /**
-     * 1、简单任务示例（Bean模式）
-     */
-    @XxlJob("demoJobHandler")
-    public void demoJobHandler() throws Exception {
-        execute("测试",testService);
+    @Override
+    @XxlJob(value = "demoJobHandler")
+    @Executor(name = "测试任务", frequency = "每分钟一次")
+    public void execute()  throws Exception{
+        throw new Exception("测试异常情况");
     }
 }
