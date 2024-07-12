@@ -22,20 +22,8 @@
     <!-- 聚合模块 -->
     <modules>
         <module>feign</module>
-        <module>gateway</module>
-        <module>elasticsearch</module>
-        <module>test-app</module>
-        <module>service</module>
-        <module>common</module>
-        <module>security</module>
-        <module>mq</module>
-        <module>generator</module>
+        <module>services</module>
         <module>config</module>
-        <module>database</module>
-        <module>seata</module>
-        <module>job</module>
-        <module>docker</module>
-        <module>design-pattern</module>
     </modules>
 
     <properties>

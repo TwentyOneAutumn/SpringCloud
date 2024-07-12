@@ -15,14 +15,15 @@
     <artifactId>config</artifactId>
     <version>1.0</version>
     <name>config</name>
-    <description>配置模块</description>
-    <packaging>jar</packaging>
+    <description>配置聚合模块</description>
+    <packaging>pom</packaging>
 
-    <dependencies>
-        <!-- bootstrap依赖 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
-        </dependency>
-    </dependencies>
+    <!-- 聚合模块 -->
+    <modules>
+        <module>bootstrap</module>
+        <module>common</module>
+        <module>database</module>
+        <module>seata</module>
+        <module>security</module>
+    </modules>
 </project>

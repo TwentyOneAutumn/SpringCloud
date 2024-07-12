@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- 继承父工程 -->
+    <parent>
+        <groupId>com.services</groupId>
+        <artifactId>services</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.service.basic</groupId>
+    <artifactId>basic</artifactId>
+    <version>1.0</version>
+    <name>basic</name>
+    <description>基础服务模块</description>
+
+    <dependencies>
+
+        <!-- 公共模块 -->
+        <dependency>
+            <groupId>com.common</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- 配置模块 -->
+        <dependency>
+            <groupId>com.config.bootstrap</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- 数据源模块 -->
+        <dependency>
+            <groupId>com.database</groupId>
+            <artifactId>database</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- 安全模块 -->
+        <dependency>
+            <groupId>com.security</groupId>
+            <artifactId>security</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.file.api</groupId>
+            <artifactId>file-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_pushgateway</artifactId>
+            <version>0.16.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.6.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

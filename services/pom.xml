@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- 继承父工程 -->
+    <parent>
+        <groupId>com.spring.cloud</groupId>
+        <artifactId>spring-cloud</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.services</groupId>
+    <artifactId>services</artifactId>
+    <version>1.0</version>
+    <name>services</name>
+    <description>service服务聚合模块</description>
+    <packaging>pom</packaging>
+
+    <!-- 聚合模块 -->
+    <modules>
+        <module>gateway</module>
+        <module>basic</module>
+        <module>file</module>
+        <module>websocket</module>
+    </modules>
+    <dependencies>
+
+        <!-- Nacos注册发现依赖 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba.nacos</groupId>
+                    <artifactId>nacos-client</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Nacos配置中心依赖 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba.nacos</groupId>
+                    <artifactId>nacos-client</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Nacos客户端依赖 -->
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+
+<!--        &lt;!&ndash; Common模块 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.common</groupId>-->
+<!--            <artifactId>common</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; 配置模块&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.config.bootstrap</groupId>-->
+<!--            <artifactId>bootstrap</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>com.database</groupId>-->
+<!--            <artifactId>database</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>com.security</groupId>-->
+<!--            <artifactId>security</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; asynchronous loggers 异步日志需要用到&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.lmax</groupId>-->
+<!--            <artifactId>disruptor</artifactId>-->
+<!--            <version>3.4.2</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; Skywalking日志依赖 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.skywalking</groupId>-->
+<!--            <artifactId>apm-toolkit-log4j-2.x</artifactId>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.apache.skywalking</groupId>-->
+<!--            <artifactId>apm-toolkit-trace</artifactId>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.apache.skywalking</groupId>-->
+<!--            <artifactId>apm-toolkit-opentracing</artifactId>-->
+<!--        </dependency>-->
+
+        <!-- SentinelWeb依赖 -->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>-->
+<!--        </dependency>-->
+
+        <!-- Loadbalancer依赖 -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-loadbalancer</artifactId>-->
+<!--        </dependency>-->
+    </dependencies>
+</project>
