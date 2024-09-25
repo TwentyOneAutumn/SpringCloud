@@ -1,7 +1,7 @@
 package com.service.file.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.core.doMain.file.FileResource;
+import com.service.file.domain.FileResource;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

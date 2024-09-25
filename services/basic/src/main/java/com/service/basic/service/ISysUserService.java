@@ -1,11 +1,15 @@
 package com.service.basic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.basic.api.doMain.UserInfo;
-import com.core.doMain.*;
-import com.core.doMain.basic.SysUser;
-import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.*;
+import com.basic.api.domain.UserDetailInfo;
+import com.core.domain.Result;
+import com.core.domain.Row;
+import com.core.domain.TableInfo;
+import com.service.basic.domain.SysUser;
+import com.service.basic.domain.dto.*;
+import com.service.basic.domain.vo.SysUserAddVo;
+import com.service.basic.domain.vo.SysUserDetailVo;
+import com.service.basic.domain.vo.SysUserListVo;
 
 /**
  * 用户Service
@@ -31,7 +35,7 @@ public interface ISysUserService extends IService<SysUser> {
     /**
      * 新增
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     Row<SysUserAddVo> toAdd(SysUserAddDto dto);
 
@@ -39,31 +43,32 @@ public interface ISysUserService extends IService<SysUser> {
     /**
      * 修改
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
-    AjaxResult toEdit(SysUserEditDto dto);
+    Result toEdit(SysUserEditDto dto);
 
     
     /**
      * 删除
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
-    AjaxResult toDelete(SysUserDeleteDto dto);
+    Result toDelete(SysUserDeleteDto dto);
 
 
     /**
      * 获取用户详细信息及权限信息
+     *
      * @param user 数据对象
      * @return Row
      */
-    Row<UserInfo> getUserInfo(SysUser user);
+    Row<UserDetailInfo> getUserInfo(String userCode);
 
 
     /**
      * 判断当前用户是否存在
-     * @param user 数据对象
+     * @param dto 数据对象
      * @return Boolean
      */
-    AjaxResult checkUser(SysUser user);
+    Result checkUser(String userCode);
 }

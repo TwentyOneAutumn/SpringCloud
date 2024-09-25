@@ -3,12 +3,13 @@ package com.service.basic.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.core.doMain.*;
-import com.core.doMain.basic.SysModule;
+import com.core.domain.*;
+import com.database.domain.PageEntity;
+import com.service.basic.domain.SysModule;
 import com.github.pagehelper.Page;
-import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.SysModuleDetailVo;
-import com.service.basic.doMain.vo.SysModuleListVo;
+import com.service.basic.domain.dto.*;
+import com.service.basic.domain.vo.SysModuleDetailVo;
+import com.service.basic.domain.vo.SysModuleListVo;
 import com.service.basic.mapper.SysModuleMapper;
 import com.service.basic.service.ISysModuleService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ public class SysModuleServiceImpl extends ServiceImpl<SysModuleMapper, SysModule
         Page<Object> page = PageEntity.build(dto);
         List<SysModule> list = list(new LambdaQueryWrapper<SysModule>());
         List<SysModuleListVo> voList = BeanUtil.copyToList(list, SysModuleListVo.class);
-        return Build.table(page,voList);
+        return Build.table(voList,page.getTotal());
     }
 
 
@@ -62,44 +63,44 @@ public class SysModuleServiceImpl extends ServiceImpl<SysModuleMapper, SysModule
     /**
      * 新增
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @Override
-    public AjaxResult toAdd(SysModuleAddDto dto) {
+    public Result toAdd(SysModuleAddDto dto) {
         SysModule pojo = BeanUtil.toBean(dto, SysModule.class);
         boolean save = save(pojo);
-        return Build.ajax(save);
+        return Build.result(save);
     }
 
 
     /**
      * 修改
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @Override
-    public AjaxResult toEdit(SysModuleEditDto dto) {
+    public Result toEdit(SysModuleEditDto dto) {
         if(BeanUtil.isEmpty(getById(dto.getModuleId()))){
             throw new RuntimeException("数据不存在");
         }
         SysModule pojo = BeanUtil.toBean(dto, SysModule.class);
         boolean update = updateById(pojo);
-        return Build.ajax(update);
+        return Build.result(update);
     }
 
 
     /**
      * 删除
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @Override
-    public AjaxResult toDelete(SysModuleDeleteDto dto) {
+    public Result toDelete(SysModuleDeleteDto dto) {
         String id = dto.getModuleId();
         if(BeanUtil.isEmpty(getById(id))){
             throw new RuntimeException("数据不存在");
         }
         boolean remove = removeById(id);
-        return Build.ajax(remove);
+        return Build.result(remove);
     }
 }

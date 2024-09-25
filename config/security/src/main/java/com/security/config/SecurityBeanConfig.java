@@ -1,41 +1,26 @@
 package com.security.config;
 
 import cn.hutool.core.codec.Base64;
-import com.core.doMain.Build;
+import com.core.domain.Build;
 import com.core.utils.ResponseUtils;
-import com.core.utils.StrUtils;
-import com.security.authentication.beans.ThreadCache;
-import com.security.enums.ClientsSql;
 import com.security.enums.RedisTokenKey;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.OAuth2Request;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.transaction.TransactionManager;
 
 import javax.sql.DataSource;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * SecurityBean配置类
@@ -93,35 +78,6 @@ public class SecurityBeanConfig {
         };
     }
 
-    @Bean
-    @ConfigurationProperties(prefix = "client-details.datasource")
-    public DataSource clientDetailsServiceDataSource(){
-        return DataSourceBuilder.create().build();
-    }
-
-    @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public TransactionManager transactionManager(DataSource dataSource){
-        return new DataSourceTransactionManager(dataSource);
-    }
-    /**
-     * 用于管理 OAuth2 客户端的信息
-     * 方法名称必须为clientDetailsService，否则Seata找不到clientDetailsService会导致服务启动失败
-     * @param clientDetailsServiceDataSource 数据源对象
-     * @return clientDetailsService
-     */
-    @Bean
-    public ClientDetailsService clientDetailsService(DataSource clientDetailsServiceDataSource,PasswordEncoder passwordEncoder){
-        JdbcClientDetailsService client = new JdbcClientDetailsService(clientDetailsServiceDataSource);
-        // 设置查询客户端详情Sql
-        client.setSelectClientDetailsSql(ClientsSql.SELECT_CLIENT_DETAILS_SQL);
-        // 设置查询所有客户端Sql
-        client.setFindClientDetailsSql(ClientsSql.FIND_CLIENT_DETAILS_SQL);
-        // 设置PasswordEncoder
-        client.setPasswordEncoder(passwordEncoder);
-        return client;
-    }
-
     /**
      * 生成唯一的键（key）用于标识 OAuth2Authentication 对象在Redis中的位置
      * @return AuthenticationKeyGenerator
@@ -131,16 +87,8 @@ public class SecurityBeanConfig {
         return new DefaultAuthenticationKeyGenerator() {
             @Override
             public String extractKey(OAuth2Authentication authentication) {
-                Map<String, String> map = new LinkedHashMap<>();
-                OAuth2Request oAuth2Request = authentication.getOAuth2Request();
                 String userName = authentication.getName();
-                Map<String,String> cacheMap = ThreadCache.getCache(Map.class);
-                String ip = cacheMap.get("ip");
-                String clientId = oAuth2Request.getClientId();
-                map.put(RedisTokenKey.USER_NAME,userName);
-                map.put(RedisTokenKey.CLIENT_ID,clientId);
-                map.put(RedisTokenKey.IP,ip);
-                String key = StrUtils.join(map,":","#");
+                String key = RedisTokenKey.USER_NAME + "#" + userName;
                 return generateKey(key);
             }
 
@@ -175,12 +123,9 @@ public class SecurityBeanConfig {
      */
     @Bean
     public TokenEnhancer tokenEnhancer(){
-        return new TokenEnhancer() {
-            @Override
-            public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-                // 自定义增强策略
-                return accessToken;
-            }
+        return (accessToken, authentication) -> {
+            // 自定义增强策略
+            return accessToken;
         };
     }
 
@@ -190,10 +135,8 @@ public class SecurityBeanConfig {
      * @return AuthorizationServerTokenServices
      */
     @Bean
-    public AuthorizationServerTokenServices authorizationServerTokenServices(TokenStore tokenStore,ClientDetailsService clientDetailsService){
+    public AuthorizationServerTokenServices authorizationServerTokenServices(TokenStore tokenStore){
         DefaultTokenServices tokenServices = new DefaultTokenServices();
-        // 设置客户端服务
-        tokenServices.setClientDetailsService(clientDetailsService);
         // 支持刷新令牌
         tokenServices.setSupportRefreshToken(true);
         // 设置令牌存储策略
@@ -218,7 +161,7 @@ public class SecurityBeanConfig {
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint(){
         return ((request, response, authException) -> {
-            ResponseUtils.writer(response, Build.ajax(false,"认证失败"));
+            ResponseUtils.writer(response, Build.result(false,"认证失败"));
         });
     }
 
@@ -229,7 +172,6 @@ public class SecurityBeanConfig {
      */
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler(){
-        return (request, response, exception) -> ResponseUtils.writer(response, Build.ajax(false,exception.getMessage()));
+        return (request, response, exception) -> ResponseUtils.writer(response, Build.result(false,exception.getMessage()));
     }
-
 }

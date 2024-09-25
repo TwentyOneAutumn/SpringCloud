@@ -23,3 +23,11 @@ spring:
           uri: lb://file
           predicates:
             - Path=/file/**
+        - id: websocket
+          uri: lb://websocket
+          predicates:
+            - Path=/websocket/**
+        - id: websocket-ws
+          uri: lb:ws://websocket
+          predicates:
+            - Path=/websocket/**

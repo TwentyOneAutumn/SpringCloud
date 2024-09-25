@@ -3,10 +3,11 @@ package com.service.basic.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.core.doMain.*;
-import com.core.doMain.basic.SysRole;
-import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.*;
+import com.core.domain.*;
+import com.database.domain.PageEntity;
+import com.service.basic.domain.SysRole;
+import com.service.basic.domain.dto.*;
+import com.service.basic.domain.vo.*;
 import com.github.pagehelper.Page;
 import com.service.basic.mapper.SysRoleMapper;
 import com.service.basic.service.ISysRoleService;
@@ -37,7 +38,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         Page<Object> page = PageEntity.build(dto);
         List<SysRole> list = list(new LambdaQueryWrapper<SysRole>());
         List<SysRoleListVo> voList = BeanUtil.copyToList(list, SysRoleListVo.class);
-        return Build.table(page,voList);
+        return Build.table(voList,page.getTotal());
     }
 
 
@@ -60,44 +61,44 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     /**
      * 新增
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @Override
-    public AjaxResult toAdd(SysRoleAddDto dto) {
+    public Result toAdd(SysRoleAddDto dto) {
         SysRole pojo = BeanUtil.toBean(dto, SysRole.class);
         boolean save = save(pojo);
-        return Build.ajax(save);
+        return Build.result(save);
     }
 
 
     /**
      * 修改
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @Override
-    public AjaxResult toEdit(SysRoleEditDto dto) {
+    public Result toEdit(SysRoleEditDto dto) {
         if(BeanUtil.isEmpty(getById(dto.getRoleId()))){
             throw new RuntimeException("数据不存在");
         }
         SysRole pojo = BeanUtil.toBean(dto, SysRole.class);
         boolean update = updateById(pojo);
-        return Build.ajax(update);
+        return Build.result(update);
     }
 
 
     /**
      * 删除
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @Override
-    public AjaxResult toDelete(SysRoleDeleteDto dto) {
+    public Result toDelete(SysRoleDeleteDto dto) {
         String id = dto.getRoleId();
         if(BeanUtil.isEmpty(getById(id))){
             throw new RuntimeException("数据不存在");
         }
         boolean remove = removeById(id);
-        return Build.ajax(remove);
+        return Build.result(remove);
     }
 }

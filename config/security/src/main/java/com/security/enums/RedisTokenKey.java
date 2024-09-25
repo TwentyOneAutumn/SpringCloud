@@ -5,6 +5,4 @@ package com.security.enums;
  */
 public class RedisTokenKey {
     public static final String USER_NAME = "UserName";
-    public static final String CLIENT_ID = "ClientId";
-    public static final String IP = "IP";
 }

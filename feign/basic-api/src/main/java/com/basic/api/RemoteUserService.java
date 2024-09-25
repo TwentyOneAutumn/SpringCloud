@@ -1,25 +1,26 @@
 package com.basic.api;
 
-import com.basic.api.doMain.UserInfo;
+import com.basic.api.domain.UserDetailInfo;
+import com.basic.api.domain.dto.UserCodeDto;
 import com.basic.api.factory.UserFallbackFactory;
-import com.core.doMain.AjaxResult;
-import com.core.doMain.Row;
-import com.core.doMain.basic.SysUser;
-import com.core.enums.ServiceName;
+import com.core.domain.Result;
+import com.core.domain.Row;
+import com.core.enums.ServiceInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(contextId = "RemoteUserService",value = ServiceName.BASIC,path = "basic",fallbackFactory = UserFallbackFactory.class)
+@FeignClient(contextId = "RemoteUserService",value = ServiceInfo.BASIC,path = ServiceInfo.BASIC_PATH,fallbackFactory = UserFallbackFactory.class)
 public interface RemoteUserService {
 
     /**
      * 根据用户账号获取用户信息
+     *
      * @param user 数据对象
      * @return UserInfo
      */
     @PostMapping("/user/info")
-    Row<UserInfo> getUserInfo(@RequestBody SysUser user);
+    Row<UserDetailInfo> getUserInfo(@RequestBody UserCodeDto userCode);
 
 
     /**
@@ -28,5 +29,5 @@ public interface RemoteUserService {
      * @return Boolean
      */
     @PostMapping("/user/check")
-    AjaxResult checkUser(@RequestBody SysUser user);
+    Result checkUser(@RequestBody UserCodeDto userCode);
 }

@@ -27,10 +27,9 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
     /**
      * 该方法用于配置资源服务器的安全性，可以设置资源服务器的资源ID和访问令牌验证服务
      * @param resources configurer for the resource server
-     * @throws Exception 异常
      */
     @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+    public void configure(ResourceServerSecurityConfigurer resources) {
         resources.resourceId("")
                 .tokenStore(tokenStore)
                 .stateless(true);

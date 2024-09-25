@@ -1,12 +1,10 @@
 package com.security.config;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
 import com.basic.api.RemoteUserService;
-import com.basic.api.doMain.UserInfo;
-import com.core.doMain.AjaxResult;
-import com.core.doMain.Row;
-import com.core.doMain.basic.SysUser;
+import com.basic.api.domain.UserDetailInfo;
+import com.basic.api.domain.dto.UserCodeDto;
+import com.core.domain.Result;
+import com.core.domain.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,22 +28,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String userCode) throws UsernameNotFoundException {
-        SysUser sysUser = new SysUser();
-        sysUser.setUserCode(userCode);
         // 验证用户是否存在
-        checkUser(sysUser);
+        checkUser(userCode);
         // 获取用户信息
-        Row<UserInfo> userInfoRow = remoteUserService.getUserInfo(sysUser);
-        if(Row.isError(userInfoRow)){
-            isError("获取用户信息异常");
-        }
-        UserInfo userInfo = userInfoRow.getRow();
-        // 判断用户信息是否合法
-        if(BeanUtil.isEmpty(userInfo) || BeanUtil.isEmpty(userInfo.getUser()) || CollUtil.isEmpty(userInfo.getRoleSet())){
-            isError("获取用户信息异常");
-        }
+        Row<UserDetailInfo> row = remoteUserService.getUserInfo(new UserCodeDto(userCode));
+        UserDetailInfo info = row.data(true, new UsernameNotFoundException("获取用户信息异常"));
         // 返回UserDetails对象
-        return UserDetailsImpl.build(userInfo);
+        return UserDetailsImpl.build(info);
     }
 
 
@@ -54,19 +43,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * @param user 数据对象
      * @throws UsernameNotFoundException 如果找不到用户则抛出异常
      */
-    private void checkUser(SysUser user) throws UsernameNotFoundException{
-        AjaxResult check = remoteUserService.checkUser(user);
-        if(AjaxResult.isError(check)){
-            isError("当前用户不存在");
-        }
-    }
-
-    /**
-     * 获取用户信息失败,抛出异常
-     * @param msg 错误信息
-     * @throws UsernameNotFoundException 获取用户信息失败异常
-     */
-    private void isError(String msg) throws UsernameNotFoundException {
-        throw new UsernameNotFoundException(msg);
+    private void checkUser(String userCode) throws UsernameNotFoundException{
+        Result result = remoteUserService.checkUser(new UserCodeDto(userCode));
+        result.isError("当前用户不存在");
     }
 }

@@ -16,11 +16,6 @@
     <name>basic-api</name>
     <description>basic模块Feign接口聚合模块</description>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-
     <dependencies>
     </dependencies>
 

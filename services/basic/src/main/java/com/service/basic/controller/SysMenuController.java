@@ -1,8 +1,8 @@
 package com.service.basic.controller;
 
-import com.core.doMain.*;
-import com.service.basic.doMain.vo.*;
-import com.service.basic.doMain.dto.*;
+import com.core.domain.*;
+import com.service.basic.domain.vo.*;
+import com.service.basic.domain.dto.*;
 import com.service.basic.service.ISysMenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +46,10 @@ public class SysMenuController {
     /**
      * 新增
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @PostMapping("/add")
-    public AjaxResult toAdd(@Valid @RequestBody SysMenuAddDto dto){
+    public Result toAdd(@Valid @RequestBody SysMenuAddDto dto){
         return sysMenuService.toAdd(dto);
     }
 
@@ -57,10 +57,10 @@ public class SysMenuController {
     /**
      * 修改
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @PutMapping("/edit")
-    public AjaxResult toEdit(@Valid @RequestBody SysMenuEditDto dto){
+    public Result toEdit(@Valid @RequestBody SysMenuEditDto dto){
         return sysMenuService.toEdit(dto);
     }
 
@@ -68,10 +68,10 @@ public class SysMenuController {
     /**
      * 删除
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @DeleteMapping("/delete")
-    public AjaxResult toDelete(@Valid @RequestBody SysMenuDeleteDto dto){
+    public Result toDelete(@Valid @RequestBody SysMenuDeleteDto dto){
         return sysMenuService.toDelete(dto);
     }
 }

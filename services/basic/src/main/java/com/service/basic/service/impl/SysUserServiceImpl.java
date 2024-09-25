@@ -3,20 +3,24 @@ package com.service.basic.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.basic.api.doMain.UserInfo;
-import com.core.doMain.*;
-import com.core.doMain.basic.*;
-import com.core.doMain.file.FileResource;
-import com.core.utils.StreamUtils;
+import com.basic.api.domain.MenuInfo;
+import com.basic.api.domain.RoleInfo;
+import com.basic.api.domain.UserDetailInfo;
+import com.basic.api.domain.UserInfo;
+import com.core.domain.Build;
+import com.core.domain.Result;
+import com.core.domain.Row;
+import com.core.domain.TableInfo;
+import com.database.domain.PageEntity;
 import com.file.api.RemoteFileService;
 import com.github.pagehelper.Page;
-import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.SysUserAddVo;
-import com.service.basic.doMain.vo.SysUserDetailVo;
-import com.service.basic.doMain.vo.SysUserListVo;
+import com.service.basic.domain.*;
+import com.service.basic.domain.dto.*;
+import com.service.basic.domain.vo.SysUserAddVo;
+import com.service.basic.domain.vo.SysUserDetailVo;
+import com.service.basic.domain.vo.SysUserListVo;
 import com.service.basic.mapper.SysUserMapper;
 import com.service.basic.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +28,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 用户ServiceImpl
@@ -68,9 +72,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Page<Object> page = PageEntity.build(dto);
         List<SysUser> list = list();
         List<SysUserListVo> voList = BeanUtil.copyToList(list, SysUserListVo.class);
-        Row<List<FileResource>> fileList = remoteFileService.toList();
-        Thread.sleep(3000);
-        return Build.table(page,voList);
+        return Build.table(voList,page.getTotal());
     }
 
 
@@ -93,7 +95,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 新增
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @Override
     public Row<SysUserAddVo> toAdd(SysUserAddDto dto) {
@@ -129,82 +131,76 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 修改
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @Override
-    public AjaxResult toEdit(SysUserEditDto dto) {
+    public Result toEdit(SysUserEditDto dto) {
         if(BeanUtil.isEmpty(getById(dto.getUserId()))){
             throw new RuntimeException("数据不存在");
         }
         SysUser pojo = BeanUtil.toBean(dto, SysUser.class);
         boolean update = updateById(pojo);
-        return Build.ajax(update);
+        return Build.result(update);
     }
 
 
     /**
      * 删除
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @Override
-    public AjaxResult toDelete(SysUserDeleteDto dto) {
+    public Result toDelete(SysUserDeleteDto dto) {
         String id = dto.getUserId();
         if(BeanUtil.isEmpty(getById(id))){
             throw new RuntimeException("数据不存在");
         }
         boolean remove = removeById(id);
-        return Build.ajax(remove);
+        return Build.result(remove);
     }
 
 
     /**
      * 获取用户详细信息及权限信息
+     *
      * @param user 数据对象
      * @return Row
      */
     @Override
-    public Row<UserInfo> getUserInfo(SysUser user) {
-        log.info("---执行---");
-        UserInfo userInfo = new UserInfo();
-        // 获取用户信息
-        String userCode = user.getUserCode();
-        if(BeanUtil.isEmpty(user) || StrUtil.isEmpty(userCode)){
-            return Build.row(false);
-        }
-        SysUser sysUser = getOne(new LambdaQueryWrapper<SysUser>()
+    public Row<UserDetailInfo> getUserInfo(String userCode) {
+        UserDetailInfo info = new UserDetailInfo();
+        SysUser user = getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUserCode,userCode)
         );
-        userInfo.setUser(sysUser);
+        UserInfo userInfo = BeanUtil.toBean(user, UserInfo.class);
+        info.setUserInfo(userInfo);
         // 获取该用户角色信息
         List<SysUserRole> userRoleList = sysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>()
-                .eq(SysUserRole::getUserId, sysUser.getUserId())
+                .eq(SysUserRole::getUserId, user.getUserId())
         );
         if(CollUtil.isNotEmpty(userRoleList)){
-            List<String> roleIdList = StreamUtils.mapToList(userRoleList, SysUserRole::getRoleId);
+            Set<String> roleIdSet = userRoleList.stream().map(SysUserRole::getRoleId).collect(Collectors.toSet());
             List<SysRole> roleList = sysRoleService.list(new LambdaQueryWrapper<SysRole>()
-                    .in(SysRole::getRoleId, roleIdList)
+                    .in(SysRole::getRoleId, roleIdSet)
             );
-            userInfo.setRoleSet(new HashSet<>(roleList));
+            Set<RoleInfo> roleInfoSet = roleList.stream().map(role -> BeanUtil.toBean(role, RoleInfo.class)).collect(Collectors.toSet());
+            info.setRoleInfoSet(roleInfoSet);
             // 获取该用用户菜单权限信息
             List<SysRoleMenu> roleMenuList = sysRoleMenuService.list(new LambdaQueryWrapper<SysRoleMenu>()
-                    .in(SysRoleMenu::getRoleId, roleIdList)
+                    .in(SysRoleMenu::getRoleId, roleIdSet)
             );
             if(CollUtil.isNotEmpty(roleMenuList)){
-                List<String> menuIdList = StreamUtils.mapToList(roleMenuList, SysRoleMenu::getMenuId);
+                Set<String> menuIdSet = roleMenuList.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toSet());
                 List<SysMenu> menuList = sysMenuService.list(new LambdaQueryWrapper<SysMenu>()
-                        .in(SysMenu::getMenuId, menuIdList)
+                        .in(SysMenu::getMenuId, menuIdSet)
                 );
                 if(CollUtil.isNotEmpty(menuList)){
-                    Set<String> moduleIdSet = StreamUtils.mapToSet(menuList, SysMenu::getModuleId);
-                    List<SysModule> moduleList = sysModuleService.list(new LambdaQueryWrapper<SysModule>()
-                            .in(SysModule::getModuleId, moduleIdSet)
-                    );
-                    userInfo.setModuleSet(new HashSet<>(moduleList));
+                    Set<MenuInfo> menuInfoSet = menuList.stream().map(menu -> BeanUtil.toBean(menu, MenuInfo.class)).collect(Collectors.toSet());
+                    info.setMenuInfoSet(menuInfoSet);
                 }
             }
         }
-        return Build.row(userInfo);
+        return Build.row(info);
     }
 
 
@@ -214,10 +210,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return Boolean
      */
     @Override
-    public AjaxResult checkUser(SysUser user) {
+    public Result checkUser(String userCode) {
         long count = count(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getUserCode, user.getUserCode())
+                .eq(SysUser::getUserCode, userCode)
         );
-        return Build.ajax(count == 1);
+        return Build.result(count == 1);
     }
 }

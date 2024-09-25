@@ -1,11 +1,11 @@
 package com.service.file.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.core.doMain.Row;
-import com.core.doMain.file.DownLoadForm;
-import com.core.doMain.file.FileResource;
-import com.core.doMain.file.MultipleFileUploadForm;
-import com.core.doMain.file.SingleFileUploadForm;
+import com.core.domain.Row;
+import com.service.file.domain.DownLoadForm;
+import com.service.file.domain.FileResource;
+import com.service.file.domain.MultipleFileUploadForm;
+import com.service.file.domain.SingleFileUploadForm;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;

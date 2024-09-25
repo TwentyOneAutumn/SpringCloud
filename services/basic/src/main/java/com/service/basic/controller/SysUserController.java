@@ -1,15 +1,15 @@
 package com.service.basic.controller;
 
-import com.basic.api.doMain.UserInfo;
-import com.core.doMain.AjaxResult;
-import com.core.doMain.Row;
-import com.core.doMain.TableInfo;
-import com.core.doMain.basic.SysUser;
+import com.basic.api.domain.UserDetailInfo;
+import com.basic.api.domain.dto.UserCodeDto;
+import com.core.domain.Result;
+import com.core.domain.Row;
+import com.core.domain.TableInfo;
 import com.file.api.RemoteFileService;
-import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.SysUserAddVo;
-import com.service.basic.doMain.vo.SysUserDetailVo;
-import com.service.basic.doMain.vo.SysUserListVo;
+import com.service.basic.domain.dto.*;
+import com.service.basic.domain.vo.SysUserAddVo;
+import com.service.basic.domain.vo.SysUserDetailVo;
+import com.service.basic.domain.vo.SysUserListVo;
 import com.service.basic.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class SysUserController {
     /**
      * 新增
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @PostMapping("/add")
     public Row<SysUserAddVo> toAdd(@Valid @RequestBody SysUserAddDto dto){
@@ -67,10 +67,10 @@ public class SysUserController {
     /**
      * 修改
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @PutMapping("/edit")
-    public AjaxResult toEdit(@Valid @RequestBody SysUserEditDto dto){
+    public Result toEdit(@Valid @RequestBody SysUserEditDto dto){
         return sysUserService.toEdit(dto);
     }
 
@@ -78,10 +78,10 @@ public class SysUserController {
     /**
      * 删除
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @DeleteMapping("/delete")
-    public AjaxResult toDelete(@Valid @RequestBody SysUserDeleteDto dto){
+    public Result toDelete(@Valid @RequestBody SysUserDeleteDto dto){
         return sysUserService.toDelete(dto);
     }
 
@@ -92,18 +92,18 @@ public class SysUserController {
      * @return Row
      */
     @PostMapping("/info")
-    Row<UserInfo> getUserInfo(@RequestBody SysUser user){
-        return sysUserService.getUserInfo(user);
+    Row<UserDetailInfo> getUserInfo(@RequestBody UserCodeDto dto){
+        return sysUserService.getUserInfo(dto.getUserCode());
     }
 
 
     /**
      * 判断当前用户是否存在
-     * @param user 数据对象
+     * @param dto 数据对象
      * @return Boolean
      */
     @PostMapping("/check")
-    AjaxResult checkUser(@RequestBody SysUser user){
-        return sysUserService.checkUser(user);
+    Result checkUser(@RequestBody UserCodeDto dto){
+        return sysUserService.checkUser(dto.getUserCode());
     }
 }

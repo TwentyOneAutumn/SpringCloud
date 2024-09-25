@@ -3,12 +3,13 @@ package com.service.basic.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.core.doMain.*;
-import com.core.doMain.basic.SysMenu;
+import com.core.domain.*;
+import com.database.domain.PageEntity;
+import com.service.basic.domain.SysMenu;
 import com.github.pagehelper.Page;
-import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.SysMenuDetailVo;
-import com.service.basic.doMain.vo.SysMenuListVo;
+import com.service.basic.domain.dto.*;
+import com.service.basic.domain.vo.SysMenuDetailVo;
+import com.service.basic.domain.vo.SysMenuListVo;
 import com.service.basic.mapper.SysMenuMapper;
 import com.service.basic.service.ISysMenuService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenu> list = list(new LambdaQueryWrapper<SysMenu>());
         List<SysMenuListVo> voList = BeanUtil.copyToList(list, SysMenuListVo.class);
         log.info(voList.toString());
-        return Build.table(page,voList);
+        return Build.table(voList,page.getTotal());
     }
 
 
@@ -63,44 +64,44 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     /**
      * 新增
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @Override
-    public AjaxResult toAdd(SysMenuAddDto dto) {
+    public Result toAdd(SysMenuAddDto dto) {
         SysMenu pojo = BeanUtil.toBean(dto, SysMenu.class);
         boolean save = save(pojo);
-        return Build.ajax(save);
+        return Build.result(save);
     }
 
 
     /**
      * 修改
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @Override
-    public AjaxResult toEdit(SysMenuEditDto dto) {
+    public Result toEdit(SysMenuEditDto dto) {
         if(BeanUtil.isEmpty(getById(dto.getMenuId()))){
             throw new RuntimeException("数据不存在");
         }
         SysMenu pojo = BeanUtil.toBean(dto, SysMenu.class);
         boolean update = updateById(pojo);
-        return Build.ajax(update);
+        return Build.result(update);
     }
 
 
     /**
      * 删除
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @Override
-    public AjaxResult toDelete(SysMenuDeleteDto dto) {
+    public Result toDelete(SysMenuDeleteDto dto) {
         String id = dto.getMenuId();
         if(BeanUtil.isEmpty(getById(id))){
             throw new RuntimeException("数据不存在");
         }
         boolean remove = removeById(id);
-        return Build.ajax(remove);
+        return Build.result(remove);
     }
 }

@@ -1,20 +1,19 @@
 package com.file.api;
 
-import com.core.doMain.Row;
-import com.core.doMain.file.FileResource;
-import com.core.doMain.file.MultipleFileUploadForm;
-import com.core.doMain.file.SingleFileUploadForm;
-import com.core.enums.ServiceName;
+import com.core.domain.Row;
+import com.core.enums.ServiceInfo;
+import com.file.api.domain.FileInfo;
+import com.file.api.domain.MultipleFileInfo;
+import com.file.api.domain.SingleFileInfo;
 import com.file.api.factory.FileFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(contextId = "RemoteFileService",value = ServiceName.FILE,path = "file",fallbackFactory = FileFallbackFactory.class)
+@FeignClient(contextId = "RemoteFileService",value = ServiceInfo.FILE,path = ServiceInfo.FILE_PATH,fallbackFactory = FileFallbackFactory.class)
 public interface RemoteFileService {
 
     /**
@@ -23,7 +22,7 @@ public interface RemoteFileService {
      * @return Row
      */
     @PostMapping("/upload")
-    Row<FileResource> upload(@Valid @ModelAttribute SingleFileUploadForm singleFileUploadForm);
+    Row<FileInfo> upload(@Valid @ModelAttribute SingleFileInfo info);
 
     /**
      * 上传多文件
@@ -31,8 +30,5 @@ public interface RemoteFileService {
      * @return Row
      */
     @PostMapping("/uploads")
-    Row<List<FileResource>> uploads(@Valid @ModelAttribute MultipleFileUploadForm multipleFileUploadForm);
-
-    @GetMapping("/list")
-    Row<List<FileResource>> toList();
+    Row<List<FileInfo>> uploads(@Valid @ModelAttribute MultipleFileInfo info);
 }

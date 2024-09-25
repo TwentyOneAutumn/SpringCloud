@@ -3,7 +3,7 @@ server:
   servlet:
     context-path: /websocket
 spring:
-  profiles:
-    active: dev
   application:
-    name: websocket # 服务名称
+    name: websocket
+  redis:
+    host: 10.211.55.12

@@ -1,3 +1,22 @@
 spring:
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
   application:
     name: basic
+  cloud:
+    nacos:
+      discovery:
+        namespace: 1
+        server-addr: 10.211.55.12:8848
+      config:
+        server-addr: 10.211.55.12:8848
+        file-extension: yaml
+        namespace: 1
+        extension-configs:
+          - dataId: basic
+            refresh: true
+          - dataId: file
+            refresh: true
+          - dataId: websocket
+            refresh: true

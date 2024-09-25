@@ -1,8 +1,6 @@
 package com.security.config;
 
 import cn.hutool.core.collection.CollUtil;
-import com.core.utils.StrUtils;
-import com.security.authentication.beans.ThreadCache;
 import com.security.enums.RedisTokenKey;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -10,15 +8,12 @@ import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.token.store.redis.JdkSerializationStrategy;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStoreSerializationStrategy;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -65,16 +60,8 @@ public class CustomRedisTokenStore extends RedisTokenStore {
      * @param authentication 身份信息对象
      */
     private void removeAccessTokenByUserName(OAuth2Authentication authentication) {
-        Map<String, String> map = new LinkedHashMap<>();
-        OAuth2Request oAuth2Request = authentication.getOAuth2Request();
         String userName = authentication.getName();
-        Map<String,String> cacheMap = ThreadCache.getCache(Map.class);
-        String ip = cacheMap.get("ip");
-        String clientId = oAuth2Request.getClientId();
-        map.put(RedisTokenKey.USER_NAME,userName);
-        map.put(RedisTokenKey.CLIENT_ID,clientId);
-        map.put(RedisTokenKey.IP,ip);
-        String patternKey = StrUtils.join(map,":","#");
+        String patternKey = RedisTokenKey.USER_NAME + "#" + userName;
         // 通过键的前缀匹配，找到所有与用户名相关的访问令牌
         byte[] pattern = strategy.serialize(patternKey);
         Set<byte[]> keysToDelete = new HashSet<>();

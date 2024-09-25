@@ -1,10 +1,10 @@
 package com.service.basic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.core.doMain.*;
-import com.core.doMain.basic.SysMenu;
-import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.*;
+import com.core.domain.*;
+import com.service.basic.domain.SysMenu;
+import com.service.basic.domain.dto.*;
+import com.service.basic.domain.vo.*;
 
 /**
  * 菜单Service
@@ -31,23 +31,23 @@ public interface ISysMenuService extends IService<SysMenu> {
     /**
      * 新增
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
-    AjaxResult toAdd(SysMenuAddDto dto);
+    Result toAdd(SysMenuAddDto dto);
 
 
     /**
      * 修改
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
-    AjaxResult toEdit(SysMenuEditDto dto);
+    Result toEdit(SysMenuEditDto dto);
 
 
     /**
      * 删除
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
-    AjaxResult toDelete(SysMenuDeleteDto dto);
+    Result toDelete(SysMenuDeleteDto dto);
 }

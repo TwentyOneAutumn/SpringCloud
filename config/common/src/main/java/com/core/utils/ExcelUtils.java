@@ -7,10 +7,10 @@ import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import cn.hutool.poi.excel.StyleSet;
-import com.core.interfaces.ExcelDateFormat;
-import com.core.interfaces.ExcelWidth;
-import com.core.interfaces.Export;
-import com.core.interfaces.Import;
+import com.core.interfaces.excel.ExcelDateFormat;
+import com.core.interfaces.excel.ExcelWidth;
+import com.core.interfaces.excel.Export;
+import com.core.interfaces.excel.Import;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.springframework.web.multipart.MultipartFile;
@@ -136,7 +136,7 @@ public class ExcelUtils {
      * @param clazz 要导入的数据对象Class
      * @param <E> 泛型
      */
-    public static <E> void export(HttpServletResponse response,String fileName, String sheetName, List<E> list, Class<E> clazz){
+    public static <E> void export(HttpServletResponse response, String fileName, String sheetName, List<E> list, Class<E> clazz){
         // 创建writer
         ExcelWriter writer = new ExcelWriter(true,sheetName);
         // 设置响应信息

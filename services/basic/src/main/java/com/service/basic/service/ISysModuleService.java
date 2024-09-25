@@ -1,13 +1,13 @@
 package com.service.basic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.core.doMain.AjaxResult;
-import com.core.doMain.Row;
-import com.core.doMain.basic.SysModule;
-import com.core.doMain.TableInfo;
-import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.SysModuleDetailVo;
-import com.service.basic.doMain.vo.SysModuleListVo;
+import com.core.domain.Result;
+import com.core.domain.Row;
+import com.service.basic.domain.SysModule;
+import com.core.domain.TableInfo;
+import com.service.basic.domain.dto.*;
+import com.service.basic.domain.vo.SysModuleDetailVo;
+import com.service.basic.domain.vo.SysModuleListVo;
 
 /**
  * 菜单Service
@@ -34,23 +34,23 @@ public interface ISysModuleService extends IService<SysModule> {
     /**
      * 新增
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
-    AjaxResult toAdd(SysModuleAddDto dto);
+    Result toAdd(SysModuleAddDto dto);
 
 
     /**
      * 修改
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
-    AjaxResult toEdit(SysModuleEditDto dto);
+    Result toEdit(SysModuleEditDto dto);
 
 
     /**
      * 删除
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
-    AjaxResult toDelete(SysModuleDeleteDto dto);
+    Result toDelete(SysModuleDeleteDto dto);
 }

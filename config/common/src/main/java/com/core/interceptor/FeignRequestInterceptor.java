@@ -14,9 +14,6 @@ public class FeignRequestInterceptor implements RequestInterceptor {
      */
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        // 添加服务名请求头
-        requestTemplate.header("FeignRequestService",requestTemplate.feignTarget().name());
-        // 添加url请求头
-        requestTemplate.header("FeignRequestUrl",requestTemplate.url());
+        // 进行增强处理
     }
 }

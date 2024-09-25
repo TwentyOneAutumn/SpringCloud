@@ -1,8 +1,8 @@
 package com.service.basic.controller;
 
-import com.core.doMain.*;
-import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.*;
+import com.core.domain.*;
+import com.service.basic.domain.dto.*;
+import com.service.basic.domain.vo.*;
 import com.service.basic.service.ISysRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +46,10 @@ public class SysRoleController {
     /**
      * 新增
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @PostMapping("/add")
-    public AjaxResult toAdd(@Valid @RequestBody SysRoleAddDto dto){
+    public Result toAdd(@Valid @RequestBody SysRoleAddDto dto){
         return sysRoleService.toAdd(dto);
     }
 
@@ -57,10 +57,10 @@ public class SysRoleController {
     /**
      * 修改
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @PutMapping("/edit")
-    public AjaxResult toEdit(@Valid @RequestBody SysRoleEditDto dto){
+    public Result toEdit(@Valid @RequestBody SysRoleEditDto dto){
         return sysRoleService.toEdit(dto);
     }
 
@@ -68,10 +68,10 @@ public class SysRoleController {
     /**
      * 删除
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @DeleteMapping("/delete")
-    public AjaxResult toDelete(@Valid @RequestBody SysRoleDeleteDto dto){
+    public Result toDelete(@Valid @RequestBody SysRoleDeleteDto dto){
         return sysRoleService.toDelete(dto);
     }
 }

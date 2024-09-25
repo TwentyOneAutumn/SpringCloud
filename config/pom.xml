@@ -25,5 +25,6 @@
         <module>database</module>
         <module>seata</module>
         <module>security</module>
+        <module>redis-config</module>
     </modules>
 </project>

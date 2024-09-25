@@ -1,11 +1,11 @@
 package com.service.file.controller;
 
-import com.core.doMain.Build;
-import com.core.doMain.Row;
-import com.core.doMain.file.DownLoadForm;
-import com.core.doMain.file.FileResource;
-import com.core.doMain.file.MultipleFileUploadForm;
-import com.core.doMain.file.SingleFileUploadForm;
+import com.core.domain.Build;
+import com.core.domain.Row;
+import com.service.file.domain.DownLoadForm;
+import com.service.file.domain.FileResource;
+import com.service.file.domain.MultipleFileUploadForm;
+import com.service.file.domain.SingleFileUploadForm;
 import com.service.file.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

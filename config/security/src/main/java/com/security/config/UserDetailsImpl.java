@@ -1,16 +1,16 @@
 package com.security.config;
 
 import cn.hutool.core.collection.CollUtil;
-import com.basic.api.doMain.UserInfo;
-import com.core.doMain.basic.SysModule;
-import com.core.doMain.basic.SysRole;
-import com.core.doMain.basic.SysUser;
-import com.core.utils.StreamUtils;
+import com.basic.api.domain.MenuInfo;
+import com.basic.api.domain.RoleInfo;
+import com.basic.api.domain.UserDetailInfo;
+import com.basic.api.domain.UserInfo;
 import lombok.Data;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 重写UserDetails
@@ -21,25 +21,25 @@ public class UserDetailsImpl implements UserDetails {
     /**
      * 用户信息
      */
-    SysUser user;
+    UserInfo userInfo;
 
 
     /**
      * 用户角色信息
      */
-    Set<SysRole> roleSet;
+    Set<RoleInfo> roleInfoSet;
 
 
     /**
      * 用户访问菜单信息
      */
-    Set<SysModule> moduleSet;
+    Set<MenuInfo> menuInfoSet;
 
 
-    private UserDetailsImpl(UserInfo userInfo){
-        this.user = userInfo.getUser();
-        this.roleSet = userInfo.getRoleSet();
-        this.moduleSet = userInfo.getModuleSet();
+    private UserDetailsImpl(UserDetailInfo info){
+        this.userInfo = info.getUserInfo();
+        this.roleInfoSet = info.getRoleInfoSet();
+        this.menuInfoSet = info.getMenuInfoSet();
     }
 
 
@@ -48,8 +48,8 @@ public class UserDetailsImpl implements UserDetails {
      * @param userInfo 数据对象
      * @return SecurityUserDetails
      */
-    public static UserDetailsImpl build(UserInfo userInfo){
-        return new UserDetailsImpl(userInfo);
+    public static UserDetailsImpl build(UserDetailInfo info){
+        return new UserDetailsImpl(info);
     }
 
 
@@ -59,9 +59,8 @@ public class UserDetailsImpl implements UserDetails {
      */
     @Override
     public Set<SecurityAuthority> getAuthorities() {
-        Set<SysRole> roleList = this.roleSet;
-        if(CollUtil.isNotEmpty(roleList)){
-            return StreamUtils.mapToSet(roleList,role -> SecurityAuthority.build(role.getRoleValue()));
+        if(CollUtil.isNotEmpty(roleInfoSet)){
+            return roleInfoSet.stream().map(role -> SecurityAuthority.build(role.getRoleValue())).collect(Collectors.toSet());
         }else {
             return new HashSet<SecurityAuthority>();
         }
@@ -74,7 +73,7 @@ public class UserDetailsImpl implements UserDetails {
      */
     @Override
     public String getPassword() {
-        return this.user.getPassword();
+        return userInfo.getPassword();
     }
 
 
@@ -84,7 +83,7 @@ public class UserDetailsImpl implements UserDetails {
      */
     @Override
     public String getUsername() {
-        return this.user.getUserName();
+        return userInfo.getUserName();
     }
 
 

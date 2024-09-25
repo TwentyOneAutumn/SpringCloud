@@ -1,7 +1,7 @@
 package com.security.utils;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.core.doMain.basic.SysUser;
+import com.basic.api.domain.UserInfo;
 import com.security.config.UserDetailsImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,11 +23,11 @@ public class SecurityUtils {
      * 从上下文中获取当前用户对象
      * @return 用户对象，如果上下文中没有填充用户信息则返回Null
      */
-    public static SysUser getUser(){
+    public static UserInfo getUser(){
         Object principal = getAuthentication().getPrincipal();
         if(BeanUtil.isNotEmpty(principal) && principal instanceof UserDetailsImpl){
             UserDetailsImpl userDetails = (UserDetailsImpl) principal;
-            return userDetails.getUser();
+            return userDetails.getUserInfo();
         }else {
             throw new IllegalStateException("获取用户信息异常");
         }

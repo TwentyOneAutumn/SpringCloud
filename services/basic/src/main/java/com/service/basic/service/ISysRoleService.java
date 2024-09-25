@@ -1,10 +1,10 @@
 package com.service.basic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.core.doMain.*;
-import com.core.doMain.basic.SysRole;
-import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.*;
+import com.core.domain.*;
+import com.service.basic.domain.SysRole;
+import com.service.basic.domain.dto.*;
+import com.service.basic.domain.vo.*;
 
 public interface ISysRoleService extends IService<SysRole> {
 
@@ -28,23 +28,23 @@ public interface ISysRoleService extends IService<SysRole> {
     /**
      * 新增
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
-    AjaxResult toAdd(SysRoleAddDto dto);
+    Result toAdd(SysRoleAddDto dto);
 
 
     /**
      * 修改
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
-    AjaxResult toEdit(SysRoleEditDto dto);
+    Result toEdit(SysRoleEditDto dto);
 
 
     /**
      * 删除
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
-    AjaxResult toDelete(SysRoleDeleteDto dto);
+    Result toDelete(SysRoleDeleteDto dto);
 }

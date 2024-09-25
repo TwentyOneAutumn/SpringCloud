@@ -50,24 +50,11 @@
             <!-- 默认同一文件夹下最多7个文件 -->
             <DefaultRolloverStrategy max="7"/>
         </RollingFile>
-
-        <!-- Logstash日志收集 -->
-        <Socket name="LogstashSocket" host="10.211.55.12" port="6399" protocol="TCP">
-            <!-- 设置日志格式 -->
-            <JsonLayout compact="true" eventEol="true" />
-        </Socket>
-
-        <!-- Skywalking日志收集 -->
-        <GRPCLogClientAppender name="GRPC-LOG">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </GRPCLogClientAppender>
     </Appenders>
 
     <Loggers>
         <Root level="INFO">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="LogstashSocket"/>
-            <AppenderRef ref="GRPC-LOG"/>
         </Root>
     </Loggers>
 </configuration>

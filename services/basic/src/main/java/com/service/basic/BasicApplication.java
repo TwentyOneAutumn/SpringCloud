@@ -8,9 +8,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
-//@EnableScheduling
-//@EnableAuthenticationPostProcessor
-//@EnableMultiDataSource
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @EnableTransactionManagement

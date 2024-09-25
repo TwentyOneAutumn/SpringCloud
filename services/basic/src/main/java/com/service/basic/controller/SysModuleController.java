@@ -1,11 +1,11 @@
 package com.service.basic.controller;
 
-import com.core.doMain.AjaxResult;
-import com.core.doMain.Row;
-import com.core.doMain.TableInfo;
-import com.service.basic.doMain.dto.*;
-import com.service.basic.doMain.vo.SysModuleDetailVo;
-import com.service.basic.doMain.vo.SysModuleListVo;
+import com.core.domain.Result;
+import com.core.domain.Row;
+import com.core.domain.TableInfo;
+import com.service.basic.domain.dto.*;
+import com.service.basic.domain.vo.SysModuleDetailVo;
+import com.service.basic.domain.vo.SysModuleListVo;
 import com.service.basic.service.ISysModuleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,10 +50,10 @@ public class SysModuleController {
     /**
      * 新增
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @PostMapping("/add")
-    public AjaxResult toAdd(@Valid @RequestBody SysModuleAddDto dto){
+    public Result toAdd(@Valid @RequestBody SysModuleAddDto dto){
         return sysModuleService.toAdd(dto);
     }
 
@@ -61,10 +61,10 @@ public class SysModuleController {
     /**
      * 修改
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @PutMapping("/edit")
-    public AjaxResult toEdit(@Valid @RequestBody SysModuleEditDto dto){
+    public Result toEdit(@Valid @RequestBody SysModuleEditDto dto){
         return sysModuleService.toEdit(dto);
     }
 
@@ -72,10 +72,10 @@ public class SysModuleController {
     /**
      * 删除
      * @param dto 数据对象
-     * @return AjaxResult
+     * @return Result
      */
     @DeleteMapping("/delete")
-    public AjaxResult toDelete(@Valid @RequestBody SysModuleDeleteDto dto){
+    public Result toDelete(@Valid @RequestBody SysModuleDeleteDto dto){
         return sysModuleService.toDelete(dto);
     }
 }
