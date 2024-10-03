@@ -1,10 +1,12 @@
 package com.file.api;
 
+import com.core.domain.Result;
 import com.core.domain.Row;
 import com.core.enums.ServiceInfo;
 import com.file.api.domain.FileInfo;
 import com.file.api.domain.MultipleFileInfo;
 import com.file.api.domain.SingleFileInfo;
+import com.file.api.domain.Test;
 import com.file.api.factory.FileFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,4 +33,7 @@ public interface RemoteFileService {
      */
     @PostMapping("/uploads")
     Row<List<FileInfo>> uploads(@Valid @ModelAttribute MultipleFileInfo info);
+
+    @PostMapping("/test")
+    Result toTest(Test test);
 }

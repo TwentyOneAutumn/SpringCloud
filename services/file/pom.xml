@@ -18,6 +18,12 @@
 	<description>文件服务模块</description>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.config</groupId>
+			<artifactId>nacos</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<!-- 公共模块 -->
 		<dependency>
 			<groupId>com.common</groupId>
@@ -68,6 +74,12 @@
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>
 			<version>3.11.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.file.api</groupId>
+			<artifactId>file-api</artifactId>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 

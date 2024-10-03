@@ -18,6 +18,11 @@
     <description>基础服务模块</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.config</groupId>
+            <artifactId>nacos</artifactId>
+            <version>1.0</version>
+        </dependency>
 
         <!-- 公共模块 -->
         <dependency>

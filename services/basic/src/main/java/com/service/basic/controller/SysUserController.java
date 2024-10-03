@@ -2,10 +2,12 @@ package com.service.basic.controller;
 
 import com.basic.api.domain.UserDetailInfo;
 import com.basic.api.domain.dto.UserCodeDto;
+import com.core.domain.Build;
 import com.core.domain.Result;
 import com.core.domain.Row;
 import com.core.domain.TableInfo;
 import com.file.api.RemoteFileService;
+import com.file.api.domain.Test;
 import com.service.basic.domain.dto.*;
 import com.service.basic.domain.vo.SysUserAddVo;
 import com.service.basic.domain.vo.SysUserDetailVo;
@@ -105,5 +107,13 @@ public class SysUserController {
     @PostMapping("/check")
     Result checkUser(@RequestBody UserCodeDto dto){
         return sysUserService.checkUser(dto.getUserCode());
+    }
+
+    @GetMapping("/test")
+    public Result toTest(){
+        Test test = new Test();
+        test.setMsg("1231231231231");
+        Result test1 = remoteFileService.toTest(test);
+        return Build.result(true);
     }
 }

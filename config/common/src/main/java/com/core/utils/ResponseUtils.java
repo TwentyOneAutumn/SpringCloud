@@ -22,7 +22,7 @@ public class ResponseUtils {
         // 设置编码格式
         response.setCharacterEncoding("UTF-8");
         // 设置响应格式
-        response.setHeader("Content-Type","application/json");
+        response.setHeader("Content-Type","app/json");
         response.getWriter().write(new JSONObject(obj).toString());
     }
 }

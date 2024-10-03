@@ -19,6 +19,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.config</groupId>
+            <artifactId>nacos</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
@@ -38,7 +44,7 @@
 
         <dependency>
             <groupId>com.config</groupId>
-            <artifactId>redis-config</artifactId>
+            <artifactId>redis</artifactId>
             <version>1.0</version>
         </dependency>
 

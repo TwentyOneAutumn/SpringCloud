@@ -1,0 +1,15 @@
+server:
+  port: 8803
+spring:
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+  application:
+    name: app
+  cloud:
+    nacos:
+      discovery:
+        namespace: 1
+        server-addr: 10.211.55.12:8848
+  redis:
+    host: 10.211.55.12

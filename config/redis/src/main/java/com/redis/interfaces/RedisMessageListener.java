@@ -21,6 +21,7 @@ public class RedisMessageListener {
      * 获取监听器
      */
     public MessageListenerAdapter getListener(){
+        listener.afterPropertiesSet();
         return listener;
     }
 

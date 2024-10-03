@@ -99,6 +99,7 @@ public class RedisConfig {
             listeners.forEach(listener -> {
                 // 添加消息监听器和频道
                 container.addMessageListener(listener.getListener(), listener.getTopic());
+                container.afterPropertiesSet();
             });
         }
         return container;

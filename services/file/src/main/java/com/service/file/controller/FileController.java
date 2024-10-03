@@ -1,7 +1,9 @@
 package com.service.file.controller;
 
 import com.core.domain.Build;
+import com.core.domain.Result;
 import com.core.domain.Row;
+import com.file.api.domain.Test;
 import com.service.file.domain.DownLoadForm;
 import com.service.file.domain.FileResource;
 import com.service.file.domain.MultipleFileUploadForm;
@@ -59,5 +61,11 @@ public class FileController {
     @GetMapping("/list")
     public Row<List<FileResource>> toList(){
         return Build.row(fileService.list());
+    }
+
+    @PostMapping("/test")
+    public Result toTest(@RequestBody Test test){
+        System.out.println(test);
+        return Build.result(true);
     }
 }

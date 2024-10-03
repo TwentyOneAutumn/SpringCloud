@@ -12,5 +12,6 @@ public class PermitUrl {
             "/user/test",
             "/log/send",
             "/log/receive",
+            "/test"
     };
 }

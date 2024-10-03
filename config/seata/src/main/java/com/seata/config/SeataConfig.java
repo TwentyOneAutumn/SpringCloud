@@ -10,7 +10,7 @@ import org.springframework.core.annotation.Order;
 @Configuration
 public class SeataConfig {
 
-    @Value("${spring.application.name}")
+    @Value("${spring.app.name}")
     private String applicationName;
 
     @Value("${seata.tx-service-group}")

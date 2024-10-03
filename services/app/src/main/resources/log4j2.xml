@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN" monitorInterval="30">
+    <!--  先定义项目名称  -->
+    <Properties>
+        <Property name="ServiceName">App</Property>
+    </Properties>
+
+    <!-- 先定义所有的appender(附加器)-->
+    <Appenders>
+        <!-- 输出控制台Log配置 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <Filters>
+                <!-- 设置日志级别,级别以下的日志将不会被输出 -->
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <!-- 设置日志格式 -->
+            <PatternLayout pattern="[%p] %l:%m%n "/>
+        </Console>
+
+        <!-- Info日志输入Log文件配置 -->
+        <!-- fileName:文件的路径, [./]表示当前项目跟目录 -->
+        <!-- filePattern:滚动后文件的路径 -->
+        <RollingFile name="RollingInfoFile" fileName="./logs/${ServiceName}/info/${date:yyyy-MM-dd}/${ServiceName}-info.log" filePattern="./logs/${ServiceName}/info/${date:yyyy-MM-dd}/${ServiceName}-info.log">
+            <Filters>
+                <!-- 设置日志级别,级别以下的日志将不会被输出 -->
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <!-- 设置日志格式 -->
+            <PatternLayout pattern="%d %p %c{1.} [%t] %m%n"/>
+            <Policies>
+                <!-- 根据文件大小进行滚动 -->
+                <SizeBasedTriggeringPolicy size="5MB"/>
+            </Policies>
+            <!-- 默认同一文件夹下最多7个文件 -->
+            <DefaultRolloverStrategy max="7"/>
+        </RollingFile>
+
+        <!-- Error日志输入Log文件配置 -->
+        <RollingFile name="RollingErrorFile" fileName="./logs/${ServiceName}/error/${date:yyyy-MM-dd}/${ServiceName}-error.log" filePattern="./logs/${ServiceName}/error/${date:yyyy-MM-dd}/${ServiceName}-error.log">
+            <Filters>
+                <!-- 设置日志级别,级别以下的日志将不会被输出 -->
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <!-- 设置日志格式 -->
+            <PatternLayout pattern="%d %p %c{1.} [%t] %m%n"/>
+            <Policies>
+                <!-- 根据文件大小进行滚动 -->
+                <SizeBasedTriggeringPolicy size="5MB"/>
+            </Policies>
+            <!-- 默认同一文件夹下最多7个文件 -->
+            <DefaultRolloverStrategy max="7"/>
+        </RollingFile>
+
+<!--        &lt;!&ndash; Logstash日志收集 &ndash;&gt;-->
+<!--        <Socket name="LogstashSocket" host="10.211.55.12" port="6399" protocol="TCP">-->
+<!--            &lt;!&ndash; 设置日志格式 &ndash;&gt;-->
+<!--            <JsonLayout compact="true" eventEol="true" />-->
+<!--        </Socket>-->
+
+<!--        &lt;!&ndash; Skywalking日志收集 &ndash;&gt;-->
+<!--        <GRPCLogClientAppender name="GRPC-LOG">-->
+<!--            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+<!--        </GRPCLogClientAppender>-->
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+<!--            <AppenderRef ref="LogstashSocket"/>-->
+<!--            <AppenderRef ref="GRPC-LOG"/>-->
+        </Root>
+    </Loggers>
+</configuration>

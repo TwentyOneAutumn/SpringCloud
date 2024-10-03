@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>redis-config</artifactId>
+    <artifactId>redis</artifactId>
     <description>模块包含了Redis相关配置</description>
 
     <dependencies>

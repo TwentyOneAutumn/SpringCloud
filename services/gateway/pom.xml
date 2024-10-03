@@ -21,6 +21,12 @@
     <description>gateway网关模块</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.config</groupId>
+            <artifactId>nacos</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!-- 配置模块 -->
         <dependency>
             <groupId>com.config.bootstrap</groupId>
@@ -79,7 +85,7 @@
         <!-- Redis所需依赖 -->
         <dependency>
             <groupId>com.config</groupId>
-            <artifactId>redis-config</artifactId>
+            <artifactId>redis</artifactId>
             <version>1.0</version>
         </dependency>
 
