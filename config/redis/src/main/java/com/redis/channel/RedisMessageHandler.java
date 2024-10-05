@@ -1,4 +1,4 @@
-package com.redis.interfaces;
+package com.redis.channel;
 
 /**
  * Redis消息处理器接口类

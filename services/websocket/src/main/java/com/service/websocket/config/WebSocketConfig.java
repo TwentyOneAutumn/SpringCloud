@@ -1,8 +1,8 @@
 package com.service.websocket.config;
 
-import com.redis.topic.RedisTopic;
-import com.redis.interfaces.RedisMessageHandler;
-import com.redis.interfaces.RedisMessageListener;
+import com.redis.channel.RedisTopic;
+import com.redis.channel.RedisMessageHandler;
+import com.redis.channel.RedisMessageListener;
 import com.service.websocket.redis.MessageInformHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

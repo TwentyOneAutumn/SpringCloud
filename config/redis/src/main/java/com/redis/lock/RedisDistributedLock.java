@@ -6,8 +6,9 @@ import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
-
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 
 public class RedisDistributedLock {
 
@@ -17,6 +18,11 @@ public class RedisDistributedLock {
      * 锁的名称
      */
     private final String lockKey;
+
+    /**
+     * 锁的名称
+     */
+    private final String lockId;
 
     /**
      * 锁过期时间
@@ -31,21 +37,62 @@ public class RedisDistributedLock {
      * @param lockExpireTime 锁过期时间 单位:秒
      *
      */
-    public RedisDistributedLock(RedisTemplate<String,Object> redisTemplate, String lockKey, long lockExpireTime) {
+    private RedisDistributedLock(RedisTemplate<String,Object> redisTemplate, String lockKey,String lockId, long lockExpireTime) {
         this.redisTemplate = redisTemplate;
         this.lockKey = lockKey;
+        this.lockId = lockId;
         this.lockExpireTime = lockExpireTime * 1000;
     }
 
     /**
+     * 构建锁对象
+     * @param redisTemplate redisTemplate
+     * @param lockKey 锁名称
+     * @param lockId 锁密匙
+     * @param lockExpireTime 锁过期时间
+     * @return RedisDistributedLock
+     */
+    public static RedisDistributedLock builder(RedisTemplate<String,Object> redisTemplate, String lockKey,String lockId, long lockExpireTime){
+        return new RedisDistributedLock(redisTemplate,lockKey,lockId,lockExpireTime);
+    }
+
+    /**
+     * 构建锁对象
+     * @param redisTemplate redisTemplate
+     * @param lockKey 锁名称
+     * @param lockExpireTime 锁过期时间
+     * @return RedisDistributedLock
+     */
+    public static RedisDistributedLock builder(RedisTemplate<String,Object> redisTemplate, String lockKey, long lockExpireTime){
+        return new RedisDistributedLock(redisTemplate,lockKey,UUID.randomUUID().toString(),lockExpireTime);
+    }
+
+    /**
+     * 构建锁对象
+     * @param redisTemplate redisTemplate
+     * @param lockKey 锁名称
+     * @param lockId 锁密匙
+     * @return RedisDistributedLock
+     */
+    public static RedisDistributedLock builder(RedisTemplate<String,Object> redisTemplate, String lockKey, String lockId){
+        return new RedisDistributedLock(redisTemplate,lockKey,lockId,60000);
+    }
+
+    /**
+     * 构建锁对象
+     * @param redisTemplate redisTemplate
+     * @param lockKey 锁名称
+     * @return RedisDistributedLock
+     */
+    public static RedisDistributedLock builder(RedisTemplate<String,Object> redisTemplate, String lockKey){
+        return new RedisDistributedLock(redisTemplate,lockKey,UUID.randomUUID().toString(),60000);
+    }
+
+    /**
      * 获取指定的锁
-     * @param lockId 持有锁的唯一表示
      * @return 是否获取到锁
      */
-    public boolean acquireLock(String lockId) {
-        if(StrUtil.isEmpty(lockId)){
-            throw new RuntimeException("锁ID不能为空");
-        }
+    public boolean acquireLock() {
         // 通过RedisCallback执行SET NX PX命令，确保原子操作
         // 使用Redis原生命令进行SET NX PX操作
         // 返回是否成功获取锁
@@ -66,14 +113,12 @@ public class RedisDistributedLock {
         }));
     }
 
+
     /**
      * 释放锁
      * 只有锁的持有者才能释放锁
      */
-    public boolean releaseLock(String lockId) {
-        if(StrUtil.isEmpty(lockKey) || StrUtil.isEmpty(lockId)){
-            throw new RuntimeException("锁的Key和Value不能为空");
-        }
+    public boolean releaseLock() {
         // 使用Lua脚本确保删除锁时的原子性
         String luaScript = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
         // 通过execute方法执行Lua脚本，确保只有锁的持有者可以释放锁

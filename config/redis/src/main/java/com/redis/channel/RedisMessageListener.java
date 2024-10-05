@@ -1,4 +1,4 @@
-package com.redis.interfaces;
+package com.redis.channel;
 
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;

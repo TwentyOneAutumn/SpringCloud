@@ -5,15 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.UUID;
+import org.springframework.data.redis.core.RedisTemplate;
 
 @Slf4j
 @SpringBootTest
 public class SpringBootApplicationTest {
 
     @Autowired
-    private RedisDistributedLock appLock;
+    private RedisTemplate<String,Object> redisTemplate;
+
 
     /**
      * 测试Redis分布式锁
@@ -23,67 +23,76 @@ public class SpringBootApplicationTest {
         // 线程1
         Thread thread1 = new Thread(() -> {
             int i = 0;
-            String lockId;
             while (i < 4) {
-                lockId = UUID.randomUUID().toString();
-                boolean isAcquireLock = appLock.acquireLock(lockId);
-                if (isAcquireLock) {
+                RedisDistributedLock lock = RedisDistributedLock.builder(redisTemplate, "test", 10000);
+                // 获取锁
+                if (lock.acquireLock()) {
                     i++;
                     log.info("线程1获取锁成功");
                     try {
+                        // 模拟执行业务代码...
                         Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
-                    }
-                    boolean isReleaseLock = appLock.releaseLock(lockId);
-                    if (isReleaseLock) {
-                        log.info("线程1释放锁成功");
+                    }finally {
+                        boolean  isReleaseLock = lock.releaseLock();
+                        if (isReleaseLock) {
+                            log.info("线程1释放锁成功");
+                        }else {
+                            log.info("线程1释放锁异常");
+                        }
                     }
                 }
             }
         });
 
-        // 线程2
+        // 线程1
         Thread thread2 = new Thread(() -> {
             int i = 0;
-            String lockId;
-            while (i < 4){
-                lockId = UUID.randomUUID().toString();
-                boolean isAcquireLock = appLock.acquireLock(lockId);
-                if(isAcquireLock){
+            while (i < 4) {
+                RedisDistributedLock lock = RedisDistributedLock.builder(redisTemplate, "test", 10000);
+                // 获取锁
+                if (lock.acquireLock()) {
                     i++;
                     log.info("线程2获取锁成功");
                     try {
+                        // 模拟执行业务代码...
                         Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
-                    }
-                    boolean isReleaseLock = appLock.releaseLock(lockId);
-                    if(isReleaseLock){
-                        log.info("线程2释放锁成功");
+                    }finally {
+                        boolean  isReleaseLock = lock.releaseLock();
+                        if (isReleaseLock) {
+                            log.info("线程2释放锁成功");
+                        }else {
+                            log.info("线程2释放锁异常");
+                        }
                     }
                 }
             }
         });
 
-        // 线程3
+        // 线程1
         Thread thread3 = new Thread(() -> {
             int i = 0;
-            String lockId;
-            while (i < 4){
-                lockId = UUID.randomUUID().toString();
-                boolean isAcquireLock = appLock.acquireLock(lockId);
-                if(isAcquireLock){
+            while (i < 4) {
+                RedisDistributedLock lock = RedisDistributedLock.builder(redisTemplate, "test", 10000);
+                // 获取锁
+                if (lock.acquireLock()) {
                     i++;
                     log.info("线程3获取锁成功");
                     try {
+                        // 模拟执行业务代码...
                         Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
-                    }
-                    boolean isReleaseLock = appLock.releaseLock(lockId);
-                    if(isReleaseLock){
-                        log.info("线程3释放锁成功");
+                    }finally {
+                        boolean  isReleaseLock = lock.releaseLock();
+                        if (isReleaseLock) {
+                            log.info("线程3释放锁成功");
+                        }else {
+                            log.info("线程3释放锁异常");
+                        }
                     }
                 }
             }

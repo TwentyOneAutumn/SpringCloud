@@ -1,4 +1,4 @@
-package com.redis.topic;
+package com.redis.channel;
 
 import org.springframework.data.redis.core.RedisTemplate;
 

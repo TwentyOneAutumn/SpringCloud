@@ -1,6 +1,6 @@
 package com.service.websocket.redis;
 
-import com.redis.interfaces.RedisMessageHandler;
+import com.redis.channel.RedisMessageHandler;
 import com.service.websocket.endpoint.WebSocketEndpoint;
 import lombok.extern.slf4j.Slf4j;
 
