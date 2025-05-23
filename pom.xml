@@ -1,44 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <!-- 继承SpringBoot父工程 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.3</version>
+        <version>2.7.18</version>
     </parent>
 
     <!-- Maven模型版本 -->
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- 定义当前项目版本坐标 -->
-    <groupId>com.spring.cloud</groupId>
-    <artifactId>spring-cloud</artifactId>
+    <groupId>com.super.cloud</groupId>
+    <artifactId>super-cloud</artifactId>
     <version>1.0</version>
-    <!-- 打包方式 -->
     <packaging>pom</packaging>
 
     <!-- 聚合模块 -->
     <modules>
-        <module>feign</module>
-        <module>services</module>
         <module>config</module>
+        <module>feign</module>
+        <module>plugins</module>
+        <module>services</module>
+        <module>singleton</module>
     </modules>
 
     <properties>
-        <java.version>1.8</java.version>
-        <SpringBoot.version>2.6.3</SpringBoot.version>
-        <SpringCloud.version>2021.0.1</SpringCloud.version>
-        <SpringCloudStarter.version>3.1.1</SpringCloudStarter.version>
-        <AlibabaCloud.version>2021.0.1.0</AlibabaCloud.version>
+        <SpringBoot.version>2.7.18</SpringBoot.version>
+        <SpringCloud.version>2021.0.8</SpringCloud.version>
+        <AlibabaCloud.version>2021.0.5.0</AlibabaCloud.version>
         <Slf4j.version>2.0.12</Slf4j.version>
-        <Log4j2.version>2.19.0</Log4j2.version>
-        <Sentinel.version>1.8.6</Sentinel.version>
+        <Log4j2.version>2.24.3</Log4j2.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- 引入 Spring Cloud BOM -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${SpringBoot.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <!-- 引入 Spring Cloud BOM -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${SpringCloud.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <!-- SpringCloud Alibaba BOM -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${AlibabaCloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!-- SpringBoot 父依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -53,82 +76,7 @@
                 </exclusions>
             </dependency>
 
-            <!-- SpringBoot 版本依赖 -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${SpringBoot.version}</version>
-                <type>pom</type>
-                <scope>compile</scope>
-            </dependency>
 
-            <!-- SpringCloud 父依赖 -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${SpringCloud.version}</version>
-                <type>pom</type>
-                <scope>compile</scope>
-            </dependency>
-
-            <!-- SpringCloud Alibaba 父依赖 -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${AlibabaCloud.version}</version>
-                <type>pom</type>
-                <scope>compile</scope>
-            </dependency>
-
-            <!-- springCloud 父依赖 -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter</artifactId>
-                <version>${SpringCloudStarter.version}</version>
-                <type>pom</type>
-            </dependency>
-
-            <!-- SpringCloud Alibaba 父依赖 -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-starters</artifactId>
-                <version>${AlibabaCloud.version}</version>
-                <type>pom</type>
-            </dependency>
-
-            <!-- SpringBoot Web 依赖 -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${SpringBoot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-actuator</artifactId>
-                <version>${SpringBoot.version}</version>
-            </dependency>
-
-            <!-- SpringBoot Redis 依赖 -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-redis</artifactId>
-                <version>${SpringBoot.version}</version>
-            </dependency>
-
-            <!-- Seata依赖 -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
-                <version>${AlibabaCloud.version}</version>
-            </dependency>
-
-            <!-- SpringBoot Validation 参数校验 依赖 -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-validation</artifactId>
-                <version>${SpringBoot.version}</version>
-            </dependency>
 
             <!-- SpringBoot MyBatisPlus -->
             <dependency>
@@ -137,86 +85,12 @@
                 <version>3.5.2</version>
             </dependency>
 
-            <!-- SpringBoot Security -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-security</artifactId>
-                <version>${SpringBoot.version}</version>
-                <exclusions>
-                    <!-- 移除自带的logback -->
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <!-- Nacos 注册发现 依赖 -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-                <version>${AlibabaCloud.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.alibaba.nacos</groupId>
-                        <artifactId>nacos-client</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <!-- Nacos 配置管理 依赖 -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-                <version>${AlibabaCloud.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.alibaba.nacos</groupId>
-                        <artifactId>nacos-client</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
 
             <!-- Nacos 客户端 依赖 -->
             <dependency>
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
                 <version>2.2.2</version>
-            </dependency>
-
-            <!-- Spring AMQP 依赖 -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-amqp</artifactId>
-                <version>${SpringBoot.version}</version>
-            </dependency>
-
-            <!-- ESClients 依赖 -->
-            <dependency>
-                <groupId>co.elastic.clients</groupId>
-                <artifactId>elasticsearch-java</artifactId>
-                <version>${ElasticSearch.version}</version>
-            </dependency>
-
-            <!-- SpringCloud Gateway 依赖 -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-gateway</artifactId>
-                <version>${SpringCloudStarter.version}</version>
-            </dependency>
-
-            <!-- SpringCloud OpenFeign 依赖 -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-openfeign</artifactId>
-                <version>${SpringCloudStarter.version}</version>
-            </dependency>
-
-            <!-- SpringCloud Loadbalancer 依赖 -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-loadbalancer</artifactId>
-                <version>${SpringCloudStarter.version}</version>
             </dependency>
 
             <!--  MySQL 数据库 依赖  -->
@@ -231,32 +105,38 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.22</version>
+                <version>1.18.36</version>
             </dependency>
 
             <!-- Hutool 工具包 依赖 -->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
-                <version>5.8.8</version>
+                <version>5.8.36</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.17.2</version>
+                <version>2.18.3</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>2.17.2</version>
+                <version>2.18.3</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>2.17.2</version>
+                <version>2.18.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>2.0.53</version>
             </dependency>
 
             <!-- Apache Commons -->
@@ -273,31 +153,25 @@
                 <version>${Slf4j.version}</version>
             </dependency>
 
-            <!-- log4j2和slf4j桥接依赖-->
+            <!-- Log4j2和slf4j桥接依赖-->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-slf4j2-impl</artifactId>
                 <version>${Log4j2.version}</version>
             </dependency>
 
-            <!-- log4j2依赖-->
+            <!-- Log4j2依赖-->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-api</artifactId>
                 <version>${Log4j2.version}</version>
             </dependency>
 
+            <!-- Log4j2-Core-->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
                 <version>${Log4j2.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-bom</artifactId>
-                <version>${Log4j2.version}</version>
-                <type>pom</type>
             </dependency>
 
             <!-- PageHelper分页插件 -->
@@ -305,74 +179,6 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>1.4.6</version>
-            </dependency>
-
-            <!-- SentinelWeb依赖 -->
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-core</artifactId>
-                <version>${Sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-transport-simple-http</artifactId>
-                <version>${Sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-web-servlet</artifactId>
-                <version>${Sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-spring-webmvc-adapter</artifactId>
-                <version>${Sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-spring-webflux-adapter</artifactId>
-                <version>${Sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
-                <version>${Sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-bootstrap</artifactId>
-                <version>${SpringCloudStarter.version}</version>
-            </dependency>
-
-            <!-- Sentinel依赖 -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-                <version>${AlibabaCloud.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-websocket</artifactId>
-                <version>${SpringBoot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-                <version>${SpringCloudStarter.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-stream-kafka</artifactId>
-                <version>${SpringCloudStarter.version}</version>
             </dependency>
 
             <dependency>
@@ -386,18 +192,28 @@
                 <artifactId>okhttp</artifactId>
                 <version>4.12.0</version>
             </dependency>
-
-            <dependency>
-                <groupId>org.apache.skywalking</groupId>
-                <artifactId>apm-toolkit-log4j-2.x</artifactId>
-                <version>9.0.0</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.skywalking</groupId>
-                <artifactId>apm-toolkit-trace</artifactId>
-                <version>9.0.0</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

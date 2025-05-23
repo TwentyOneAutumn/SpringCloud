@@ -6,10 +6,33 @@ spring:
     allow-bean-definition-overriding: true
   application:
     name: app
-  cloud:
-    nacos:
-      discovery:
-        namespace: 1
-        server-addr: 10.211.55.12:8848
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.211.55.12:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 2762581@com
   redis:
     host: 10.211.55.12
+    port: 6379
+  cloud:
+    stream:
+      kafka:
+        binder:
+          auto-create-topics: true   # 自动创建topics
+          brokers: 10.211.55.12:9092 # kafka地址
+          health-timeout: 15 # 等待获取分区信息的时间，以秒为单位。如果这个计时器过期，健康报告就会关闭
+          configuration:
+            og.level: WARN
+      bindings:
+        appender-out-0:
+          destination: appender
+          content-type: application/json
+        request-out-0:
+          destination: appender
+          content-type: application/json
+logging:
+  level:
+    org.apache.kafka: OFF  # 降低 Kafka 客户端日志级别
+    org.springframework.kafka: OFF
+    org.springframework.cloud.stream: OFF
+    root: INFO

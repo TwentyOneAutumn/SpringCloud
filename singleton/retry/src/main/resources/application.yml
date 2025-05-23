@@ -1,0 +1,8 @@
+server:
+  port: 8804
+spring:
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+  application:
+    name: retry

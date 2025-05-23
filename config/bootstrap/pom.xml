@@ -4,16 +4,14 @@
 
     <!-- 继承父工程 -->
     <parent>
-        <groupId>com.config</groupId>
+        <groupId>com.super.cloud</groupId>
         <artifactId>config</artifactId>
         <version>1.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.config.bootstrap</groupId>
-    <artifactId>bootstrap</artifactId>
-    <version>1.0</version>
+    <artifactId>bootstrap-config</artifactId>
     <name>bootstrap</name>
     <description>配置模块</description>
     <packaging>jar</packaging>

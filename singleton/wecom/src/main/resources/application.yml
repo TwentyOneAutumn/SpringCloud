@@ -1,0 +1,9 @@
+server:
+  port: 7878
+spring:
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+  data:
+    redis:
+      host: 10.211.55.12

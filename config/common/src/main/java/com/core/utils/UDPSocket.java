@@ -50,42 +50,42 @@ public class UDPSocket {
      * <pre>如果你的程序为SpringBoot程序，并想在容器启动后持续监听UDP端口，请参照以下代码:</pre>
      * <pre>
      * {@code
-     * import com.core.utils.UDPSocket;
-     * import lombok.extern.slf4j.Slf4j;
-     * import org.springframework.stereotype.Component;
-     * import javax.annotation.PostConstruct;
-     * import java.io.IOException;
-     *
-     * @Slf4j
-     * @Component
-     * public class UDPListener {
-     *
-     *     @PostConstruct
-     *     public void run(){
-     *         // 使用线程监听UDP
-     *         new Thread(() -> {
-     *             UDPSocket socket = null;
-     *             try {
-     *                 socket = UDPSocket.create(1234, 102400);
-     *             } catch (IOException e) {
-     *                 log.error("create UDPSocket error", e);
-     *                 return;
-     *             }
-     *             if(socket != null){
-     *                 while(true){
-     *                     String message = null;
-     *                     try {
-     *                         message = socket.pull();
-     *                     } catch (IOException e) {
-     *                         log.error("UDP Socket Error", e);
-     *                     }
-     *                     // 处理数据
-     *                     // handler(message);
-     *                 }
-     *             }
-     *         }).start();
-     *     }
-     * }
+      import com.core.utils.UDPSocket;
+      import lombok.extern.slf4j.Slf4j;
+      import org.springframework.stereotype.Component;
+      import javax.annotation.PostConstruct;
+      import java.io.IOException;
+
+      @Slf4j
+      @Component
+      public class UDPListener {
+
+          @PostConstruct
+          public void run(){
+              // 使用线程监听UDP
+              new Thread(() -> {
+                  UDPSocket socket = null;
+                  try {
+                      socket = UDPSocket.create(1234, 102400);
+                  } catch (IOException e) {
+                      log.error("create UDPSocket error", e);
+                      return;
+                  }
+                  if(socket != null){
+                      while(true){
+                          String message = null;
+                          try {
+                              message = socket.pull();
+                          } catch (IOException e) {
+                              log.error("UDP Socket Error", e);
+                          }
+                          // 处理数据
+                          // handler(message);
+                      }
+                  }
+              }).start();
+          }
+      }
      * }
      * </pre>
      */

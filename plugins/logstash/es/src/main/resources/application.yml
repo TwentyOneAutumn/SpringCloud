@@ -1,0 +1,29 @@
+spring:
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+  application:
+    name: es
+  elasticsearch:
+    rest:
+      uris: http://10.211.55.12:9200
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+  kafka:
+    bootstrap-servers: 10.211.55.12:9092
+  cloud:
+    stream:
+      kafka:
+        binder:
+          auto-create-topics: true   # 自动创建topics
+          brokers: 10.211.55.12:9092 # kafka地址
+          health-timeout: 15 # 等待获取分区信息的时间，以秒为单位。如果这个计时器过期，健康报告就会关闭
+      bindings:
+        # 格式:<functionName>-<in/out>-<index>
+        # 其中functionName为声明的Consumer的BeanName
+        appender-in-0:
+          destination: appender
+          group: log
+          content-type: application/json

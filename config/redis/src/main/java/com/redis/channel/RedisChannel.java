@@ -1,8 +1,8 @@
 package com.redis.channel;
 
+import javax.annotation.PostConstruct;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import javax.annotation.PostConstruct;
 
 public class RedisChannel {
 

@@ -1,6 +1,7 @@
 package com.service.file.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,7 +11,7 @@ import com.service.file.domain.DownLoadForm;
 import com.service.file.domain.FileResource;
 import com.service.file.domain.MultipleFileUploadForm;
 import com.service.file.domain.SingleFileUploadForm;
-import com.security.utils.SecurityUtils;
+//import com.security.utils.SecurityUtils;
 import com.service.file.config.MinioUtils;
 import com.service.file.mapper.FileMapper;
 import com.service.file.service.IFileService;
@@ -86,7 +87,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implem
                     .eq(FileResource::getFileName, fileName)
             );
             // 更新文件信息
-            fileResource.setUploadUserId(SecurityUtils.getUser().getUserId());
+//            fileResource.setUploadUserId(SecurityUtils.getUser().getUserId());
             fileResource.setUploadTime(LocalDateTime.now());
             boolean update = updateById(fileResource);
             if(update){
@@ -104,7 +105,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper,FileResource> implem
                 String[] split = fileName.split("\\.");
                 fileResource.setFilePostfix(split[1]);
             }
-            fileResource.setUploadUserId(SecurityUtils.getUser().getUserId());
+//            fileResource.setUploadUserId(SecurityUtils.getUser().getUserId());
             fileResource.setUploadTime(LocalDateTime.now());
             boolean save = save(fileResource);
             if (save) {

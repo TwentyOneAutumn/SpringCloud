@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN" monitorInterval="30">
+    <!--  先定义项目名称  -->
+    <Properties>
+        <Property name="ServiceName">WeCom</Property>
+    </Properties>
+
+    <!-- 先定义所有的appender(附加器)-->
+    <Appenders>
+        <!-- 输出控制台Log配置 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <Filters>
+                <!-- 设置日志级别,级别以下的日志将不会被输出 -->
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <!-- 设置日志格式 -->
+            <PatternLayout pattern="[%p] %l:%m%n "/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</configuration>

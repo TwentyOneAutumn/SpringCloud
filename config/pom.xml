@@ -4,14 +4,13 @@
 
     <!-- 继承父工程 -->
     <parent>
-        <groupId>com.spring.cloud</groupId>
-        <artifactId>spring-cloud</artifactId>
+        <groupId>com.super.cloud</groupId>
+        <artifactId>super-cloud</artifactId>
         <version>1.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.config</groupId>
     <artifactId>config</artifactId>
     <version>1.0</version>
     <name>config</name>
@@ -24,8 +23,8 @@
         <module>common</module>
         <module>database</module>
         <module>seata</module>
-        <module>security</module>
         <module>redis</module>
         <module>nacos</module>
+        <module>security</module>
     </modules>
 </project>

@@ -20,16 +20,12 @@ public interface RemoteFileService {
 
     /**
      * 上传文件
-     * @param singleFileUploadForm 文件对象
-     * @return Row
      */
     @PostMapping("/upload")
     Row<FileInfo> upload(@Valid @ModelAttribute SingleFileInfo info);
 
     /**
      * 上传多文件
-     * @param multipleFileUploadForm 文件对象
-     * @return Row
      */
     @PostMapping("/uploads")
     Row<List<FileInfo>> uploads(@Valid @ModelAttribute MultipleFileInfo info);
