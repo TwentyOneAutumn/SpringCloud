@@ -5,12 +5,12 @@ spring:
   cloud:
     nacos:
       discovery:
-        namespace: 1
+        namespace: developer
         server-addr: 10.211.55.12:8848
       config:
         server-addr: 10.211.55.12:8848
         file-extension: yaml
-        namespace: 1
+        namespace: developer
         extension-configs:
           - dataId: basic
             refresh: true
@@ -18,3 +18,5 @@ spring:
             refresh: true
           - dataId: websocket
             refresh: true
+  redis:
+    host: 10.211.55.12

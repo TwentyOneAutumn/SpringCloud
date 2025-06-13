@@ -28,13 +28,15 @@ public class Row<T> implements Serializable {
      */
     private T row;
 
-    protected Row(int code, String msg, T row) {
+    public Row(){}
+
+    public Row(int code, String msg, T row) {
         this.code = code;
         this.msg = msg;
         this.row = row;
     }
 
-    protected Row(T row){
+    public Row(T row){
         this.code = HttpStatus.HTTP_OK;
         this.msg = "操作成功";
         this.row = row;

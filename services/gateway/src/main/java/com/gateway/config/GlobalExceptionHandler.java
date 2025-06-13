@@ -14,9 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Pattern;
 
 /**
  * 全局异常处理器
@@ -27,24 +29,31 @@ import java.nio.charset.StandardCharsets;
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
     @Override
-    public @NotNull Mono<Void> handle(@NotNull ServerWebExchange exchange, @NotNull Throwable ex) {
+    public @NotNull Mono<Void> handle(@NotNull ServerWebExchange exchange, @NotNull Throwable throwable) {
         ResponseError responseError = new ResponseError();
-        // 获取请求路径
-        String path = exchange.getRequest().getPath().value();
-        responseError.setRequestPath(path);
-        // 定义异常信息
-        String errorMsg = ex.getMessage();
-        // 判断是否为服务找不到
-        if(ex instanceof NotFoundException && StrUtil.isNotEmpty(errorMsg) && errorMsg.contains("Unable to find instance for")){
-            // 设置状态码
-            responseError.setCode(503);
-            // 截取服务名
-            String serviceName = errorMsg.replaceAll("\"", "").replaceAll("503 SERVICE_UNAVAILABLE Unable to find instance for ", "");
-            responseError.setMsg("找不到" + serviceName + "服务实例");
+
+//        String path = exchange.getRequest().getPath().value();
+//        responseError.setRequestPath(path);
+//        log.error("请求路径:{}",responseError.getRequestPath());
+//        log.error("错误信息:{}",responseError.getMsg());
+
+        // 处理重试异常
+        if(throwable instanceof IllegalStateException){
+            // 处理重试信息
+            String detailMsg = throwable.getMessage();
+            String retryMsg = detailMsg.replaceAll("Retries exhausted: ","");
+            Throwable exception = throwable.getCause();
+            String errorMsg = exception.getMessage();
+            // 判断是否为服务找不到
+            if(exception instanceof NotFoundException && StrUtil.isNotEmpty(errorMsg) && errorMsg.contains("Unable to find instance for")){
+                // 设置状态码
+                responseError.setCode(503);
+                // 截取服务名
+                String serviceName = errorMsg.replaceAll("\"", "").replaceAll("503 SERVICE_UNAVAILABLE Unable to find instance for ", "");
+                responseError.setMsg("已重试" + retryMsg + "次,找不到" + serviceName + "服务实例");
+            }
         }
-        // 日志
-        log.error("请求路径:{}",responseError.getRequestPath());
-        log.error("错误信息:{}",responseError.getMsg());
+
         // 异常信息返回
         ServerHttpResponse response = exchange.getResponse();
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);

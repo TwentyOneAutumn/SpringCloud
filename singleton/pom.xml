@@ -18,6 +18,7 @@
 
     <!-- 聚合模块 -->
     <modules>
+        <module>datis</module>
         <module>join</module>
         <module>retry</module>
         <module>udp</module>

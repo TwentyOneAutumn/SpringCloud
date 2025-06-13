@@ -15,9 +15,6 @@ public interface RemoteUserService {
 
     /**
      * 根据用户账号获取用户信息
-     *
-     * @param user 数据对象
-     * @return UserInfo
      */
     @PostMapping("/user/info")
     Row<UserDetailInfo> getUserInfo(@RequestBody UserCodeDto userCode);
@@ -25,8 +22,6 @@ public interface RemoteUserService {
 
     /**
      * 判断当前用户是否存在
-     * @param user 数据对象
-     * @return Boolean
      */
     @PostMapping("/user/check")
     Result checkUser(@RequestBody UserCodeDto userCode);

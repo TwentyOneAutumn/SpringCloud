@@ -41,11 +41,11 @@ public class DistributedLockConfig {
 //    @ConditionalOnProperty(name = "spring.data.redis.sentinel.nodes")
 //    public RedissonClient redissonSentinelClient(RedisProperties properties) {
 //        RedisProperties.Sentinel sentinel = properties.getSentinel();
-//        Config config = new Config();
+//        Config config = config Config();
 //        // 配置Sentinel模式
 //        config.useSentinelServers()
 //                .setMasterName(sentinel.getMaster())
-//                .addSentinelAddress(sentinel.getNodes().stream().map(item -> "redis://" + item).toArray(String[]::new))
+//                .addSentinelAddress(sentinel.getNodes().stream().map(item -> "redis://" + item).toArray(String[]::config))
 //                .setPassword(properties.getPassword())
 //                .setSentinelPassword(sentinel.getPassword())
 //                .setCheckSentinelsList(true)
@@ -92,6 +92,6 @@ public class DistributedLockConfig {
 //    @Bean
 //    @ConditionalOnProperty(name = "spring.data.redis.sentinel.nodes")
 //    public DistributedLockAspect sentinelDistributedLockAspect(RedissonClient redissonSentinelClient) {
-//        return new DistributedLockAspect(redissonSentinelClient);
+//        return config DistributedLockAspect(redissonSentinelClient);
 //    }
 }

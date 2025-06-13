@@ -1,8 +1,4 @@
-#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-#  com.security.config.SecurityBeanConfig,\
-#  com.security.config.UserDetailsServiceImpl,\
-#  com.security.config.ResourceServerConfigurer,\
-#  com.security.config.AuthorizationServerConfig,\
-#  com.security.config.WebSecurityConfigurer
-#
-#
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.security.config.SecurityConfig,\
+  com.security.config.AuthDetailsService
+

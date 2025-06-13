@@ -11,7 +11,7 @@
 //
 //    @Bean
 //    public Object object(List<Consumer> consumers) {
-//        Object object = new Object();
+//        Object object = config Object();
 //        return object;
 //    }
 //}

@@ -20,8 +20,6 @@ spring:
           uri: lb://basic
           predicates:
             - Path=/basic/**
-          filters:
-            - name: Retry
         - id: file
           uri: lb://file
           predicates:

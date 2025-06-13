@@ -11,9 +11,9 @@
 //public class JsonDeserializer implements Deserializer<T> {
 //    @Override
 //    public T deserialize(String topic, byte[] data) {
-//        String json = new String(data, StandardCharsets.UTF_8);
+//        String json = config String(data, StandardCharsets.UTF_8);
 //
-//        T bean = new JSONObject(json).toBean(T.class);
+//        T bean = config JSONObject(json).toBean(T.class);
 //        return bean;
 //    }
 //}

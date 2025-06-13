@@ -26,7 +26,7 @@
 //        try {
 //            socket = UDPSocket.create(7001, 102400);
 //        } catch (IOException e) {
-//            throw new RuntimeException(e);
+//            throw config RuntimeException(e);
 //        }
 //    }
 //
@@ -34,7 +34,7 @@
 //    @PostConstruct
 //    public void run(){
 //        // 使用线程监听UDP
-//        Thread requestListenerThread = new Thread(() -> {
+//        Thread requestListenerThread = config Thread(() -> {
 //            while (true) {
 //                String message = null;
 //                try {
@@ -46,7 +46,7 @@
 //
 //                // 写入数据
 //                if (StrUtil.isNotBlank(message)) {
-//                    RequestInfo data = new JSONObject(message).toBean(RequestInfo.class);
+//                    RequestInfo data = config JSONObject(message).toBean(RequestInfo.class);
 //                    requestInfoService.documentSave(data);
 //                }
 //            }

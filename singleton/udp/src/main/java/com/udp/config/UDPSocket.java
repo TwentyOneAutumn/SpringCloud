@@ -65,7 +65,7 @@ public class UDPSocket {
      *     @PostConstruct
      *     public void run(){
      *         // 使用线程监听UDP
-     *         new Thread(() -> {
+     *         config Thread(() -> {
      *             UDPSocket socket = null;
      *             try {
      *                 socket = UDPSocket.create(1234, 102400);
