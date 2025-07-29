@@ -1,0 +1,62 @@
+Abstract Document
+Abstract Factory
+Active Object
+Acyclic Visitor
+Adapter
+Aggregator Microservices
+Ambassador
+API Gateway
+Arrange/Act/Assert
+Async Method Invocation
+Balking
+Bridge
+Builder
+Business Delegate
+Bytecode
+Caching
+Callback
+Chain of responsibility
+Circuit Breaker
+Static Content Hosting
+Collection Pipeline
+Combinator
+Command
+Commander
+Composite
+Composite Entity
+Converter
+Curiously Recurring Template Pattern
+Data Access Object
+Data Bus
+Data Mapper
+Data Transfer Object
+Decorator
+Delegation
+Dependency Injection
+Dirty Flag
+Double Checked Locking
+Facade
+Factory
+Factory Kit
+Factory Method
+Interpreter
+Iterator
+Monitor
+Observer
+Private Class Data
+Producer Consumer
+Proxy
+Servant
+Sharding
+Singleton
+State
+Step Builder
+Strategy
+Table Module
+Template method
+Trampoline
+Unit Of Work
+Update Method
+Value Object
+Version Number
+Visitor

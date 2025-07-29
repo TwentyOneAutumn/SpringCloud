@@ -23,6 +23,7 @@
         <module>plugins</module>
         <module>services</module>
         <module>singleton</module>
+        <module>design-pattern</module>
     </modules>
 
     <properties>
