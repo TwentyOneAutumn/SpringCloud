@@ -73,6 +73,17 @@ public class Build {
 
 
     /**
+     * 构建Row
+     * @param flg 是否成功
+     * @param <T> 泛型
+     * @return Row
+     */
+    public static <T> Row<T> row(boolean flg, int code, T data){
+        return new Row<T>(code,flg ? "操作成功" : "操作失败",data);
+    }
+
+
+    /**
      * 构建AjaxResult
      * @param flg 是否成功
      * @param msg 错误信息

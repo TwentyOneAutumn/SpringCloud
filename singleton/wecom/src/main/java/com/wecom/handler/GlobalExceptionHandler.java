@@ -1,5 +1,6 @@
 package com.wecom.handler;
 
+import cn.hutool.http.HttpStatus;
 import com.wecom.domain.entry.Build;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.wecom.domain.entry.Result;
 
+import java.rmi.AccessException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,5 +43,23 @@ public class GlobalExceptionHandler {
         String handlerErrorMsg = allErrors.stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
         log.error(ex.getClass().getName() + "{}",handlerErrorMsg);
         return Build.result(false,handlerErrorMsg);
+    }
+
+    /**
+     * 处理运行时异常
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public Result handleRuntimeException(RuntimeException ex){
+        log.error(ex.getClass().getName() + "{}",ex);
+        return Build.result(false,ex.getMessage());
+    }
+
+    /**
+     * 处理Token异常
+     */
+    @ExceptionHandler(AccessException.class)
+    public Result handleAccessException(AccessException ex){
+        log.error(ex.getClass().getName() + "{}",ex);
+        return Build.result(false,ex.getMessage());
     }
 }

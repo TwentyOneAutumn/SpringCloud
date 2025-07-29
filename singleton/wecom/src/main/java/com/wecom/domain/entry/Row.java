@@ -27,18 +27,18 @@ public class Row<T> implements Serializable {
     /**
      * 数据
      */
-    private T row;
+    private T rows;
 
     protected Row(int code, String msg, T row) {
         this.code = code;
         this.msg = msg;
-        this.row = row;
+        this.rows = row;
     }
 
     protected Row(T row) {
         this.code = HttpStatus.HTTP_OK;
         this.msg = "操作成功";
-        this.row = row;
+        this.rows = row;
     }
 
     /**
@@ -50,8 +50,8 @@ public class Row<T> implements Serializable {
      */
     public T data(boolean auth, String msg) {
         if (code > 199 && code < 300) {
-            if (!(auth && BeanUtil.isEmpty(row))) {
-                return row;
+            if (!(auth && BeanUtil.isEmpty(rows))) {
+                return rows;
             }
         }
         throw new RuntimeException(msg);
@@ -66,8 +66,8 @@ public class Row<T> implements Serializable {
      */
     public <E extends Exception> T data(boolean auth, E exception) throws E {
         if (code > 199 && code < 300) {
-            if (!(auth && BeanUtil.isEmpty(row))) {
-                return row;
+            if (!(auth && BeanUtil.isEmpty(rows))) {
+                return rows;
             }
         }
         throw exception;
@@ -78,7 +78,7 @@ public class Row<T> implements Serializable {
      */
     public T isSuccess() {
         if (code > 199 && code < 300) {
-            return row;
+            return rows;
         } else {
             throw new RuntimeException(msg);
         }
@@ -89,9 +89,20 @@ public class Row<T> implements Serializable {
      */
     public <E> E isSuccess(Class<E> clazz) {
         if (code > 199 && code < 300) {
-            return BeanUtil.toBean(row, clazz);
+            return BeanUtil.toBean(rows, clazz);
         } else {
             throw new RuntimeException(msg);
+        }
+    }
+
+    /**
+     * 是否成功
+     */
+    public <E,X extends Throwable> E isSuccess(Class<E> clazz, X exception) throws X {
+        if (code > 199 && code < 300) {
+            return BeanUtil.toBean(rows, clazz);
+        } else {
+            throw exception;
         }
     }
 }

@@ -6,6 +6,6 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 @Data
 public class LoginDto {
 
-    @NotBlank(message = "用户ID不能为空")
-    private String userId;
+    @NotBlank(message = "授权码不能为空")
+    private String code;
 }

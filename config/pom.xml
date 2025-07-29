@@ -19,12 +19,12 @@
 
     <!-- 聚合模块 -->
     <modules>
-        <module>bootstrap</module>
-        <module>common</module>
-        <module>database</module>
-        <module>seata</module>
-        <module>redis</module>
-        <module>nacos</module>
-        <module>security</module>
+        <module>bootstrap-config</module>
+        <module>common-config</module>
+        <module>database-config</module>
+        <module>nacos-config</module>
+        <module>redis-config</module>
+        <module>seata-config</module>
+        <module>security-config</module>
     </modules>
 </project>
