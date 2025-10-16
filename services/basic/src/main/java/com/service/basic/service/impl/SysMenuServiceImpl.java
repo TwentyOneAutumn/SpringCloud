@@ -1,12 +1,14 @@
 package com.service.basic.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.core.domain.*;
+import com.core.domain.Build;
+import com.core.domain.Result;
+import com.core.domain.Row;
+import com.core.domain.TableInfo;
 import com.database.domain.PageEntity;
-import com.service.basic.domain.SysMenu;
 import com.github.pagehelper.Page;
+import com.service.basic.domain.SysMenu;
 import com.service.basic.domain.dto.*;
 import com.service.basic.domain.vo.SysMenuDetailVo;
 import com.service.basic.domain.vo.SysMenuListVo;
@@ -38,7 +40,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public TableInfo<SysMenuListVo> toList(SysMenuListDto dto) {
         Page<Object> page = PageEntity.build(dto);
-        List<SysMenu> list = list(new LambdaQueryWrapper<SysMenu>());
+        List<SysMenu> list = list();
         List<SysMenuListVo> voList = BeanUtil.copyToList(list, SysMenuListVo.class);
         log.info(voList.toString());
         return Build.table(voList,page.getTotal());

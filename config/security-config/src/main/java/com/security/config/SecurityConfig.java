@@ -2,14 +2,16 @@ package com.security.config;
 
 import com.core.domain.Build;
 import com.core.utils.ResponseUtils;
+import com.security.enums.OAuth2DataSourceConfig;
 import com.security.enums.PermitUrl;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -21,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2Token;
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.authentication.ClientSecretAuthenticationProvider;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
@@ -31,19 +34,16 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.sql.DataSource;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Configuration
 @EnableFeignClients(basePackages = {"com.basic.api"})
 public class SecurityConfig {
-
 
     /**
      * 用于存储 OAuth 2.0 注册客户端信息的存储库
@@ -55,11 +55,45 @@ public class SecurityConfig {
 
 
     /**
-     * 负责管理 OAuth 2.0 授权相关事宜
+     * OAuth2认证授权数据源
      */
     @Bean
-    public RedisOAuth2AuthorizationService authorizationService(RedisConnectionFactory factory) {
-        return new RedisOAuth2AuthorizationService(factory);
+    public DataSource oauth2DataSource() {
+        // 数据源配置
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(OAuth2DataSourceConfig.JDBC_URL);
+        config.setUsername(OAuth2DataSourceConfig.USERNAME);
+        config.setPassword(OAuth2DataSourceConfig.PASSWORD);
+        config.setDriverClassName(OAuth2DataSourceConfig.DRIVER_CLASS_NAME);
+
+        // 连接池配置
+        // 最大连接数
+        config.setMaximumPoolSize(10);
+        // 最小空闲连接数
+        config.setMinimumIdle(2);
+        // 空闲超时（ms）
+        config.setIdleTimeout(30000);
+        // 最大存活时间（ms）
+        config.setMaxLifetime(1800000);
+        // 连接超时（ms）
+        config.setConnectionTimeout(30000);
+        // 连接池名称
+        config.setPoolName("OAuth2HikariCP");
+        return new HikariDataSource(config);
+    }
+
+
+    /**
+     * 负责管理 OAuth 2.0 授权相关事宜
+     * SQL参考一下文件
+     * {@code src/main/resources/sql/oauth2-authorization-consent-schema.sql}
+     * {@code src/main/resources/sql/oauth2-authorization-schema.sql}
+     */
+    @Bean
+    public JdbcOAuth2AuthorizationService jdbcOAuth2AuthorizationService(DataSource oauth2DataSource) {
+        JdbcOperations jdbcOperations = new JdbcTemplate(oauth2DataSource);
+        RegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcOperations);
+        return new JdbcOAuth2AuthorizationService(jdbcOperations,registeredClientRepository);
     }
 
 
@@ -100,20 +134,14 @@ public class SecurityConfig {
      * OAuth 2.0 Token 生成器
      */
     @Bean
-    public OAuth2TokenGenerator<OAuth2Token> uudiOAuth2TokenGenerator(RedisTemplate<String,Object> redisTemplate,RedisOAuth2AuthorizationService authorizationService) {
+    public OAuth2TokenGenerator<OAuth2Token> uudiOAuth2TokenGenerator(JdbcOAuth2AuthorizationService jdbcOAuth2AuthorizationService) {
         return (OAuth2TokenContext context) -> {
-            String token = UUID.randomUUID().toString();
             long tokenExpire = 10080L;
+            String token = UUID.randomUUID().toString();
             // 获取用户账号
             Authentication authentication = context.getPrincipal();
             AuthDetails authDetails = (AuthDetails) authentication.getPrincipal();
             String userCode = authDetails.getUserInfo().getUserCode();
-            if(redisTemplate.hasKey(RedisOAuth2AuthorizationService.USER_TOKEN + userCode)){
-                // 获取已经生成的Token
-                token = authorizationService.deserialize(RedisOAuth2AuthorizationService.USER_TOKEN + userCode,String.class);
-                // 获取Key的过期时间
-                tokenExpire = redisTemplate.getExpire(RedisOAuth2AuthorizationService.USER_TOKEN + userCode, TimeUnit.MINUTES);
-            }
             return new OAuth2AccessToken(
                     OAuth2AccessToken.TokenType.BEARER,
                     token,
@@ -148,7 +176,7 @@ public class SecurityConfig {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, AuthenticationFailureHandler authenticationFailureHandler, AuthenticationProvider userAuthenticationProvider, RedisTokenAuthenticationFilter redisTokenAuthenticationFilter) throws Exception {
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, AuthenticationFailureHandler authenticationFailureHandler, AuthenticationProvider userAuthenticationProvider) throws Exception {
         http.
                 authorizeRequests()
                 // 放行当前配置的URL
@@ -160,7 +188,7 @@ public class SecurityConfig {
                 .authenticated()
                 .and()
                 //
-                .addFilterAfter(redisTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterAfter(redisTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 // 关闭csrf
                 .csrf().disable()
                 // 不通过Session获取SecurityContext
@@ -195,15 +223,5 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(userDetailsService);
         return provider;
-    }
-
-
-    /**
-     * 自定义过滤器
-     * 用于校验Token和填充上下文信息
-     */
-    @Bean
-    public RedisTokenAuthenticationFilter redisTokenAuthenticationFilter(RedisOAuth2AuthorizationService authorizationService) {
-        return new RedisTokenAuthenticationFilter(authorizationService);
     }
 }

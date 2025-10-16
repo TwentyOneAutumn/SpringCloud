@@ -7,7 +7,6 @@ spring:
       discovery:
         namespace: 1
         server-addr: 10.211.55.12:8848
-        heart--timeout:
       config:
         server-addr: 10.211.55.12:8848
         file-extension: yaml
