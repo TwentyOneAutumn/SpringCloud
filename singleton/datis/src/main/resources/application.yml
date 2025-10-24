@@ -8,11 +8,15 @@ spring:
     name: datis
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://188.2.76.116:3306/sipdsv2_api?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
-    username: sipds
-    password: "@ccs1pdS"
+    url: jdbc:mysql://188.16.132.140:3306/SIPDSZGNN?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: sa
+    password: acer77e
 mybatis-plus:
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
   global-config:
     banner: false
+
+datis:
+  cache-path: "/jar/DatisCache.txt"
+  api-url: http://172.17.186.213:8081/ATIS?airport=ZGNN&clientid=SIPDS

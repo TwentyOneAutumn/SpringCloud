@@ -22,20 +22,20 @@ public class MqLogs {
     private String msg;
 
     @TableField("Source")
-    private String Source;
+    private String Source = "toms";
 
     @TableField("ReadFlag")
     private Boolean readFlag = false;
 
     @TableField("CreateTime")
-    private LocalDateTime createTime = LocalDateTime.now();
+    private LocalDateTime createTime;
 
     @TableField("CreateUserID")
-    private Integer createUserId = 0;
+    private Integer createUserId = 1;
 
     @TableField("LastModifiedTime")
-    private LocalDateTime lastModifiedTime = LocalDateTime.now();
+    private LocalDateTime lastModifiedTime;
 
     @TableField("LastModifiedUserID")
-    private Integer lastModifiedUserId = 0;
+    private Integer lastModifiedUserId = 1;
 }

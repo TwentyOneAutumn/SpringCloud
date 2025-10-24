@@ -2,7 +2,7 @@
 <configuration status="WARN" monitorInterval="30" packages="com.collect">
     <!--  先定义项目名称  -->
     <Properties>
-        <Property name="ServiceName">App</Property>
+        <Property name="ServiceName">Datis</Property>
     </Properties>
 
     <!-- 先定义所有的appender(附加器)-->
@@ -17,13 +17,68 @@
             <PatternLayout pattern="[%p] %l:%m%n "/>
         </Console>
 
-        <LogCollectAppender class ="com.collect.appender.LogCollectAppender" name="Collect" module="test">
-        </LogCollectAppender>
+
+        <!-- Info日志输入Log文件配置 -->
+        <!-- fileName:文件的路径, [./]表示当前项目跟目录 -->
+        <!-- filePattern:滚动后文件的路径 -->
+        <RollingFile name="RollingInfoFile"
+                     fileName="./logs/${ServiceName}/info/${ServiceName}-info.log"
+                     filePattern="./logs/${ServiceName}/info/${ServiceName}-info-%d{yyyy-MM-dd}-%i.log.gz">>
+            <Filters>
+                <!-- 设置日志级别,级别以下的日志将不会被输出 -->
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <!-- 设置日志格式 -->
+            <PatternLayout pattern="%d %p %c{1.} [%t] %m%n"/>
+            <Policies>
+                <!-- 每天生成一个新文件 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- 超过 5MB 时也滚动 -->
+                <SizeBasedTriggeringPolicy size="5MB"/>
+            </Policies>
+            <!-- 默认同一文件夹下最多10个文件,最多保留30天 -->
+            <DefaultRolloverStrategy max="10">
+                <!-- 自动删除超过30天的旧日志 -->
+                <Delete basePath="./logs/${ServiceName}/info" maxDepth="2">
+                    <IfFileName glob="*.log.gz" />
+                    <IfLastModified age="30d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- Error日志输入Log文件配置 -->
+        <RollingFile name="RollingErrorFile"
+                     fileName="./logs/${ServiceName}/error/${ServiceName}-info.log"
+                     filePattern="./logs/${ServiceName}/error/${ServiceName}-info-%d{yyyy-MM-dd}-%i.log.gz">>
+            <Filters>
+                <!-- 设置日志级别,级别以下的日志将不会被输出 -->
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <!-- 设置日志格式 -->
+            <PatternLayout pattern="%d %p %c{1.} [%t] %m%n"/>
+            <Policies>
+                <!-- 每天生成一个新文件 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- 超过 5MB 时也滚动 -->
+                <SizeBasedTriggeringPolicy size="5MB"/>
+            </Policies>
+            <!-- 默认同一文件夹下最多10个文件,最多保留30天 -->
+            <DefaultRolloverStrategy max="10">
+                <!-- 自动删除超过30天的旧日志 -->
+                <Delete basePath="./logs/${ServiceName}/error" maxDepth="2">
+                    <IfFileName glob="*.log.gz" />
+                    <IfLastModified age="30d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
     </Appenders>
+
 
     <Loggers>
         <Root level="INFO">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingInfoFile"/>
+            <AppenderRef ref="RollingErrorFile"/>
         </Root>
     </Loggers>
 </configuration>
